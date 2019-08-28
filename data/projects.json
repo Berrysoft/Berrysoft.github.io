@@ -1,0 +1,26 @@
+[
+  {
+    "name": "TsinghuaNet",
+    "url": "https://github.com/Berrysoft/TsinghuaNet",
+    "language": "C#",
+    "description": "清华大学校园网客户端与联网库，适用于命令行环境，Windows、Linux、Mac OS X桌面平台与UWP、iOS、Android移动平台"
+  },
+  {
+    "name": "tunet-rust",
+    "url": "https://github.com/Berrysoft/tunet-rust",
+    "language": "Rust",
+    "description": "清华大学校园网Rust库与客户端"
+  },
+  {
+    "name": "StreamFormat",
+    "url": "https://github.com/Berrysoft/StreamFormat",
+    "language": "C++",
+    "description": "A C++ format IO library, based on standard streams."
+  },
+  {
+    "name": "ToStringEx",
+    "url": "https://github.com/Berrysoft/ToStringEx",
+    "language": "C#",
+    "description": "An extension for ToString in .NET"
+  }
+]

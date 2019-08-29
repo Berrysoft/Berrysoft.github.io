@@ -1,0 +1,16 @@
+{
+  "loading": "Loading...",
+  "navHome": "HOME",
+  "navCounter": "COUNTER",
+  "indexTitle": "Berrysoft's Blazor Laboratory",
+  "indexDescription": "Powered by <a href=\"https://blazor.net\">Blazor</a>, this site contains several experimental projects.",
+  "indexOtherProjects": "Other open-source projects of myself",
+  "indexOtherProjectName": "Name",
+  "indexOtherProjectLanguage": "Major language",
+  "indexOtherProjectDescription": "Description",
+  "counterTitle": "Word Counter",
+  "counterTotalCount": "Total words",
+  "counterDistinctCount": "Isolated words",
+  "counterSentenceCount": "Sentences",
+  "counterAverageCount": "Average words"
+}

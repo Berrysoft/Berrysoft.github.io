@@ -1,0 +1,59 @@
+﻿@page "/counter"
+
+<h1><Tred Key="counterTitle" /></h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <td scope="col"><Tred Key="counterTotalCount" /></td>
+            <td scope="col"><Tred Key="counterDistinctCount" /></td>
+            <td scope="col"><Tred Key="counterSentenceCount" /></td>
+            <td scope="col"><Tred Key="counterAverageCount" /></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@totalCount</td>
+            <td>@distinctCount</td>
+            <td>@sentenceCount</td>
+            <td>@averageCount</td>
+        </tr>
+    </tbody>
+</table>
+
+<textarea class="form-control" style="height: 800px; resize: vertical;" @oninput="TextAreaInput" />
+
+@code {
+    [Parameter]
+    public string Lang { get; set; }
+
+    int totalCount = 0;
+    int distinctCount = 0;
+    int sentenceCount = 0;
+    int? averageCount = null;
+
+    private string text = string.Empty;
+
+    private void TextAreaInput(UIChangeEventArgs e)
+    {
+        text = e.Value.ToString();
+        CalculateCounts();
+    }
+
+    static readonly char[] WordSeparator = new char[] { ' ', '\r', '\n', '.', ',', '!', '?', ':', ';', '(', ')' };
+    static readonly char[] WordTrimmer = new char[] { '-', '\'', '\"' };
+    static readonly string[] SentenceSeparator = new string[] { "\r", "\n", ". ", "! ", "? " };
+
+    private void CalculateCounts()
+    {
+        var words = text
+            .Split(WordSeparator, StringSplitOptions.RemoveEmptyEntries)
+            .Select(w => w.Trim(WordTrimmer))
+            .Where(w => !string.IsNullOrEmpty(w))
+            .ToArray();
+        totalCount = words.Length;
+        distinctCount = words.Distinct(StringIgnoreCaseComparer.Instance).Count();
+        sentenceCount = text.Split(SentenceSeparator, StringSplitOptions.RemoveEmptyEntries).Length;
+        averageCount = sentenceCount == 0 ? (int?)null : totalCount / sentenceCount;
+    }
+}

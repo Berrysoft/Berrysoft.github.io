@@ -1,0 +1,24 @@
+﻿@using Berrysoft.Pages.Data
+
+@inject ILocalizationService Localization
+
+@((MarkupString)text)
+
+@code {
+    [Parameter]
+    public string Key { get; set; }
+
+    string text;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Localization.LanguageChanged += async (s, e) => await RefreshTextAsync();
+        await RefreshTextAsync();
+    }
+
+    private async Task RefreshTextAsync()
+    {
+        text = await Localization.GetStringAsync(Key);
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,52 @@
+﻿@page "/"
+
+@using System.Threading
+@using Berrysoft.Pages.Data
+
+@inject HttpClient Http
+@inject ILocalizationService Localization
+
+<h1><Tred Key="indexTitle" /></h1>
+
+<p><Tred Key="indexDescription" /></p>
+
+<h2><Tred Key="indexOtherProjects" /></h2>
+
+@if (projects == null)
+{
+    <p><Tred Key="loading" /></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <td scope="col"><Tred Key="indexOtherProjectName" /></td>
+                <td scope="col"><Tred Key="indexOtherProjectLanguage" /></td>
+                <td scope="col"><Tred Key="indexOtherProjectDescription" /></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ProjectBox project in projects)
+            {
+                <tr>
+                    <td><a href="@project.Url">@project.Name</a></td>
+                    <td>@project.Language</td>
+                    <td>@project.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    ProjectBox[] projects;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Localization.Language == null)
+            Localization.Language = Thread.CurrentThread.CurrentUICulture.Name.ToLower();
+        if (projects == null)
+            projects = await Http.GetJsonAsync<ProjectBox[]>("data/projects.json");
+    }
+}

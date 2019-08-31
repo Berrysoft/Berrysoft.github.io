@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -47,7 +46,7 @@ namespace Berrysoft.Pages.Data
     {
         private string[] languages;
         private static readonly SemaphoreLocker languagesLocker = new SemaphoreLocker();
-        private Dictionary<string, JsonDocument> strings;
+        private Dictionary<string, Dictionary<string, string>> strings;
         private static readonly SemaphoreLocker stringsLocker = new SemaphoreLocker();
 
         private string language;
@@ -71,7 +70,7 @@ namespace Berrysoft.Pages.Data
         public LocalizationService(HttpClient http)
         {
             Http = http;
-            strings = new Dictionary<string, JsonDocument>();
+            strings = new Dictionary<string, Dictionary<string, string>>();
         }
 
         private async Task<(string, string)> GetStringsFileNameAsync(string lang)
@@ -108,31 +107,38 @@ namespace Berrysoft.Pages.Data
             }
         }
 
-        private Task<JsonDocument> GetStringsAsync(string lang)
+        private Task<Dictionary<string, string>> GetStringsAsync(string lang)
         {
-            return stringsLocker.LockAsync(async () =>
+            if (strings.ContainsKey(lang))
             {
-                if (strings.TryGetValue(lang, out JsonDocument document))
+                return Task.FromResult(strings[lang]);
+            }
+            else
+            {
+                return stringsLocker.LockAsync(async () =>
                 {
-                    return document;
-                }
-                else
-                {
-                    var (realLang, filename) = await GetStringsFileNameAsync(lang);
-                    document = JsonDocument.Parse(await Http.GetByteArrayAsync(filename));
-                    strings[lang] = document;
-                    strings[realLang] = document;
-                    return document;
-                }
-            });
+                    if (strings.ContainsKey(lang))
+                    {
+                        return strings[lang];
+                    }
+                    else
+                    {
+                        var (realLang, filename) = await GetStringsFileNameAsync(lang);
+                        var document = JsonSerializer.Deserialize<Dictionary<string, string>>(await Http.GetByteArrayAsync(filename));
+                        strings[lang] = document;
+                        strings[realLang] = document;
+                        return document;
+                    }
+                });
+            }
         }
 
         public async Task<string> GetStringAsync(string key)
         {
-            JsonDocument document = await GetStringsAsync(Language ?? string.Empty);
-            if (document != null && document.RootElement.TryGetProperty(key, out var prop))
+            var document = await GetStringsAsync(Language ?? string.Empty);
+            if (document != null && document.TryGetValue(key, out var prop))
             {
-                return prop.GetString();
+                return prop;
             }
             else
             {

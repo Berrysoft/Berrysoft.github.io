@@ -1,5 +1,9 @@
 ﻿@inherits LayoutComponentBase
 
+@using Berrysoft.Pages.Data
+
+@inject ILocalizationService Localization
+
 <div class="sidebar">
     <NavMenu />
 </div>
@@ -11,10 +15,32 @@
 
     <div class="content px-4" style="min-height: 60%;">
         @Body
-    </div>
-
-    <div class="text-right px-4">
-        <LangLink Language="">English</LangLink>
-        <LangLink Language="zh-hans">简体中文</LangLink>
+        <div class="footer">
+            <div class="form-row align-items-center text-muted px-4">
+                <div class="col"></div>
+                <div class="col-auto">
+                    <span class="oi oi-globe" aria-hidden="true"></span>
+                </div>
+                <div class="col-auto">
+                    <select class="form-control" @bind="@Language">
+                        @for (int i = 0; i < cultures.Length; i++)
+                        {
+                            <option value="@cultures[i]">@languages[i]</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+@code {
+    string[] cultures = new string[] { "en", "zh-hans" };
+    string[] languages = new string[] { "English", "简体中文" };
+
+    private string Language
+    {
+        get => cultures[Localization.LanguageIndex];
+        set => Localization.Language = value;
+    }
+}

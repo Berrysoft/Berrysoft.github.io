@@ -55,12 +55,15 @@ namespace Berrysoft.Pages.Data
             get => language;
             set
             {
-                if (language != value)
-                {
-                    language = value;
-                    LanguageChanged?.Invoke(this, Language);
-                }
+                language = value;
+                LanguageChanged?.Invoke(this, Language);
             }
+        }
+
+        public int LanguageIndex
+        {
+            get => languages == null ? 0 : Array.IndexOf(languages, GetCompatibleLanguage(language));
+            set => Language = languages[value];
         }
 
         public event EventHandler<string> LanguageChanged;
@@ -73,11 +76,11 @@ namespace Berrysoft.Pages.Data
             strings = new Dictionary<string, Dictionary<string, string>>();
         }
 
-        private async Task<(string, string)> GetStringsFileNameAsync(string lang)
+        private Task InitializeLanguages()
         {
             if (languages == null)
             {
-                await languagesLocker.LockAsync(async () =>
+                return languagesLocker.LockAsync(async () =>
                 {
                     if (languages == null)
                     {
@@ -85,6 +88,14 @@ namespace Berrysoft.Pages.Data
                     }
                 });
             }
+            else
+            {
+                return Task.CompletedTask;
+            }
+        }
+
+        private string GetCompatibleLanguage(string lang)
+        {
             while (lang != null && !languages.Contains(lang))
             {
                 try
@@ -97,6 +108,13 @@ namespace Berrysoft.Pages.Data
                     lang = null;
                 }
             }
+            return lang;
+        }
+
+        private async Task<(string, string)> GetStringsFileNameAsync(string lang)
+        {
+            await InitializeLanguages();
+            lang = GetCompatibleLanguage(lang);
             if (string.IsNullOrEmpty(lang))
             {
                 return (string.Empty, "i18n/strings.json");

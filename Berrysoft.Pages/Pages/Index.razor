@@ -44,8 +44,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        if (Localization.Language == null)
-            Localization.Language = Thread.CurrentThread.CurrentUICulture.Name.ToLower();
         if (projects == null)
             projects = await Http.GetJsonAsync<ProjectBox[]>("data/projects.json");
     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
@@ -44,7 +43,18 @@ namespace Berrysoft.Pages.Data
 
     public class LocalizationService : ILocalizationService
     {
-        private string[] languages;
+        protected HttpClient Http { get; set; }
+
+        public LocalizationService(HttpClient http)
+        {
+            Http = http;
+            strings = new Dictionary<string, Dictionary<string, string>>();
+            Language = Thread.CurrentThread.CurrentUICulture.Name;
+        }
+
+        private const string InvarientLanguage = "invarient";
+
+        private Dictionary<string, string> languages;
         private static readonly SemaphoreLocker languagesLocker = new SemaphoreLocker();
         private Dictionary<string, Dictionary<string, string>> strings;
         private static readonly SemaphoreLocker stringsLocker = new SemaphoreLocker();
@@ -53,28 +63,20 @@ namespace Berrysoft.Pages.Data
         public string Language
         {
             get => language;
-            set
+            set => SetLanguage(value);
+        }
+        private async void SetLanguage(string value)
+        {
+            await InitializeLanguages();
+            value = GetCompatibleLanguage(value);
+            if (language != value)
             {
                 language = value;
                 LanguageChanged?.Invoke(this, Language);
             }
         }
 
-        public int LanguageIndex
-        {
-            get => languages == null ? 0 : Array.IndexOf(languages, GetCompatibleLanguage(language));
-            set => Language = languages[value];
-        }
-
         public event EventHandler<string> LanguageChanged;
-
-        protected HttpClient Http { get; set; }
-
-        public LocalizationService(HttpClient http)
-        {
-            Http = http;
-            strings = new Dictionary<string, Dictionary<string, string>>();
-        }
 
         private Task InitializeLanguages()
         {
@@ -84,7 +86,7 @@ namespace Berrysoft.Pages.Data
                 {
                     if (languages == null)
                     {
-                        languages = await Http.GetJsonAsync<string[]>("i18n/index.json");
+                        languages = await Http.GetJsonAsync<Dictionary<string, string>>("i18n/index.json");
                     }
                 });
             }
@@ -94,9 +96,15 @@ namespace Berrysoft.Pages.Data
             }
         }
 
+        public async Task<Dictionary<string, string>> GetLanguagesAsync()
+        {
+            await InitializeLanguages();
+            return languages;
+        }
+
         private string GetCompatibleLanguage(string lang)
         {
-            while (lang != null && !languages.Contains(lang))
+            while (lang != null && !languages.ContainsKey(lang))
             {
                 try
                 {
@@ -108,16 +116,15 @@ namespace Berrysoft.Pages.Data
                     lang = null;
                 }
             }
-            return lang;
+            return lang ?? InvarientLanguage;
         }
 
         private async Task<(string, string)> GetStringsFileNameAsync(string lang)
         {
             await InitializeLanguages();
-            lang = GetCompatibleLanguage(lang);
-            if (string.IsNullOrEmpty(lang))
+            if (string.IsNullOrEmpty(lang) || lang == InvarientLanguage)
             {
-                return (string.Empty, "i18n/strings.json");
+                return (InvarientLanguage, "i18n/strings.json");
             }
             else
             {
@@ -143,7 +150,6 @@ namespace Berrysoft.Pages.Data
                     {
                         var (realLang, filename) = await GetStringsFileNameAsync(lang);
                         var document = JsonSerializer.Deserialize<Dictionary<string, string>>(await Http.GetByteArrayAsync(filename));
-                        strings[lang] = document;
                         strings[realLang] = document;
                         return document;
                     }
@@ -153,7 +159,7 @@ namespace Berrysoft.Pages.Data
 
         public async Task<string> GetStringAsync(string key)
         {
-            var document = await GetStringsAsync(Language ?? string.Empty);
+            var document = await GetStringsAsync(Language ?? InvarientLanguage);
             if (document != null && document.TryGetValue(key, out var prop))
             {
                 return prop;

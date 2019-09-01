@@ -23,9 +23,12 @@
                 </div>
                 <div class="col-auto">
                     <select class="form-control" @bind="@Language">
-                        @for (int i = 0; i < cultures.Length; i++)
+                        @if (languages != null)
                         {
-                            <option value="@cultures[i]">@languages[i]</option>
+                            @foreach (var lang in languages)
+                            {
+                                <option value="@lang.Key">@lang.Value</option>
+                            }
                         }
                     </select>
                 </div>
@@ -35,12 +38,17 @@
 </div>
 
 @code {
-    string[] cultures = new string[] { "en", "zh-hans" };
-    string[] languages = new string[] { "English", "简体中文" };
+    Dictionary<string, string> languages;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (languages == null)
+            languages = await Localization.GetLanguagesAsync();
+    }
 
     private string Language
     {
-        get => cultures[Localization.LanguageIndex];
+        get => Localization.Language;
         set => Localization.Language = value;
     }
 }

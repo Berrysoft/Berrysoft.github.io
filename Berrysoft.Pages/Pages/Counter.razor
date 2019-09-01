@@ -52,7 +52,7 @@
             .Where(w => !string.IsNullOrEmpty(w))
             .ToArray();
         totalCount = words.Length;
-        distinctCount = words.Distinct(StringIgnoreCaseComparer.Instance).Count();
+        distinctCount = words.Distinct(StringComparer.OrdinalIgnoreCase).Count();
         sentenceCount = text.Split(SentenceSeparator, StringSplitOptions.RemoveEmptyEntries).Length;
         averageCount = sentenceCount == 0 ? (int?)null : totalCount / sentenceCount;
     }

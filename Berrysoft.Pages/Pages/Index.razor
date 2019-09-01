@@ -3,7 +3,7 @@
 @using Berrysoft.Pages.Data
 
 @inject HttpClient Http
-@inject ILocalizationService Localization
+@inject IProjectService Project
 
 <h1><Tred Key="indexTitle" /></h1>
 
@@ -43,7 +43,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        if (projects == null)
-            projects = await Http.GetJsonAsync<ProjectBox[]>("data/projects.json");
+        projects = await Project.GetProjectsAsync();
     }
 }

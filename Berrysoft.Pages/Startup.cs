@@ -11,6 +11,7 @@ namespace Berrysoft.Pages
         {
             services.AddLoadingBar();
             services.AddSingleton<ILocalizationService, LocalizationService>();
+            services.AddSingleton<IProjectService, ProjectService>();
         }
 
         public void Configure(IComponentsApplicationBuilder app)

@@ -1,0 +1,68 @@
+﻿@typeparam T
+
+<td scope="col" @onclick="OnColumnClick">
+    @ChildContent
+    <span class="oi @IconClass"></span>
+</td>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public bool Sortable { get; set; }
+
+    [Parameter]
+    public string PropertyName { get; set; }
+
+    [CascadingParameter]
+    public DataGrid<T> Grid { get; set; }
+
+    private Action<string, DataGridSortDirection> onclick;
+
+    public DataGridSortDirection SortDirection
+    {
+        get => IconClass switch
+        {
+            "oi-arrow-top" => DataGridSortDirection.Ascending,
+            "oi-arrow-bottom" => DataGridSortDirection.Descending,
+            _ => DataGridSortDirection.None
+        };
+        set => IconClass = value switch
+        {
+            DataGridSortDirection.Ascending => "oi-arrow-top",
+            DataGridSortDirection.Descending => "oi-arrow-bottom",
+            _ => string.Empty
+        };
+    }
+
+    private string IconClass { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        onclick = Grid.SetColumnSortDirection;
+        Grid.ColumnSorted += OnGridSorted;
+    }
+
+    private void OnColumnClick()
+    {
+        if (Sortable)
+        {
+            var dir = SortDirection;
+            if (dir < DataGridSortDirection.Descending)
+                dir++;
+            else
+                dir = DataGridSortDirection.None;
+            SortDirection = dir;
+            onclick?.Invoke(PropertyName, SortDirection);
+        }
+    }
+
+    private void OnGridSorted(object sender, string e)
+    {
+        if (e != PropertyName)
+        {
+            SortDirection = DataGridSortDirection.None;
+        }
+    }
+}

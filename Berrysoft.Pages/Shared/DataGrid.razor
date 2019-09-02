@@ -1,0 +1,53 @@
+﻿@typeparam T
+
+<CascadingValue Value=this>
+    <table class="table">
+        <thead>
+            <tr>
+                @Headers
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in DisplayItems)
+            {
+                <tr>
+                    @ChildContent(item)
+                </tr>
+            }
+        </tbody>
+    </table>
+</CascadingValue>
+
+@code {
+    [Parameter]
+    public IEnumerable<T> Items { get; set; }
+
+    private IEnumerable<T> DisplayItems { get; set; }
+
+    [Parameter]
+    public RenderFragment Headers { get; set; }
+
+    [Parameter]
+    public RenderFragment<T> ChildContent { get; set; }
+
+    public event EventHandler<string> ColumnSorted;
+
+    protected override void OnParametersSet()
+    {
+        DisplayItems = Items;
+    }
+
+    public void SetColumnSortDirection(string column, DataGridSortDirection direction)
+    {
+        if (direction != DataGridSortDirection.None)
+        {
+            DisplayItems = Items.OrderBy(item => typeof(T).GetProperty(column).GetValue(item), direction);
+        }
+        else
+        {
+            DisplayItems = Items;
+        }
+        ColumnSorted?.Invoke(this, column);
+        StateHasChanged();
+    }
+}

@@ -21,7 +21,7 @@
     </tbody>
 </table>
 
-<textarea class="form-control" style="height: 800px; resize: vertical;" @oninput="TextAreaInput" />
+<textarea class="form-control" style="height: 800px; resize: vertical;" @bind-value="Text" @bind-value:event="oninput" />
 
 @code {
     [Parameter]
@@ -33,11 +33,14 @@
     int? averageCount = null;
 
     private string text = string.Empty;
-
-    private void TextAreaInput(UIChangeEventArgs e)
+    public string Text
     {
-        text = e.Value.ToString();
-        CalculateCounts();
+        get => text;
+        set
+        {
+            text = value;
+            CalculateCounts();
+        }
     }
 
     static readonly char[] WordSeparator = new char[] { ' ', '\r', '\n', '.', ',', '!', '?', ':', ';', '(', ')' };
@@ -53,7 +56,11 @@
             .ToArray();
         totalCount = words.Length;
         distinctCount = words.Distinct(StringComparer.OrdinalIgnoreCase).Count();
-        sentenceCount = text.Split(SentenceSeparator, StringSplitOptions.RemoveEmptyEntries).Length;
+        sentenceCount = text
+            .Split(SentenceSeparator, StringSplitOptions.RemoveEmptyEntries)
+            .Select(w => w.Trim())
+            .Where(w => !string.IsNullOrEmpty(w))
+            .Count();
         averageCount = sentenceCount == 0 ? (int?)null : totalCount / sentenceCount;
     }
 }

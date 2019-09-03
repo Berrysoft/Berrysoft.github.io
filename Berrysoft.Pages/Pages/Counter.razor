@@ -30,8 +30,8 @@
 <FileSelect @ref="fileSelect" @ref:suppressField />
 
 <div class="btn-group" role="group">
-    <button type="button" class="btn btn-primary" @onclick="OpenFile">导入</button>
-    <button type="button" class="btn btn-secondary" @onclick="SaveFile">导出</button>
+    <button type="button" class="btn btn-primary" @onclick="OpenFile"><Tred Key="counterImport" /></button>
+    <button type="button" class="btn btn-secondary" @onclick="SaveFile"><Tred Key="counterExport" /></button>
 </div>
 
 <textarea class="form-control" style="height: 60vh; resize: vertical;" @bind-value="Text" @bind-value:event="oninput" />

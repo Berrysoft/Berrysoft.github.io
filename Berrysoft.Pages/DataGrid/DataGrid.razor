@@ -1,0 +1,21 @@
+﻿@typeparam T
+
+@inherits DataGridBase<T>
+
+<CascadingValue Value=this>
+    <table class="table">
+        <thead>
+            <tr>
+                @Headers
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in DisplayItems)
+            {
+                <tr>
+                    @ChildContent((T)item)
+                </tr>
+            }
+        </tbody>
+    </table>
+</CascadingValue>

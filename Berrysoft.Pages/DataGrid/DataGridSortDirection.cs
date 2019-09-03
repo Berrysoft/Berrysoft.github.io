@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Berrysoft.Pages.Shared
+namespace Berrysoft.Pages.DataGrid
 {
     public enum DataGridSortDirection
     {

@@ -17,11 +17,11 @@
 }
 else
 {
-    <DataGrid Items="@projects">
+    <DataGrid T="ProjectBox" Items="@projects">
         <Headers>
-            <DataGridHeader T="ProjectBox" PropertyName="Name" Sortable="true"><Tred Key="indexOtherProjectName" /></DataGridHeader>
-            <DataGridHeader T="ProjectBox" PropertyName="Language" Sortable="true"><Tred Key="indexOtherProjectLanguage" /></DataGridHeader>
-            <DataGridHeader T="ProjectBox" PropertyName="Description" Sortable="false"><Tred Key="indexOtherProjectDescription" /></DataGridHeader>
+            <DataGridHeader PropertyName="Name" Sortable="true"><Tred Key="indexOtherProjectName" /></DataGridHeader>
+            <DataGridHeader PropertyName="Language" Sortable="true"><Tred Key="indexOtherProjectLanguage" /></DataGridHeader>
+            <DataGridHeader PropertyName="Description" Sortable="false"><Tred Key="indexOtherProjectDescription" /></DataGridHeader>
         </Headers>
         <ChildContent Context="project">
             <td><a href="@project.Url">@project.Name</a></td>

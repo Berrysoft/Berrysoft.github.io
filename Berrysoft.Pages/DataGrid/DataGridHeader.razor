@@ -1,6 +1,4 @@
-﻿@typeparam T
-
-<th scope="col" style="cursor: @(Sortable ? "pointer" : "auto")" @onclick="OnColumnClick">
+﻿<th scope="col" style="cursor: @(Sortable ? "pointer" : "auto")" @onclick="OnColumnClick">
     @ChildContent
     <span class="oi @IconClass"></span>
 </th>
@@ -16,7 +14,7 @@
     public string PropertyName { get; set; }
 
     [CascadingParameter]
-    public DataGrid<T> Grid { get; set; }
+    public DataGridBase Grid { get; set; }
 
     private Action<string, DataGridSortDirection> onclick;
 

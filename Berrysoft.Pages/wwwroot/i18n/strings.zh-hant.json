@@ -1,5 +1,6 @@
 {
   "loading": "加載中...",
+  "notFound": "對不起，這裏什麽也没有。",
   "navHome": "主頁",
   "navCounter": "單詞計數器",
   "indexTitle": "Berrysoft的Blazor實驗室",

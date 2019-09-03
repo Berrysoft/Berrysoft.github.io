@@ -1,5 +1,6 @@
 {
   "loading": "Loading...",
+  "notFound": "Sorry, there's nothing at this address.",
   "navHome": "HOME",
   "navCounter": "COUNTER",
   "indexTitle": "Berrysoft's Blazor Laboratory",

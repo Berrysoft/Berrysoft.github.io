@@ -2,9 +2,11 @@
 
 @using System.Linq
 @using System.Text
+@using Berrysoft.Pages.Data
 @using W8lessLabs.Blazor.LocalFiles
 
 @inject IJSRuntime JSRuntime
+@inject ICounterService CounterService
 
 <h1><Tred Key="counterTitle" /></h1>
 
@@ -19,10 +21,10 @@
     </thead>
     <tbody>
         <tr>
-            <td>@totalCount</td>
-            <td>@distinctCount</td>
-            <td>@sentenceCount</td>
-            <td>@averageCount</td>
+            <td>@CounterService.TotalCount</td>
+            <td>@CounterService.DistinctCount</td>
+            <td>@CounterService.SentenceCount</td>
+            <td>@CounterService.AverageCount</td>
         </tr>
     </tbody>
 </table>
@@ -34,49 +36,9 @@
     <button type="button" class="btn btn-secondary" @onclick="SaveFile"><Tred Key="counterExport" /></button>
 </div>
 
-<textarea class="form-control" style="height: 60vh; resize: vertical;" @bind-value="Text" @bind-value:event="oninput" />
+<textarea class="form-control" style="height: 60vh; resize: vertical;" @bind-value="CounterService.Text" @bind-value:event="oninput" />
 
 @code {
-    [Parameter]
-    public string Lang { get; set; }
-
-    int totalCount = 0;
-    int distinctCount = 0;
-    int sentenceCount = 0;
-    int? averageCount = null;
-
-    private string text = string.Empty;
-    public string Text
-    {
-        get => text;
-        set
-        {
-            text = value;
-            CalculateCounts();
-        }
-    }
-
-    static readonly char[] WordSeparator = new char[] { ' ', '\r', '\n', '.', ',', '!', '?', ':', ';', '(', ')' };
-    static readonly char[] WordTrimmer = new char[] { '-', '\'', '\"' };
-    static readonly string[] SentenceSeparator = new string[] { "\r", "\n", ". ", "! ", "? " };
-
-    private void CalculateCounts()
-    {
-        var words = text
-            .Split(WordSeparator, StringSplitOptions.RemoveEmptyEntries)
-            .Select(w => w.Trim(WordTrimmer))
-            .Where(w => !string.IsNullOrEmpty(w))
-            .ToArray();
-        totalCount = words.Length;
-        distinctCount = words.Distinct(StringComparer.OrdinalIgnoreCase).Count();
-        sentenceCount = text
-            .Split(SentenceSeparator, StringSplitOptions.RemoveEmptyEntries)
-            .Select(w => w.Trim())
-            .Where(w => !string.IsNullOrEmpty(w))
-            .Count();
-        averageCount = sentenceCount == 0 ? (int?)null : totalCount / sentenceCount;
-    }
-
     private FileSelect fileSelect;
 
     private void OpenFile()
@@ -89,7 +51,7 @@
                 using (var fileReader = fileSelect.GetFileReader(file))
                 {
                     byte[] fileContent = await fileReader.GetFileBytesAsync();
-                    Text = Encoding.UTF8.GetString(fileContent);
+                    CounterService.Text = Encoding.UTF8.GetString(fileContent);
                     StateHasChanged();
                 }
             }
@@ -98,6 +60,6 @@
 
     private async void SaveFile()
     {
-        await JSRuntime.InvokeAsync<object>("saveFile", "article.txt", Encoding.UTF8.GetBytes(Text));
+        await JSRuntime.InvokeAsync<object>("saveFile", "article.txt", Encoding.UTF8.GetBytes(CounterService.Text));
     }
 }

@@ -12,5 +12,7 @@
   "counterTotalCount": "总数",
   "counterDistinctCount": "独立单词数",
   "counterSentenceCount": "句子数",
-  "counterAverageCount": "平均单词数"
+  "counterAverageCount": "平均单词数",
+  "counterImport": "导入文件",
+  "counterExport": "导出文件"
 }

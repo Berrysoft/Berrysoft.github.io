@@ -1,5 +1,11 @@
 ﻿@page "/counter"
 
+@using System.Linq
+@using System.Text
+@using W8lessLabs.Blazor.LocalFiles
+
+@inject IJSRuntime JSRuntime
+
 <h1><Tred Key="counterTitle" /></h1>
 
 <table class="table">
@@ -21,7 +27,14 @@
     </tbody>
 </table>
 
-<textarea class="form-control" style="height: 800px; resize: vertical;" @bind-value="Text" @bind-value:event="oninput" />
+<FileSelect @ref="fileSelect" @ref:suppressField />
+
+<div class="btn-group" role="group">
+    <button type="button" class="btn btn-primary" @onclick="OpenFile">导入</button>
+    <button type="button" class="btn btn-secondary" @onclick="SaveFile">导出</button>
+</div>
+
+<textarea class="form-control" style="height: 60vh; resize: vertical;" @bind-value="Text" @bind-value:event="oninput" />
 
 @code {
     [Parameter]
@@ -62,5 +75,29 @@
             .Where(w => !string.IsNullOrEmpty(w))
             .Count();
         averageCount = sentenceCount == 0 ? (int?)null : totalCount / sentenceCount;
+    }
+
+    private FileSelect fileSelect;
+
+    private void OpenFile()
+    {
+        fileSelect.SelectFiles(async (selectedFiles) =>
+        {
+            SelectedFile file = selectedFiles.FirstOrDefault();
+            if (file != null)
+            {
+                using (var fileReader = fileSelect.GetFileReader(file))
+                {
+                    byte[] fileContent = await fileReader.GetFileBytesAsync();
+                    Text = Encoding.UTF8.GetString(fileContent);
+                    StateHasChanged();
+                }
+            }
+        });
+    }
+
+    private async void SaveFile()
+    {
+        await JSRuntime.InvokeAsync<object>("saveFile", "article.txt", Encoding.UTF8.GetBytes(Text));
     }
 }

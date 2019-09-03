@@ -54,5 +54,18 @@
     <!-- End Single Page Apps for GitHub Pages -->
 
     <script src="_framework/blazor.webassembly.js"></script>
+
+    <!-- Save file function -->
+    <script type="text/javascript">
+        function saveFile(name, data) {
+            var link = document.createElement('a');
+            link.download = name;
+            link.href = "data:application/octet-stream;base64," + data;
+            link.hidden = true;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
 </body>
 </html>

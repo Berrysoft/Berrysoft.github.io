@@ -60,6 +60,7 @@
 
     private async void SaveFile()
     {
-        await JSRuntime.InvokeAsync<object>("saveFile", "article.txt", Encoding.UTF8.GetBytes(CounterService.Text));
+        if (!string.IsNullOrEmpty(CounterService.Text))
+            await JSRuntime.InvokeAsync<object>("saveFile", "article.txt", Encoding.UTF8.GetBytes(CounterService.Text));
     }
 }

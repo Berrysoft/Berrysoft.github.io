@@ -1,10 +1,14 @@
 {
   "lightTheme": {
-    "bootstrapStyle": "https://bootswatch.com/4/flatly/bootstrap.min.css",
-    "siteStyle": "css/site.light.css"
+    "bootstrapStyle": "https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/flatly/bootstrap.min.css"
   },
   "darkTheme": {
-    "bootstrapStyle": "https://bootswatch.com/4/darkly/bootstrap.min.css",
-    "siteStyle": "css/site.dark.css"
+    "bootstrapStyle": "https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css"
+  },
+  "pulseTheme": {
+    "bootstrapStyle": "https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/pulse/bootstrap.min.css"
+  },
+  "solarTheme": {
+    "bootstrapStyle": "https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/solar/bootstrap.min.css"
   }
 }

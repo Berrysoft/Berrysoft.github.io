@@ -1,66 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
-@using Berrysoft.Pages.Data
+<NavMenu />
 
-@inject ILocalizationService Localization
-@inject IThemeService ThemeService
-
-<div class="sidebar">
-    <NavMenu />
+<div class="content px-4 py-4">
+    @Body
 </div>
-
-<div class="main">
-    <div class="top-row px-4">
-        <a href="https://github.com/Berrysoft/Berrysoft.github.io" target="_blank" class="ml-md-auto">GitHub</a>
-    </div>
-
-    <div class="content px-4">
-        @Body
-        <div class="footer">
-            <div class="form-row align-items-center text-muted px-4">
-                <div class="col"></div>
-                <div class="col-auto">
-                    <span class="oi oi-brush" aria-hidden="true"></span>
-                </div>
-                <div class="col-auto">
-                    <select class="form-control" @bind="@ThemeService.Theme">
-                        @if (themes != null)
-                        {
-                            @foreach (string theme in themes)
-                            {
-                                <option value="@theme"><Tred Key="@theme" /></option>
-                            }
-                        }
-                    </select>
-                </div>
-                <div class="col-auto">
-                    <span class="oi oi-globe" aria-hidden="true"></span>
-                </div>
-                <div class="col-auto">
-                    <select class="form-control" @bind="@Localization.Language">
-                        @if (languages != null)
-                        {
-                            @foreach (var lang in languages)
-                            {
-                                <option value="@lang.Key">@lang.Value</option>
-                            }
-                        }
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-@code {
-    Dictionary<string, string> languages;
-    string[] themes;
-
-    protected override async Task OnInitializedAsync()
-    {
-        if (languages == null)
-            languages = await Localization.GetLanguagesAsync();
-        if (themes == null)
-            themes = await ThemeService.GetThemesAsync();
-    }
-}

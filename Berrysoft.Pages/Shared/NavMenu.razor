@@ -1,24 +1,65 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
+﻿@using Berrysoft.Pages.Data
+
+@inject ILocalizationService Localization
+@inject IThemeService ThemeService
+
+<header class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="">Berrysoft</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+    <button class="navbar-toggler" type="button" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
-</div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> <Tred Key="navHome" />
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> <Tred Key="navCounter" />
-            </NavLink>
-        </li>
-    </ul>
-</div>
+    <div class="@NavMenuCssClass navbar-collapse">
+        <ul class="navbar-nav mr-auto" @onclick="ToggleNavMenu">
+            <li class="nav-item">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <Tred Key="navHome" />
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="nav-link" href="counter">
+                    <Tred Key="navCounter" />
+                </NavLink>
+            </li>
+        </ul>
+        <div class="form-row ml-md-auto">
+            <div class="col-auto py-1">
+                <span class="oi oi-brush" aria-hidden="true"></span>
+            </div>
+            <div class="col-auto">
+                <select class="custom-select" @bind="@ThemeService.Theme">
+                    @if (themes != null)
+                    {
+                        @foreach (string theme in themes)
+                        {
+                            <option value="@theme"><Tred Key="@theme" /></option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-auto py-1">
+                <span class="oi oi-globe" aria-hidden="true"></span>
+            </div>
+            <div class="col-auto">
+                <select class="custom-select" @bind="@Localization.Language">
+                    @if (languages != null)
+                    {
+                        @foreach (var lang in languages)
+                        {
+                            <option value="@lang.Key">@lang.Value</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-auto py-1">
+                <a href="https://github.com/Berrysoft/Berrysoft.github.io" target="_blank">
+                    <img height="16" width="16" src="https://unpkg.com/simple-icons@latest/icons/github.svg" />
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
 
 @code {
     bool collapseNavMenu = true;
@@ -28,5 +69,16 @@
     void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    Dictionary<string, string> languages;
+    string[] themes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (languages == null)
+            languages = await Localization.GetLanguagesAsync();
+        if (themes == null)
+            themes = await ThemeService.GetThemesAsync();
     }
 }

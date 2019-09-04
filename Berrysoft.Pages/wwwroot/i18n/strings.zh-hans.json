@@ -3,6 +3,8 @@
   "notFound": "对不起，这里什么也没有。",
   "navHome": "主页",
   "navCounter": "单词计数器",
+  "lightTheme": "亮",
+  "darkTheme": "暗",
   "indexTitle": "Berrysoft的Blazor实验室",
   "indexDescription": "本站点使用<a href=\"https://blazor.net\">Blazor</a>开发，有各种各样的实验项目。",
   "indexOtherProjects": "其它个人开源项目",

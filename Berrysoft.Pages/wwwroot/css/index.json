@@ -1,0 +1,10 @@
+{
+  "lightTheme": {
+    "bootstrapStyle": "https://bootswatch.com/4/flatly/bootstrap.min.css",
+    "siteStyle": "css/site.light.css"
+  },
+  "darkTheme": {
+    "bootstrapStyle": "https://bootswatch.com/4/darkly/bootstrap.min.css",
+    "siteStyle": "css/site.dark.css"
+  }
+}

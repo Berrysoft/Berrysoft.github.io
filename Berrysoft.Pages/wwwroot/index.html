@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width" />
     <title>Berrysoft.Pages</title>
     <base href="/" />
-    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link id="bootstrapStyle" rel="stylesheet" />
     <link href="https://cdn.bootcss.com/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
+    <link id="siteStyle" rel="stylesheet" />
     <link href="css/spinkit.css" rel="stylesheet" />
 </head>
 <body>
@@ -65,6 +66,14 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+    </script>
+
+    <!-- Change theme function -->
+    <script type="text/javascript">
+        function changeStyle(name, url) {
+            var link = document.getElementById(name);
+            link.href = url;
         }
     </script>
 </body>

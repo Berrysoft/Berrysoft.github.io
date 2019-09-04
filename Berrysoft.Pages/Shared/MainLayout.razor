@@ -3,6 +3,7 @@
 @using Berrysoft.Pages.Data
 
 @inject ILocalizationService Localization
+@inject IThemeService ThemeService
 
 <div class="sidebar">
     <NavMenu />
@@ -19,10 +20,24 @@
             <div class="form-row align-items-center text-muted px-4">
                 <div class="col"></div>
                 <div class="col-auto">
+                    <span class="oi oi-brush" aria-hidden="true"></span>
+                </div>
+                <div class="col-auto">
+                    <select class="form-control" @bind="@ThemeService.Theme">
+                        @if (themes != null)
+                        {
+                            @foreach (string theme in themes)
+                            {
+                                <option value="@theme"><Tred Key="@theme" /></option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-auto">
                     <span class="oi oi-globe" aria-hidden="true"></span>
                 </div>
                 <div class="col-auto">
-                    <select class="form-control" @bind="@Language">
+                    <select class="form-control" @bind="@Localization.Language">
                         @if (languages != null)
                         {
                             @foreach (var lang in languages)
@@ -39,16 +54,13 @@
 
 @code {
     Dictionary<string, string> languages;
+    string[] themes;
 
     protected override async Task OnInitializedAsync()
     {
         if (languages == null)
             languages = await Localization.GetLanguagesAsync();
-    }
-
-    private string Language
-    {
-        get => Localization.Language;
-        set => Localization.Language = value;
+        if (themes == null)
+            themes = await ThemeService.GetThemesAsync();
     }
 }

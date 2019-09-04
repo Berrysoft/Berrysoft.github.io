@@ -3,6 +3,8 @@
   "notFound": "Sorry, there's nothing at this address.",
   "navHome": "HOME",
   "navCounter": "COUNTER",
+  "lightTheme": "Light",
+  "darkTheme": "Dark",
   "indexTitle": "Berrysoft's Blazor Laboratory",
   "indexDescription": "Powered by <a href=\"https://blazor.net\">Blazor</a>, this site contains several experimental projects.",
   "indexOtherProjects": "Other open-source projects of myself",

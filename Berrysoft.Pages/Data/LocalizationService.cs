@@ -9,36 +9,12 @@ using Microsoft.AspNetCore.Components;
 
 namespace Berrysoft.Pages.Data
 {
-    // https://stackoverflow.com/questions/7612602/why-cant-i-use-the-await-operator-within-the-body-of-a-lock-statement
-    class SemaphoreLocker
+    public interface ILocalizationService
     {
-        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
-
-        public async Task LockAsync(Func<Task> worker)
-        {
-            await _semaphore.WaitAsync();
-            try
-            {
-                await worker();
-            }
-            finally
-            {
-                _semaphore.Release();
-            }
-        }
-
-        public async Task<T> LockAsync<T>(Func<Task<T>> worker)
-        {
-            await _semaphore.WaitAsync();
-            try
-            {
-                return await worker();
-            }
-            finally
-            {
-                _semaphore.Release();
-            }
-        }
+        string Language { get; set; }
+        Task<string> GetStringAsync(string key);
+        Task<Dictionary<string, string>> GetLanguagesAsync();
+        event EventHandler<string> LanguageChanged;
     }
 
     public class LocalizationService : ILocalizationService
@@ -102,19 +78,27 @@ namespace Berrysoft.Pages.Data
             return languages;
         }
 
+        private string GetParentLanguage(string lang)
+        {
+            try
+            {
+                var culture = CultureInfo.GetCultureInfo(lang);
+                lang = culture.Parent.Name.ToLower();
+            }
+            catch (CultureNotFoundException)
+            {
+                lang = null;
+            }
+            return lang;
+        }
+
         private string GetCompatibleLanguage(string lang)
         {
             while (lang != null && !languages.ContainsKey(lang))
             {
-                try
-                {
-                    var culture = CultureInfo.GetCultureInfo(lang);
-                    lang = culture.Parent.Name.ToLower();
-                }
-                catch (CultureNotFoundException)
-                {
-                    lang = null;
-                }
+                if (string.IsNullOrEmpty(lang))
+                    return InvarientLanguage;
+                lang = GetParentLanguage(lang);
             }
             return lang ?? InvarientLanguage;
         }
@@ -159,15 +143,24 @@ namespace Berrysoft.Pages.Data
 
         public async Task<string> GetStringAsync(string key)
         {
-            var document = await GetStringsAsync(Language ?? InvarientLanguage);
-            if (document != null && document.TryGetValue(key, out var prop))
+            string lang = Language ?? InvarientLanguage;
+            while (lang != null)
             {
-                return prop;
+                var document = await GetStringsAsync(lang);
+                if (document != null && document.TryGetValue(key, out var prop))
+                {
+                    return prop;
+                }
+                if (lang == InvarientLanguage)
+                {
+                    lang = null;
+                }
+                else
+                {
+                    lang = GetCompatibleLanguage(GetParentLanguage(lang));
+                }
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
     }
 }

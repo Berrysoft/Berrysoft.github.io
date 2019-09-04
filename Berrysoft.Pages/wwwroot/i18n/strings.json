@@ -1,8 +1,8 @@
 {
   "loading": "Loading...",
   "notFound": "Sorry, there's nothing at this address.",
-  "navHome": "HOME",
-  "navCounter": "COUNTER",
+  "navHome": "Home",
+  "navCounter": "Counter",
   "lightTheme": "Light",
   "darkTheme": "Dark",
   "pulseTheme": "Pulse",

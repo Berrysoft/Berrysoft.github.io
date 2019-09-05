@@ -48,8 +48,6 @@ namespace Berrysoft.Pages.Data
             }
         }
 
-        private async void LoadData() => await LoadDataAsync();
-
         public ValueTask LoadDataAsync()
         {
             if (themes == null)

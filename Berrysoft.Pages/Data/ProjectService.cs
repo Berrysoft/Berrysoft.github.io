@@ -25,8 +25,6 @@ namespace Berrysoft.Pages.Data
 
         private static readonly SemaphoreLocker projectsLocker = new SemaphoreLocker();
 
-        private async void LoadData() => await LoadDataAsync();
-
         public ValueTask LoadDataAsync()
         {
             if (Data == null)

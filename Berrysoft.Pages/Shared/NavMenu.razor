@@ -74,7 +74,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await ThemeService.LoadDataAsync();
-        await Localization.LoadDataAsync();
+        await Task.Run(async () =>
+        {
+            await ThemeService.LoadDataAsync();
+            await Localization.LoadDataAsync();
+        });
     }
 }

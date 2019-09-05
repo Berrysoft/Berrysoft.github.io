@@ -13,7 +13,7 @@
     protected override async Task OnInitializedAsync()
     {
         Localization.LanguageChanged += async (s, e) => await RefreshTextAsync();
-        await RefreshTextAsync();
+        await Task.Run(async () => await RefreshTextAsync());
     }
 
     private async ValueTask RefreshTextAsync()

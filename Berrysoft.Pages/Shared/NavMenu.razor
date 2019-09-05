@@ -72,20 +72,13 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    await Task.Run(async () =>
-    //    {
-    //        await ThemeService.LoadDataAsync();
-    //        await Localization.LoadDataAsync();
-    //        StateHasChanged();
-    //    });
-    //}
-
-    protected override async void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        await ThemeService.LoadDataAsync();
-        await Localization.LoadDataAsync();
-        StateHasChanged();
+        await Task.Run(async () =>
+        {
+            await ThemeService.LoadDataAsync();
+            await Localization.LoadDataAsync();
+            StateHasChanged();
+        });
     }
 }

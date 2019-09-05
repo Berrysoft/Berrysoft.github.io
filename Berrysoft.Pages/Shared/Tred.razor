@@ -12,15 +12,15 @@
 
     string text;
 
-    protected override async void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         Localization.LanguageChanged += OnLocalizationLanguageChanged;
-        await RefreshTextAsync();
+        await Task.Run(async () => await RefreshTextAsync());
     }
 
     private async void OnLocalizationLanguageChanged(object sender, string e) => await RefreshTextAsync();
 
-    private async Task RefreshTextAsync()
+    private async ValueTask RefreshTextAsync()
     {
         text = await Localization.GetStringAsync(Key);
         StateHasChanged();

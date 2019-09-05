@@ -9,7 +9,7 @@ namespace Berrysoft.Pages.Data
 {
     public interface IThemeService
     {
-        Task<string[]> GetThemesAsync();
+        ValueTask<string[]> GetThemesAsync();
         string Theme { get; set; }
     }
 
@@ -35,7 +35,7 @@ namespace Berrysoft.Pages.Data
         }
         private async void SetTheme(string value) => await SetThemeAsync(value);
 
-        private async Task SetThemeAsync(string value)
+        private async ValueTask SetThemeAsync(string value)
         {
             if (theme != value && !string.IsNullOrEmpty(value) && themes.ContainsKey(value))
             {
@@ -47,7 +47,7 @@ namespace Berrysoft.Pages.Data
             }
         }
 
-        private Task InitializeThemes()
+        private ValueTask InitializeThemes()
         {
             if (themes == null)
             {
@@ -64,11 +64,11 @@ namespace Berrysoft.Pages.Data
             }
             else
             {
-                return Task.CompletedTask;
+                return new ValueTask();
             }
         }
 
-        public async Task<string[]> GetThemesAsync()
+        public async ValueTask<string[]> GetThemesAsync()
         {
             await InitializeThemes();
             return themes.Keys.ToArray();

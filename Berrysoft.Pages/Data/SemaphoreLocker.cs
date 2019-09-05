@@ -9,7 +9,7 @@ namespace Berrysoft.Pages.Data
     {
         private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
 
-        public async Task LockAsync(Func<Task> worker)
+        public async ValueTask LockAsync(Func<ValueTask> worker)
         {
             await _semaphore.WaitAsync();
             try
@@ -22,7 +22,7 @@ namespace Berrysoft.Pages.Data
             }
         }
 
-        public async Task<T> LockAsync<T>(Func<Task<T>> worker)
+        public async ValueTask<T> LockAsync<T>(Func<ValueTask<T>> worker)
         {
             await _semaphore.WaitAsync();
             try

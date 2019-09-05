@@ -16,7 +16,7 @@
         await RefreshTextAsync();
     }
 
-    private async Task RefreshTextAsync()
+    private async ValueTask RefreshTextAsync()
     {
         text = await Localization.GetStringAsync(Key);
         StateHasChanged();

@@ -14,7 +14,7 @@ namespace Berrysoft.Pages.Data
 
     public interface IProjectService
     {
-        Task<ProjectBox[]> GetProjectsAsync();
+        ValueTask<ProjectBox[]> GetProjectsAsync();
     }
 
     public class ProjectService : IProjectService
@@ -24,13 +24,29 @@ namespace Berrysoft.Pages.Data
         public ProjectService(HttpClient http) => Http = http;
 
         private ProjectBox[] projects;
+        private static readonly SemaphoreLocker projectsLocker = new SemaphoreLocker();
 
-        public async Task<ProjectBox[]> GetProjectsAsync()
+        private ValueTask InitializeProjects()
         {
             if (projects == null)
             {
-                projects = await Http.GetJsonAsync<ProjectBox[]>("data/projects.json");
+                return projectsLocker.LockAsync(async () =>
+                {
+                    if (projects == null)
+                    {
+                        projects = await Http.GetJsonAsync<ProjectBox[]>("data/projects.json");
+                    }
+                });
             }
+            else
+            {
+                return new ValueTask();
+            }
+        }
+
+        public async ValueTask<ProjectBox[]> GetProjectsAsync()
+        {
+            await InitializeProjects();
             return projects;
         }
     }

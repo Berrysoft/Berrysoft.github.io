@@ -12,8 +12,8 @@ namespace Berrysoft.Pages.Data
     public interface ILocalizationService
     {
         string Language { get; set; }
-        Task<string> GetStringAsync(string key);
-        Task<Dictionary<string, string>> GetLanguagesAsync();
+        ValueTask<string> GetStringAsync(string key);
+        ValueTask<Dictionary<string, string>> GetLanguagesAsync();
         event EventHandler<string> LanguageChanged;
     }
 
@@ -54,7 +54,7 @@ namespace Berrysoft.Pages.Data
 
         public event EventHandler<string> LanguageChanged;
 
-        private Task InitializeLanguages()
+        private ValueTask InitializeLanguages()
         {
             if (languages == null)
             {
@@ -68,11 +68,11 @@ namespace Berrysoft.Pages.Data
             }
             else
             {
-                return Task.CompletedTask;
+                return new ValueTask();
             }
         }
 
-        public async Task<Dictionary<string, string>> GetLanguagesAsync()
+        public async ValueTask<Dictionary<string, string>> GetLanguagesAsync()
         {
             await InitializeLanguages();
             return languages;
@@ -103,7 +103,7 @@ namespace Berrysoft.Pages.Data
             return lang ?? InvarientLanguage;
         }
 
-        private async Task<(string, string)> GetStringsFileNameAsync(string lang)
+        private async ValueTask<(string, string)> GetStringsFileNameAsync(string lang)
         {
             await InitializeLanguages();
             if (string.IsNullOrEmpty(lang) || lang == InvarientLanguage)
@@ -116,11 +116,11 @@ namespace Berrysoft.Pages.Data
             }
         }
 
-        private Task<Dictionary<string, string>> GetStringsAsync(string lang)
+        private ValueTask<Dictionary<string, string>> GetStringsAsync(string lang)
         {
             if (strings.ContainsKey(lang))
             {
-                return Task.FromResult(strings[lang]);
+                return new ValueTask<Dictionary<string, string>>(strings[lang]);
             }
             else
             {
@@ -141,7 +141,7 @@ namespace Berrysoft.Pages.Data
             }
         }
 
-        public async Task<string> GetStringAsync(string key)
+        public async ValueTask<string> GetStringAsync(string key)
         {
             string lang = Language ?? InvarientLanguage;
             while (lang != null)

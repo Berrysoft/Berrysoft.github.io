@@ -32,8 +32,14 @@
 <FileSelect @ref="fileSelect" @ref:suppressField />
 
 <div class="btn-group" role="group">
-    <button type="button" class="btn btn-primary" @onclick="OpenFile"><Tred Key="counterImport" /></button>
-    <button type="button" class="btn btn-secondary" @onclick="SaveFile"><Tred Key="counterExport" /></button>
+    <button type="button" class="btn btn-primary" @onclick="OpenFile">
+        <span class="fas fa-folder-open"></span>
+        <Tred Key="counterImport" />
+    </button>
+    <button type="button" class="btn btn-secondary" @onclick="SaveFile">
+        <span class="fas fa-save"></span>
+        <Tred Key="counterExport" />
+    </button>
 </div>
 
 <textarea class="form-control" style="height: 60vh; resize: vertical;" @bind-value="CounterService.Text" @bind-value:event="oninput" />

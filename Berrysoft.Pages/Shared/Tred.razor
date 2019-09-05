@@ -18,12 +18,7 @@
         await Task.Run(RefreshTextAsync);
     }
 
-    private void OnLocalizationLanguageChanged(object sender, string e)
-    {
-        RefreshText();
-    }
-
-    private async void RefreshText() => await RefreshTextAsync();
+    private async void OnLocalizationLanguageChanged(object sender, string e) => await RefreshTextAsync();
 
     private async Task RefreshTextAsync()
     {

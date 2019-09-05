@@ -23,8 +23,8 @@
             </li>
         </ul>
         <div class="form-row ml-md-auto">
-            <div class="col-auto py-1">
-                <span class="oi oi-brush" aria-hidden="true"></span>
+            <div class="col-auto py-2">
+                <span class="fas fa-palette" aria-hidden="true"></span>
             </div>
             <div class="col-auto">
                 <select class="custom-select" @bind="@ThemeService.Theme">
@@ -37,8 +37,8 @@
                     }
                 </select>
             </div>
-            <div class="col-auto py-1">
-                <span class="oi oi-globe" aria-hidden="true"></span>
+            <div class="col-auto py-2">
+                <span class="fas fa-globe" aria-hidden="true"></span>
             </div>
             <div class="col-auto">
                 <select class="custom-select" @bind="@Localization.Language">
@@ -51,10 +51,11 @@
                     }
                 </select>
             </div>
-            <div class="col-auto py-1">
-                <a href="https://github.com/Berrysoft/Berrysoft.github.io" target="_blank">
-                    <img height="16" width="16" src="https://unpkg.com/simple-icons@latest/icons/github.svg" />
-                </a>
+            <div class="col-auto py-2">
+                <span class="fas fa-code-branch"></span>
+            </div>
+            <div class="col-auto py-2">
+                <a href="https://github.com/Berrysoft/Berrysoft.github.io">GitHub</a>
             </div>
         </div>
     </div>

@@ -28,12 +28,17 @@
 }
 
 @code {
-    protected override async Task OnInitializedAsync()
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    await Task.Run(async () =>
+    //    {
+    //        await Project.LoadDataAsync();
+    //        StateHasChanged();
+    //    });
+    //}
+    protected override async void OnInitialized()
     {
-        await Task.Run(async () =>
-        {
-            await Project.LoadDataAsync();
-            StateHasChanged();
-        });
+        await Project.LoadDataAsync();
+        StateHasChanged();
     }
 }

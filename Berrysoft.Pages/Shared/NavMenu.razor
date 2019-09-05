@@ -78,6 +78,7 @@
         {
             await ThemeService.LoadDataAsync();
             await Localization.LoadDataAsync();
+            StateHasChanged();
         });
     }
 }

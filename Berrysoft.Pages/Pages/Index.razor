@@ -30,6 +30,10 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
-        await Task.Run(async () => await Project.LoadDataAsync());
+        await Task.Run(async () =>
+        {
+            await Project.LoadDataAsync();
+            StateHasChanged();
+        });
     }
 }

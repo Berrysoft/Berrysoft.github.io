@@ -1,5 +1,7 @@
 ﻿@using Berrysoft.Pages.Data
 
+@implements IDisposable
+
 @inject ILocalizationService Localization
 
 @((MarkupString)text)
@@ -12,13 +14,25 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Localization.LanguageChanged += async (s, e) => await RefreshTextAsync();
-        await Task.Run(async () => await RefreshTextAsync());
+        Localization.LanguageChanged += OnLocalizationLanguageChanged;
+        await Task.Run(RefreshText);
     }
+
+    private void OnLocalizationLanguageChanged(object sender, string e)
+    {
+        RefreshText();
+    }
+
+    private async void RefreshText() => await RefreshTextAsync();
 
     private async ValueTask RefreshTextAsync()
     {
         text = await Localization.GetStringAsync(Key);
         StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        Localization.LanguageChanged -= OnLocalizationLanguageChanged;
     }
 }

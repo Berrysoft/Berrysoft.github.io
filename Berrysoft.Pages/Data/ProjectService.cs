@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 
@@ -12,29 +13,33 @@ namespace Berrysoft.Pages.Data
         public string Description { get; set; }
     }
 
-    public interface IProjectService
-    {
-        ValueTask<ProjectBox[]> GetProjectsAsync();
-    }
+    public interface IProjectService : IDataLoaderService<IEnumerable<ProjectBox>> { }
 
     public class ProjectService : IProjectService
     {
         protected HttpClient Http { get; set; }
 
-        public ProjectService(HttpClient http) => Http = http;
+        public ProjectService(HttpClient http)
+        {
+            Http = http;
+            LoadData();
+        }
 
-        private ProjectBox[] projects;
+        public IEnumerable<ProjectBox> Data { get; private set; }
+
         private static readonly SemaphoreLocker projectsLocker = new SemaphoreLocker();
 
-        private ValueTask InitializeProjects()
+        private async void LoadData() => await LoadDataAsync();
+
+        public ValueTask LoadDataAsync()
         {
-            if (projects == null)
+            if (Data == null)
             {
                 return projectsLocker.LockAsync(async () =>
                 {
-                    if (projects == null)
+                    if (Data == null)
                     {
-                        projects = await Http.GetJsonAsync<ProjectBox[]>("data/projects.json");
+                        Data = await Http.GetJsonAsync<ProjectBox[]>("data/projects.json");
                     }
                 });
             }
@@ -42,12 +47,6 @@ namespace Berrysoft.Pages.Data
             {
                 return new ValueTask();
             }
-        }
-
-        public async ValueTask<ProjectBox[]> GetProjectsAsync()
-        {
-            await InitializeProjects();
-            return projects;
         }
     }
 }

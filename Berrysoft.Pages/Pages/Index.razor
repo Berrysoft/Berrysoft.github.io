@@ -11,13 +11,9 @@
 
 <h2><Tred Key="indexOtherProjects" /></h2>
 
-@if (projects == null)
+@if (Project.Data != null)
 {
-    <p><Tred Key="loading" /></p>
-}
-else
-{
-    <DataGrid T="ProjectBox" Items="@projects">
+    <DataGrid T="ProjectBox" Items="@Project.Data">
         <Headers>
             <DataGridHeader PropertyName="Name" Sortable="true"><Tred Key="indexOtherProjectName" /></DataGridHeader>
             <DataGridHeader PropertyName="Language" Sortable="true"><Tred Key="indexOtherProjectLanguage" /></DataGridHeader>
@@ -32,10 +28,8 @@ else
 }
 
 @code {
-    ProjectBox[] projects;
-
     protected override async Task OnInitializedAsync()
     {
-        projects = await Project.GetProjectsAsync();
+        await Project.LoadDataAsync();
     }
 }

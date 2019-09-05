@@ -7,9 +7,8 @@ using Microsoft.JSInterop;
 
 namespace Berrysoft.Pages.Data
 {
-    public interface IThemeService
+    public interface IThemeService : IDataLoaderService<IEnumerable<string>>
     {
-        ValueTask<string[]> GetThemesAsync();
         string Theme { get; set; }
     }
 
@@ -22,9 +21,11 @@ namespace Berrysoft.Pages.Data
         {
             Http = http;
             JSRuntime = jSRuntime;
+            LoadData();
         }
 
         private Dictionary<string, Dictionary<string, string>> themes;
+        public IEnumerable<string> Data => themes?.Keys;
         private static readonly SemaphoreLocker themesLocker = new SemaphoreLocker();
 
         private string theme;
@@ -37,6 +38,7 @@ namespace Berrysoft.Pages.Data
 
         private async ValueTask SetThemeAsync(string value)
         {
+            await LoadDataAsync();
             if (theme != value && !string.IsNullOrEmpty(value) && themes.ContainsKey(value))
             {
                 theme = value;
@@ -47,7 +49,9 @@ namespace Berrysoft.Pages.Data
             }
         }
 
-        private ValueTask InitializeThemes()
+        private async void LoadData() => await LoadDataAsync();
+
+        public ValueTask LoadDataAsync()
         {
             if (themes == null)
             {
@@ -66,12 +70,6 @@ namespace Berrysoft.Pages.Data
             {
                 return new ValueTask();
             }
-        }
-
-        public async ValueTask<string[]> GetThemesAsync()
-        {
-            await InitializeThemes();
-            return themes.Keys.ToArray();
         }
     }
 }

@@ -28,9 +28,9 @@
             </div>
             <div class="col-auto">
                 <select class="custom-select" @bind="@ThemeService.Theme">
-                    @if (themes != null)
+                    @if (ThemeService.Data != null)
                     {
-                        @foreach (string theme in themes)
+                        @foreach (string theme in ThemeService.Data)
                         {
                             <option value="@theme"><Tred Key="@theme" /></option>
                         }
@@ -42,9 +42,9 @@
             </div>
             <div class="col-auto">
                 <select class="custom-select" @bind="@Localization.Language">
-                    @if (languages != null)
+                    @if (Localization.Data != null)
                     {
-                        @foreach (var lang in languages)
+                        @foreach (var lang in Localization.Data)
                         {
                             <option value="@lang.Key">@lang.Value</option>
                         }
@@ -72,14 +72,9 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
-    Dictionary<string, string> languages;
-    string[] themes;
-
     protected override async Task OnInitializedAsync()
     {
-        if (languages == null)
-            languages = await Localization.GetLanguagesAsync();
-        if (themes == null)
-            themes = await ThemeService.GetThemesAsync();
+        await ThemeService.LoadDataAsync();
+        await Localization.LoadDataAsync();
     }
 }

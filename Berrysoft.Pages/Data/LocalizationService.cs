@@ -9,11 +9,10 @@ using Microsoft.AspNetCore.Components;
 
 namespace Berrysoft.Pages.Data
 {
-    public interface ILocalizationService
+    public interface ILocalizationService : IDataLoaderService<IReadOnlyDictionary<string, string>>
     {
         string Language { get; set; }
         ValueTask<string> GetStringAsync(string key);
-        ValueTask<Dictionary<string, string>> GetLanguagesAsync();
         event EventHandler<string> LanguageChanged;
     }
 
@@ -31,6 +30,7 @@ namespace Berrysoft.Pages.Data
         private const string InvarientLanguage = "invarient";
 
         private Dictionary<string, string> languages;
+        public IReadOnlyDictionary<string, string> Data => languages;
         private static readonly SemaphoreLocker languagesLocker = new SemaphoreLocker();
         private Dictionary<string, Dictionary<string, string>> strings;
         private static readonly SemaphoreLocker stringsLocker = new SemaphoreLocker();
@@ -43,7 +43,7 @@ namespace Berrysoft.Pages.Data
         }
         private async void SetLanguage(string value)
         {
-            await InitializeLanguages();
+            await LoadDataAsync();
             value = GetCompatibleLanguage(value);
             if (language != value)
             {
@@ -54,7 +54,7 @@ namespace Berrysoft.Pages.Data
 
         public event EventHandler<string> LanguageChanged;
 
-        private ValueTask InitializeLanguages()
+        public ValueTask LoadDataAsync()
         {
             if (languages == null)
             {
@@ -70,12 +70,6 @@ namespace Berrysoft.Pages.Data
             {
                 return new ValueTask();
             }
-        }
-
-        public async ValueTask<Dictionary<string, string>> GetLanguagesAsync()
-        {
-            await InitializeLanguages();
-            return languages;
         }
 
         private string GetParentLanguage(string lang)
@@ -105,7 +99,7 @@ namespace Berrysoft.Pages.Data
 
         private async ValueTask<(string, string)> GetStringsFileNameAsync(string lang)
         {
-            await InitializeLanguages();
+            await LoadDataAsync();
             if (string.IsNullOrEmpty(lang) || lang == InvarientLanguage)
             {
                 return (InvarientLanguage, "i18n/strings.json");

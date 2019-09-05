@@ -21,7 +21,6 @@ namespace Berrysoft.Pages.Data
         {
             Http = http;
             JSRuntime = jSRuntime;
-            LoadData();
         }
 
         private Dictionary<string, Dictionary<string, string>> themes;

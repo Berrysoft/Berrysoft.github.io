@@ -19,11 +19,7 @@ namespace Berrysoft.Pages.Data
     {
         protected HttpClient Http { get; set; }
 
-        public ProjectService(HttpClient http)
-        {
-            Http = http;
-            LoadData();
-        }
+        public ProjectService(HttpClient http) => Http = http;
 
         public IEnumerable<ProjectBox> Data { get; private set; }
 

@@ -1,9 +1,6 @@
 ﻿@page "/counter"
 
-@using System.Linq
-@using System.Text
 @using Berrysoft.Pages.Data
-@using W8lessLabs.Blazor.LocalFiles
 
 @inject IJSRuntime JSRuntime
 @inject ICounterService CounterService
@@ -29,44 +26,4 @@
     </tbody>
 </table>
 
-<FileSelect @ref="fileSelect" @ref:suppressField />
-
-<div class="btn-group" role="group">
-    <button type="button" class="btn btn-primary" @onclick="OpenFile">
-        <span class="fas fa-folder-open"></span>
-        <Tred Key="counterImport" />
-    </button>
-    <button type="button" class="btn btn-secondary" @onclick="SaveFile">
-        <span class="fas fa-save"></span>
-        <Tred Key="counterExport" />
-    </button>
-</div>
-
 <textarea class="form-control" style="height: 60vh; resize: vertical;" @bind-value="CounterService.Text" @bind-value:event="oninput" />
-
-@code {
-    private FileSelect fileSelect;
-
-    private void OpenFile()
-    {
-        fileSelect.SelectFiles(async (selectedFiles) =>
-        {
-            SelectedFile file = selectedFiles.FirstOrDefault();
-            if (file != null)
-            {
-                using (var fileReader = fileSelect.GetFileReader(file))
-                {
-                    byte[] fileContent = await fileReader.GetFileBytesAsync();
-                    CounterService.Text = Encoding.UTF8.GetString(fileContent);
-                    StateHasChanged();
-                }
-            }
-        });
-    }
-
-    private async void SaveFile()
-    {
-        if (!string.IsNullOrEmpty(CounterService.Text))
-            await JSRuntime.InvokeAsync<object>("saveFile", "article.txt", Encoding.UTF8.GetBytes(CounterService.Text));
-    }
-}

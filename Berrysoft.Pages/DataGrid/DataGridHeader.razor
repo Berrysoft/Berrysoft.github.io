@@ -1,6 +1,6 @@
 ﻿<th scope="col" style="cursor: @(Sortable ? "pointer" : "auto")" @onclick="OnColumnClick">
     @ChildContent
-    <span class="fas @IconClass"></span>
+    <span class="fas @IconClass" hidden="@IconHidden"></span>
 </th>
 
 @code {
@@ -18,23 +18,16 @@
 
     private Action<string, DataGridSortDirection> onclick;
 
-    public DataGridSortDirection SortDirection
-    {
-        get => IconClass switch
-        {
-            "fa-chevron-up" => DataGridSortDirection.Ascending,
-            "fa-chevron-down" => DataGridSortDirection.Descending,
-            _ => DataGridSortDirection.None
-        };
-        set => IconClass = value switch
-        {
-            DataGridSortDirection.Ascending => "fa-chevron-up",
-            DataGridSortDirection.Descending => "fa-chevron-down",
-            _ => string.Empty
-        };
-    }
+    public DataGridSortDirection SortDirection { get; set; }
 
-    private string IconClass { get; set; }
+    private string IconClass => SortDirection switch
+    {
+        DataGridSortDirection.Ascending => "fa-chevron-up",
+        DataGridSortDirection.Descending => "fa-chevron-down",
+        _ => string.Empty
+    };
+
+    private bool IconHidden => !Sortable || (SortDirection != DataGridSortDirection.Ascending && SortDirection != DataGridSortDirection.Descending);
 
     protected override void OnParametersSet()
     {

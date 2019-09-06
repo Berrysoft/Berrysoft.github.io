@@ -2,21 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 
 namespace Berrysoft.Pages.Data
 {
+    public enum BlogPostType
+    {
+        Text,
+        Html,
+        Markdown
+    }
+
     public class BlogPost
     {
         public string Title { get; set; }
         public DateTime Date { get; set; }
         public string Filename { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public BlogPostType Type { get; set; }
     }
 
     public interface IBlogService : IDataLoaderService<IEnumerable<BlogPost>>
     {
-        ValueTask<string> GetBlogPostContent(string filename);
+        ValueTask<BlogPost> GetBlogPostAsync(string filename);
+        ValueTask<string> GetBlogPostContentAsync(string filename);
     }
 
     public class BlogService : IBlogService
@@ -45,12 +56,29 @@ namespace Berrysoft.Pages.Data
             }
         }
 
-        public async ValueTask<string> GetBlogPostContent(string filename)
+        public async ValueTask<BlogPost> GetBlogPostAsync(string filename)
         {
             await LoadDataAsync();
-            if (Data.Where(post => post.Filename == filename).FirstOrDefault() != null)
+            return Data.Where(post => post.Filename == filename).FirstOrDefault();
+        }
+
+        private string GetExtensionFromType(BlogPostType type)
+        {
+            return type switch
             {
-                var url = $"blog/{filename}.md";
+                BlogPostType.Text => "txt",
+                BlogPostType.Html => "htm",
+                BlogPostType.Markdown => "md",
+                _ => string.Empty
+            };
+        }
+
+        public async ValueTask<string> GetBlogPostContentAsync(string filename)
+        {
+            var post = await GetBlogPostAsync(filename);
+            if (post != null)
+            {
+                var url = $"blog/{filename}.{GetExtensionFromType(post.Type)}";
                 return await Http.GetStringAsync(url);
             }
             else

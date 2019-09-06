@@ -5,16 +5,20 @@
 
 @inject IBlogService BlogService
 
-@if (text == null)
+@if (notFound)
 {
-    @if (notFound)
-    {
-        <NotFoundComponent />
-    }
+    <NotFoundComponent />
 }
-else
+else if (text != null)
 {
-    @((MarkupString)text)
+    @if (plainText)
+    {
+        @text
+    }
+    else
+    {
+        @((MarkupString)text)
+    }
 }
 
 @code {
@@ -23,6 +27,7 @@ else
 
     private string text;
     private bool notFound;
+    private bool plainText;
 
     private static readonly MarkdownPipeline markdigPipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
 
@@ -30,15 +35,23 @@ else
     {
         await Task.Run(async () =>
         {
-            string content = await BlogService.GetBlogPostContent(Filename);
-            if (content == null)
+            var post = await BlogService.GetBlogPostAsync(Filename);
+            if (post == null)
             {
                 text = null;
+                plainText = true;
                 notFound = true;
             }
             else
             {
-                text = Markdown.ToHtml(content, markdigPipeline);
+                var content = await BlogService.GetBlogPostContentAsync(Filename);
+                text = post.Type switch
+                {
+                    BlogPostType.Html => content,
+                    BlogPostType.Markdown => Markdown.ToHtml(content, markdigPipeline),
+                    _ => content
+                };
+                plainText = post.Type == BlogPostType.Text;
                 notFound = false;
             }
         });

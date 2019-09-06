@@ -1,8 +1,10 @@
 ﻿@page "/"
 
+@using System.Threading
 @using Berrysoft.Pages.Data
 
 @inject HttpClient Http
+@inject ILocalizationService Localization
 @inject IProjectService Project
 
 <h1><Tred Key="indexTitle" /></h1>
@@ -32,6 +34,7 @@
     {
         await Task.Run(async () =>
         {
+            Localization.Language = Thread.CurrentThread.CurrentUICulture.Name;
             await Project.LoadDataAsync();
             StateHasChanged();
         });

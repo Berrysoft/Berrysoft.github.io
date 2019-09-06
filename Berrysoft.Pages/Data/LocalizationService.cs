@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.Net.Http;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 
@@ -25,7 +24,6 @@ namespace Berrysoft.Pages.Data
         {
             Http = http;
             strings = new Dictionary<string, Dictionary<string, string>>();
-            Language = Thread.CurrentThread.CurrentUICulture.Name;
         }
 
         private const string InvarientLanguage = "invarient";

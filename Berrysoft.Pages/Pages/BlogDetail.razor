@@ -11,6 +11,10 @@
 }
 else if (text != null)
 {
+    <h1>@post.Title</h1>
+    <p class="text-secondary">
+        <time datetime="@post.Date">@post.Date.ToLongDateString()</time>
+    </p>
     @if (plainText)
     {
         @text
@@ -25,6 +29,7 @@ else if (text != null)
     [Parameter]
     public string Filename { get; set; }
 
+    private BlogPost post;
     private string text;
     private bool notFound;
     private bool plainText;
@@ -35,7 +40,7 @@ else if (text != null)
     {
         await Task.Run(async () =>
         {
-            var post = await BlogService.GetBlogPostAsync(Filename);
+            post = await BlogService.GetBlogPostAsync(Filename);
             if (post == null)
             {
                 text = null;

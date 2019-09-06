@@ -22,10 +22,13 @@ namespace Berrysoft.Pages.Data
         public Dictionary<string, string> Links { get; set; }
     }
 
+    public delegate void ThemeChangedCallback(object e, Theme t);
+
     public interface IThemeService : IDataLoaderService<IEnumerable<string>>
     {
         string Theme { get; set; }
         ThemeType Navbar { get; }
+        event ThemeChangedCallback ThemeChanged;
     }
 
     public class ThemeService : IThemeService
@@ -63,6 +66,8 @@ namespace Berrysoft.Pages.Data
             }
         }
 
+        public event ThemeChangedCallback ThemeChanged;
+
         private async ValueTask SetThemeAsync(Theme storedTheme)
         {
             if (storedTheme != null)
@@ -73,6 +78,7 @@ namespace Berrysoft.Pages.Data
                 {
                     await JSRuntime.InvokeAsync<object>("changeStyle", pair.Key, pair.Value);
                 }
+                ThemeChanged?.Invoke(this, storedTheme);
             }
         }
 

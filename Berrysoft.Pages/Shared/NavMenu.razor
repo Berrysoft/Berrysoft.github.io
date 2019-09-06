@@ -1,5 +1,7 @@
 ﻿@using Berrysoft.Pages.Data
 
+@implements IDisposable
+
 @inject ILocalizationService Localization
 @inject IThemeService ThemeService
 
@@ -101,11 +103,22 @@
 
     protected override async Task OnInitializedAsync()
     {
+        ThemeService.ThemeChanged += OnThemeChanged;
         await Task.Run(async () =>
         {
             await ThemeService.LoadDataAsync();
             await Localization.LoadDataAsync();
             StateHasChanged();
         });
+    }
+
+    private void OnThemeChanged(object sender, Theme t)
+    {
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        ThemeService.ThemeChanged -= OnThemeChanged;
     }
 }

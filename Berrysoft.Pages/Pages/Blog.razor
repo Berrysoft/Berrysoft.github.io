@@ -1,0 +1,33 @@
+﻿@page "/blog"
+
+@using Berrysoft.Pages.Data
+
+@inject IBlogService BlogService
+
+<h1><Tred Key="blogTitle" /></h1>
+
+<ul class="list-group list-group-flush">
+    @if (BlogService.Data != null)
+    {
+        @foreach (var post in BlogService.Data)
+        {
+            <li class="list-group-item">
+                <a href="blog/@post.Filename">
+                    <h2>@post.Title</h2>
+                </a>
+                <p>@post.Date</p>
+            </li>
+        }
+    }
+</ul>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(async () =>
+        {
+            await BlogService.LoadDataAsync();
+            StateHasChanged();
+        });
+    }
+}

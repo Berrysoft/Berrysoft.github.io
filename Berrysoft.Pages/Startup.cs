@@ -14,6 +14,7 @@ namespace Berrysoft.Pages
             services.AddSingleton<IThemeService, ThemeService>();
             services.AddSingleton<IProjectService, ProjectService>();
             services.AddSingleton<ICounterService, CounterService>();
+            services.AddSingleton<IBlogService, BlogService>();
         }
 
         public void Configure(IComponentsApplicationBuilder app)

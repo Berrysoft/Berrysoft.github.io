@@ -2,6 +2,7 @@
   "notFound": "Sorry, there's nothing at this address.",
   "navHome": "Home",
   "navCounter": "Counter",
+  "navBlog": "Blog",
   "defaultTheme": "Default",
   "lightTheme": "Light",
   "darkTheme": "Dark",
@@ -19,5 +20,6 @@
   "counterSentenceCount": "Sentences",
   "counterAverageCount": "Average words",
   "counterImport": "Import file",
-  "counterExport": "Export file"
+  "counterExport": "Export file",
+  "blogTitle": "Berrysoft's Blog"
 }

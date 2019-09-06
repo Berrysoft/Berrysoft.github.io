@@ -1,0 +1,23 @@
+﻿@page "/blog/{filename}"
+
+@using Berrysoft.Pages.Data
+@using Markdig
+
+@inject IBlogService BlogService
+
+@((MarkupString)text)
+
+@code {
+    [Parameter]
+    public string Filename { get; set; }
+
+    private string text;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(async () =>
+        {
+            text = Markdown.ToHtml(await BlogService.GetBlogPostContent(Filename));
+        });
+    }
+}

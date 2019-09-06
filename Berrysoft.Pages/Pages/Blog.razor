@@ -9,7 +9,7 @@
 <ul class="list-group list-group-flush">
     @if (BlogService.Data != null)
     {
-        @foreach (var post in BlogService.Data)
+        @foreach (var post in BlogService.Data.Reverse())
         {
             <li class="list-group-item">
                 <a href="blog/@post.Filename">

@@ -20,6 +20,7 @@ steps:
   displayName: Publish App
   inputs:
     command: publish
+    projects: Berrysoft.Pages/Berrysoft.Pages.csproj
     # Important: If you zip the publish, the GitHub Pages script will need to unzip it first
     zipAfterPublish: false
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'

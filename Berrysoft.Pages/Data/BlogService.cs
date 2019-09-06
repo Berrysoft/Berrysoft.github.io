@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -47,8 +48,15 @@ namespace Berrysoft.Pages.Data
         public async ValueTask<string> GetBlogPostContent(string filename)
         {
             await LoadDataAsync();
-            var url = $"blog/{filename}.md";
-            return await Http.GetStringAsync(url);
+            if (Data.Where(post => post.Filename == filename).FirstOrDefault() != null)
+            {
+                var url = $"blog/{filename}.md";
+                return await Http.GetStringAsync(url);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

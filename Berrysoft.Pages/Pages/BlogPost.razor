@@ -5,7 +5,14 @@
 
 @inject IBlogService BlogService
 
-@((MarkupString)text)
+@if (text == null)
+{
+    <NotFoundComponent />
+}
+else
+{
+    @((MarkupString)text)
+}
 
 @code {
     [Parameter]

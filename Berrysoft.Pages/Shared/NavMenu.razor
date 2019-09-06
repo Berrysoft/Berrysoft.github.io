@@ -28,39 +28,61 @@
             </li>
         </ul>
         <div class="form-row ml-md-auto">
-            <div class="col-auto py-2">
-                <span class="fas fa-palette" aria-hidden="true"></span>
+            <div class="col-auto">
+                <div class="form-row">
+                    <div class="col-auto py-2">
+                        <span class="fas fa-palette" aria-hidden="true"></span>
+                    </div>
+                    <div class="col-auto">
+                        <select class="custom-select" @bind="@ThemeService.Theme">
+                            @if (ThemeService.Data != null)
+                            {
+                                @foreach (string theme in ThemeService.Data)
+                                {
+                                    <option value="@theme"><Tred Key="@theme" /></option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="col-auto">
-                <select class="custom-select" @bind="@ThemeService.Theme">
-                    @if (ThemeService.Data != null)
-                    {
-                        @foreach (string theme in ThemeService.Data)
-                        {
-                            <option value="@theme"><Tred Key="@theme" /></option>
-                        }
-                    }
-                </select>
-            </div>
-            <div class="col-auto py-2">
-                <span class="fas fa-globe" aria-hidden="true"></span>
+                <div class="form-row">
+                    <div class="col-auto py-2">
+                        <span class="fas fa-globe" aria-hidden="true"></span>
+                    </div>
+                    <div class="col-auto">
+                        <select class="custom-select" @bind="@Localization.Language">
+                            @if (Localization.Data != null)
+                            {
+                                @foreach (var lang in Localization.Data)
+                                {
+                                    <option value="@lang.Key">@lang.Value</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="col-auto">
-                <select class="custom-select" @bind="@Localization.Language">
-                    @if (Localization.Data != null)
-                    {
-                        @foreach (var lang in Localization.Data)
-                        {
-                            <option value="@lang.Key">@lang.Value</option>
-                        }
-                    }
-                </select>
+                <div class="form-row">
+                    <div class="col-auto py-2">
+                        <span class="fas fa-envelope"></span>
+                    </div>
+                    <div class="col-auto py-2">
+                        <a href="mailto:Strawberry_Str@hotmail.com">Hotmail</a>
+                    </div>
+                </div>
             </div>
-            <div class="col-auto py-2">
-                <span class="fas fa-code-branch"></span>
-            </div>
-            <div class="col-auto py-2">
-                <a href="https://github.com/Berrysoft/Berrysoft.github.io">GitHub</a>
+            <div class="col-auto">
+                <div class="form-row">
+                    <div class="col-auto py-2">
+                        <span class="fas fa-code-branch"></span>
+                    </div>
+                    <div class="col-auto py-2">
+                        <a href="https://github.com/Berrysoft/">Berrysoft</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

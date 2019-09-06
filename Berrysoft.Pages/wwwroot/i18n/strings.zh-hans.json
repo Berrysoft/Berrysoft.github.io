@@ -2,6 +2,7 @@
   "notFound": "对不起，这里什么也没有。",
   "navHome": "主页",
   "navCounter": "单词计数器",
+  "navBlog": "博客",
   "defaultTheme": "默认",
   "lightTheme": "亮色",
   "darkTheme": "暗色",
@@ -19,5 +20,6 @@
   "counterSentenceCount": "句子数",
   "counterAverageCount": "平均单词数",
   "counterImport": "导入文件",
-  "counterExport": "导出文件"
+  "counterExport": "导出文件",
+  "blogTitle": "Berrysoft的博客"
 }

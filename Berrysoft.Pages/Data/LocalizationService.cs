@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
 using System.Text.Json;
@@ -9,11 +8,13 @@ using Microsoft.AspNetCore.Components;
 
 namespace Berrysoft.Pages.Data
 {
+    public delegate ValueTask LanguageChangedAsyncCallback(object sender, string lang);
+
     public interface ILocalizationService : IDataLoaderService<IReadOnlyDictionary<string, string>>
     {
         string Language { get; set; }
         ValueTask<string> GetStringAsync(string key);
-        event EventHandler<string> LanguageChanged;
+        event LanguageChangedAsyncCallback LanguageChanged;
     }
 
     public class LocalizationService : ILocalizationService
@@ -48,11 +49,14 @@ namespace Berrysoft.Pages.Data
             if (language != value)
             {
                 language = value;
-                LanguageChanged?.Invoke(this, Language);
+                if (LanguageChanged != null)
+                {
+                    await LanguageChanged(this, language);
+                }
             }
         }
 
-        public event EventHandler<string> LanguageChanged;
+        public event LanguageChangedAsyncCallback LanguageChanged;
 
         public ValueTask LoadDataAsync()
         {

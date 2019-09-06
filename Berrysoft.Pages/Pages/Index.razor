@@ -9,10 +9,10 @@
 
 <p><Tred Key="indexDescription" /></p>
 
-<h2><Tred Key="indexOtherProjects" /></h2>
-
 @if (Project.Data != null)
 {
+    <h2><Tred Key="indexOtherProjects" /></h2>
+
     <DataGrid T="ProjectBox" Items="@Project.Data">
         <Headers>
             <DataGridHeader PropertyName="Name" Sortable="true"><Tred Key="indexOtherProjectName" /></DataGridHeader>

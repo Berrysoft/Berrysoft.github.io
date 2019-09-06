@@ -1,4 +1,10 @@
-﻿.spinner {
+﻿.wrapper {
+    max-width: 1200px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.spinner {
     width: 50px;
     height: 40px;
     text-align: center;

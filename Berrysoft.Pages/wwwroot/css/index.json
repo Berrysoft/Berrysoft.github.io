@@ -1,17 +1,37 @@
-{
-  "defaultTheme": {
-    "bootstrapStyle": "https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+[
+  {
+    "name": "defaultTheme",
+    "navbar": "light",
+    "links": {
+      "bootstrapStyle": "https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+    }
   },
-  "lightTheme": {
-    "bootstrapStyle": "https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/flatly/bootstrap.min.css"
+  {
+    "name": "lightTheme",
+    "navbar": "light",
+    "links": {
+      "bootstrapStyle": "https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/flatly/bootstrap.min.css"
+    }
   },
-  "darkTheme": {
-    "bootstrapStyle": "https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css"
+  {
+    "name": "darkTheme",
+    "navbar": "dark",
+    "links": {
+      "bootstrapStyle": "https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css"
+    }
   },
-  "pulseTheme": {
-    "bootstrapStyle": "https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/pulse/bootstrap.min.css"
+  {
+    "name": "pulseTheme",
+    "navbar": "light",
+    "links": {
+      "bootstrapStyle": "https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/pulse/bootstrap.min.css"
+    }
   },
-  "solarTheme": {
-    "bootstrapStyle": "https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/solar/bootstrap.min.css"
+  {
+    "name": "solarTheme",
+    "navbar": "dark",
+    "links": {
+      "bootstrapStyle": "https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/solar/bootstrap.min.css"
+    }
   }
-}
+]

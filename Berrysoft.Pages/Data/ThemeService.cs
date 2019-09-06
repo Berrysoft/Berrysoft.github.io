@@ -1,15 +1,31 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace Berrysoft.Pages.Data
 {
+    public enum ThemeType
+    {
+        Light,
+        Dark
+    }
+
+    public class Theme
+    {
+        public string Name { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public ThemeType Navbar { get; set; }
+        public Dictionary<string, string> Links { get; set; }
+    }
+
     public interface IThemeService : IDataLoaderService<IEnumerable<string>>
     {
         string Theme { get; set; }
+        ThemeType Navbar { get; }
     }
 
     public class ThemeService : IThemeService
@@ -23,9 +39,11 @@ namespace Berrysoft.Pages.Data
             JSRuntime = jSRuntime;
         }
 
-        private Dictionary<string, Dictionary<string, string>> themes;
-        public IEnumerable<string> Data => themes?.Keys;
+        private Theme[] themes;
+        public IEnumerable<string> Data => themes?.Select(t => t.Name);
         private static readonly SemaphoreLocker themesLocker = new SemaphoreLocker();
+
+        public ThemeType Navbar { get; private set; }
 
         private string theme;
         public string Theme
@@ -38,10 +56,20 @@ namespace Berrysoft.Pages.Data
         private async ValueTask SetThemeAsync(string value)
         {
             await LoadDataAsync();
-            if (theme != value && !string.IsNullOrEmpty(value) && themes.ContainsKey(value))
+            if (theme != value && !string.IsNullOrEmpty(value))
             {
-                theme = value;
-                foreach (var pair in themes[value])
+                var storedTheme = themes.Where(t => t.Name == value).FirstOrDefault();
+                await SetThemeAsync(storedTheme);
+            }
+        }
+
+        private async ValueTask SetThemeAsync(Theme storedTheme)
+        {
+            if (storedTheme != null)
+            {
+                theme = storedTheme.Name;
+                Navbar = storedTheme.Navbar;
+                foreach (var pair in storedTheme.Links)
                 {
                     await JSRuntime.InvokeAsync<object>("changeStyle", pair.Key, pair.Value);
                 }
@@ -56,10 +84,9 @@ namespace Berrysoft.Pages.Data
                 {
                     if (themes == null)
                     {
-                        themes = await Http.GetJsonAsync<Dictionary<string, Dictionary<string, string>>>("css/index.json");
-                        string defaultTheme = themes.Keys.FirstOrDefault();
-                        if (defaultTheme != null)
-                            await SetThemeAsync(defaultTheme);
+                        themes = await Http.GetJsonAsync<Theme[]>("css/index.json");
+                        var defaultTheme = themes.FirstOrDefault();
+                        await SetThemeAsync(defaultTheme);
                     }
                 });
             }

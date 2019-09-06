@@ -3,7 +3,7 @@
 @inject ILocalizationService Localization
 @inject IThemeService ThemeService
 
-<header class="navbar navbar-expand-lg navbar-light bg-light">
+<header class="navbar navbar-expand-lg @(ThemeService.Navbar == ThemeType.Dark ? "bg-dark" : "bd-light")">
     <a class="navbar-brand" href="">Berrysoft</a>
     <button class="navbar-toggler" type="button" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>

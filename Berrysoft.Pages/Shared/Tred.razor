@@ -15,7 +15,10 @@
     protected override async Task OnInitializedAsync()
     {
         Localization.LanguageChanged += OnLocalizationLanguageChanged;
-        await Task.Run(async () => await RefreshTextAsync());
+        await Task.Run(async () =>
+        {
+            text = await Localization.GetStringAsync(Key);
+        });
     }
 
     private ValueTask OnLocalizationLanguageChanged(object sender, string e) => RefreshTextAsync();

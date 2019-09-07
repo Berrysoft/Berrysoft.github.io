@@ -12,9 +12,10 @@ namespace Berrysoft.Pages
             services.AddLoadingBar();
             services.AddSingleton<ILocalizationService, LocalizationService>();
             services.AddSingleton<IThemeService, ThemeService>();
-            services.AddSingleton<IProjectService, ProjectService>();
+            services.AddSingleton<ProjectService>();
             services.AddSingleton<ICounterService, CounterService>();
             services.AddSingleton<IBlogService, BlogService>();
+            services.AddSingleton<LibraryService>();
         }
 
         public void Configure(IComponentsApplicationBuilder app)

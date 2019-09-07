@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Markdig",
+    "url": "https://github.com/lunet-io/markdig",
+    "license": "BSD 2-Clause"
+  },
+  {
+    "name": "Toolbelt.Blazor.LoadingBar",
+    "url": "https://github.com/jsakamoto/Toolbelt.Blazor.LoadingBar",
+    "license": "MPL 2.0"
+  },
+  {
+    "name": "SpinKit",
+    "url": "https://github.com/tobiasahlin/SpinKit",
+    "license": "MIT"
+  },
+  {
+    "name": "spa-github-pages",
+    "url": "https://github.com/rafrex/spa-github-pages",
+    "license": "MIT"
+  },
+  {
+    "name": "bootstrap",
+    "url": "https://github.com/twbs/bootstrap",
+    "license": "MIT"
+  },
+  {
+    "name": "Font-Awesome",
+    "url": "https://github.com/FortAwesome/Font-Awesome",
+    "license": "<a href=\"https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt\">Font Awesome Free License</a>"
+  }
+]

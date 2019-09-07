@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
+﻿using System.Net.Http;
 
 namespace Berrysoft.Pages.Data
 {
@@ -13,34 +10,8 @@ namespace Berrysoft.Pages.Data
         public string Description { get; set; }
     }
 
-    public interface IProjectService : IDataLoaderService<IEnumerable<ProjectBox>> { }
-
-    public class ProjectService : IProjectService
+    public class ProjectService : EnumerableLoaderService<ProjectBox>
     {
-        protected HttpClient Http { get; set; }
-
-        public ProjectService(HttpClient http) => Http = http;
-
-        public IEnumerable<ProjectBox> Data { get; private set; }
-
-        private static readonly SemaphoreLocker projectsLocker = new SemaphoreLocker();
-
-        public ValueTask LoadDataAsync()
-        {
-            if (Data == null)
-            {
-                return projectsLocker.LockAsync(async () =>
-                {
-                    if (Data == null)
-                    {
-                        Data = await Http.GetJsonAsync<ProjectBox[]>("data/projects.json");
-                    }
-                });
-            }
-            else
-            {
-                return new ValueTask();
-            }
-        }
+        public ProjectService(HttpClient http) : base("data/projects.json", http) { }
     }
 }

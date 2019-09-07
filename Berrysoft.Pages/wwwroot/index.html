@@ -56,11 +56,16 @@
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.slim.min.js"></script>
     <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    <!-- Change theme function -->
     <script type="text/javascript">
         function changeStyle(name, url) {
             var link = document.getElementById(name);
             link.href = url;
+        }
+    </script>
+
+    <script type="text/javascript">
+        function collapseElement(name) {
+            $('#' + name).collapse('hide');
         }
     </script>
 </body>

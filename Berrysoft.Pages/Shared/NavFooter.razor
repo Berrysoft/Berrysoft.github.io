@@ -5,7 +5,7 @@
 @inject ILocalizationService Localization
 @inject IThemeService ThemeService
 
-<footer class="navbar fixed-bottom @(ThemeService.Navbar == ThemeType.Dark ? "navbar-dark bg-dark" : "navbar-light bg-light")">
+<footer class="navbar @(ThemeService.Navbar == ThemeType.Dark ? "navbar-dark bg-dark" : "navbar-light bg-light")">
     <div class="container">
         <div class="form-row ml-md-auto">
             <div class="col-auto">

@@ -3,6 +3,9 @@
 @using Berrysoft.Pages.Data
 @using Markdig
 
+@implements IDisposable
+
+@inject ILocalizationService Localization
 @inject IBlogService BlogService
 
 @if (notFound)
@@ -13,7 +16,7 @@ else if (text != null)
 {
     <h1>@post.Title</h1>
     <p class="text-secondary">
-        <time datetime="@post.Date">@post.Date.ToLongDateString()</time>
+        <time datetime="@post.Date">@post.Date.ToString(Localization.Culture.DateTimeFormat.LongDatePattern, Localization.Culture)</time>
     </p>
     @if (plainText)
     {
@@ -38,6 +41,7 @@ else if (text != null)
 
     protected override async Task OnInitializedAsync()
     {
+        Localization.LanguageChangedAsync += OnLanguageChanged;
         await Task.Run(async () =>
         {
             post = await BlogService.GetBlogPostAsync(Filename);
@@ -60,5 +64,16 @@ else if (text != null)
                 notFound = false;
             }
         });
+    }
+
+    private ValueTask OnLanguageChanged(object sender, string e)
+    {
+        StateHasChanged();
+        return new ValueTask();
+    }
+
+    public void Dispose()
+    {
+        Localization.LanguageChangedAsync -= OnLanguageChanged;
     }
 }

@@ -12,6 +12,7 @@ namespace Berrysoft.Pages.Data
     public interface ILocalizationService : IDataLoaderService<IReadOnlyDictionary<string, string>>
     {
         string Language { get; set; }
+        CultureInfo Culture { get; }
         ValueTask SetLanguageAsync(string value);
         ValueTask<string> GetStringAsync(string key);
         event LanguageChangedAsyncCallback LanguageChangedAsync;
@@ -55,7 +56,10 @@ namespace Berrysoft.Pages.Data
                     await LanguageChangedAsync(this, language);
                 }
             }
+            Culture = CultureInfo.GetCultureInfo(Language == InvarientLanguage ? string.Empty : Language);
         }
+
+        public CultureInfo Culture { get; private set; }
 
         public event LanguageChangedAsyncCallback LanguageChangedAsync;
 

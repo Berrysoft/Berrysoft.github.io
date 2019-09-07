@@ -2,6 +2,9 @@
 
 @using Berrysoft.Pages.Data
 
+@implements IDisposable
+
+@inject ILocalizationService Localization
 @inject IBlogService BlogService
 
 <h1><Tred Key="blogTitle" /></h1>
@@ -15,7 +18,7 @@
                 <a href="blog/@post.Filename">
                     <h2>@post.Title</h2>
                 </a>
-                <p>@post.Date</p>
+                <p>@post.Date.ToString(Localization.Culture)</p>
             </li>
         }
     }
@@ -24,10 +27,22 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
+        Localization.LanguageChangedAsync += OnLanguageChanged;
         await Task.Run(async () =>
         {
             await BlogService.LoadDataAsync();
             StateHasChanged();
         });
+    }
+
+    private ValueTask OnLanguageChanged(object sender, string e)
+    {
+        StateHasChanged();
+        return new ValueTask();
+    }
+
+    public void Dispose()
+    {
+        Localization.LanguageChangedAsync -= OnLanguageChanged;
     }
 }

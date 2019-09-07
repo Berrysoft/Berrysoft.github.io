@@ -3,6 +3,7 @@
   "navHome": "主頁",
   "navCounter": "單詞計數器",
   "navBlog": "博客",
+  "navAbout": "關於",
   "defaultTheme": "默認",
   "lightTheme": "亮色",
   "darkTheme": "暗色",
@@ -21,5 +22,10 @@
   "counterAverageCount": "平均單詞數",
   "counterImport": "導入文件",
   "counterExport": "導出文件",
-  "blogTitle": "Berrysoft的博客"
+  "blogTitle": "Berrysoft的博客",
+  "aboutTitle": "關於Berrysoft.Pages",
+  "aboutProjectSource": "項目源代碼",
+  "aboutOtherLibraries": "包含的開源庫",
+  "aboutOtherLibraryName": "名稱",
+  "aboutOtherLibraryLicense": "許可證"
 }

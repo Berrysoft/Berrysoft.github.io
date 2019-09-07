@@ -2,99 +2,41 @@
 
 @implements IDisposable
 
-@inject ILocalizationService Localization
 @inject IThemeService ThemeService
 
-<header class="navbar navbar-expand-lg @(ThemeService.Navbar == ThemeType.Dark ? "navbar-dark bg-dark" : "navbar-light bg-light")">
-    <a class="navbar-brand" href="">Berrysoft</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<header class="navbar fixed-top navbar-expand-lg @(ThemeService.Navbar == ThemeType.Dark ? "navbar-dark bg-dark" : "navbar-light bg-light")">
+    <div class="container">
+        <a class="navbar-brand" href="">Berrysoft</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div id="navbarSupportedContent" class="navbar-collapse collapse">
-        <ul class="navbar-nav mr-auto" data-toggle="collapse" data-target="#navbarSupportedContent">
-            <li class="nav-item">
-                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                    <Tred Key="navHome" />
-                </NavLink>
-            </li>
-            <li class="nav-item">
-                <NavLink class="nav-link" href="counter">
-                    <Tred Key="navCounter" />
-                </NavLink>
-            </li>
-            <li class="nav-item">
-                <NavLink class="nav-link" href="blog">
-                    <Tred Key="navBlog" />
-                </NavLink>
-            </li>
-            <li class="nav-item">
-                <NavLink class="nav-link" href="about">
-                    <Tred Key="navAbout" />
-                </NavLink>
-            </li>
-        </ul>
-        <div class="form-row ml-md-auto">
-            <div class="col-auto">
-                <div class="form-row">
-                    <div class="col-auto py-2">
-                        <span class="fas fa-palette" aria-hidden="true"></span>
-                    </div>
-                    <div class="col-auto">
-                        <select class="custom-select" @bind="@ThemeService.Theme">
-                            @if (ThemeService.Data != null)
-                            {
-                                @foreach (string theme in ThemeService.Data)
-                                {
-                                    <option value="@theme"><Tred Key="@theme" /></option>
-                                }
-                            }
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-auto">
-                <div class="form-row">
-                    <div class="col-auto py-2">
-                        <span class="fas fa-globe" aria-hidden="true"></span>
-                    </div>
-                    <div class="col-auto">
-                        <select class="custom-select" @bind="@Localization.Language">
-                            @if (Localization.Data != null)
-                            {
-                                @foreach (var lang in Localization.Data)
-                                {
-                                    <option value="@lang.Key">@lang.Value</option>
-                                }
-                            }
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-auto">
-                <div class="form-row">
-                    <div class="col-auto py-2">
-                        <span class="fas fa-envelope"></span>
-                    </div>
-                    <div class="col-auto py-2">
-                        <a href="mailto:Strawberry_Str@hotmail.com">Email</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-auto">
-                <div class="form-row">
-                    <div class="col-auto py-2">
-                        <span class="fas fa-code-branch"></span>
-                    </div>
-                    <div class="col-auto py-2">
-                        <a href="https://github.com/Berrysoft/">Berrysoft</a>
-                    </div>
-                </div>
-            </div>
+        <div id="navbarSupportedContent" class="navbar-collapse collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                        <Tred Key="navHome" />
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="counter">
+                        <Tred Key="navCounter" />
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="blog">
+                        <Tred Key="navBlog" />
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="about">
+                        <Tred Key="navAbout" />
+                    </NavLink>
+                </li>
+            </ul>
         </div>
     </div>
 </header>
-
 
 @code {
     protected override async Task OnInitializedAsync()
@@ -103,7 +45,6 @@
         await Task.Run(async () =>
         {
             await ThemeService.LoadDataAsync();
-            await Localization.LoadDataAsync();
             StateHasChanged();
         });
     }

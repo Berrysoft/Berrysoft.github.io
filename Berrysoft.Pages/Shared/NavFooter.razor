@@ -1,0 +1,100 @@
+﻿@using Berrysoft.Pages.Data
+
+@implements IDisposable
+
+@inject ILocalizationService Localization
+@inject IThemeService ThemeService
+
+<footer class="navbar fixed-bottom @(ThemeService.Navbar == ThemeType.Dark ? "navbar-dark bg-dark" : "navbar-light bg-light")">
+    <div class="container">
+        <div class="form-row ml-md-auto">
+            <div class="col-auto">
+                <div class="form-row">
+                    <div class="col-auto py-2">
+                        <span class="fas fa-palette" aria-hidden="true"></span>
+                    </div>
+                    <div class="col-auto">
+                        <select class="custom-select" @bind="@ThemeService.Theme">
+                            @if (ThemeService.Data != null)
+                            {
+                                @foreach (string theme in ThemeService.Data)
+                                {
+                                    <option value="@theme"><Tred Key="@theme" /></option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="form-row">
+                    <div class="col-auto py-2">
+                        <span class="fas fa-globe" aria-hidden="true"></span>
+                    </div>
+                    <div class="col-auto">
+                        <select class="custom-select" @bind="@Localization.Language">
+                            @if (Localization.Data != null)
+                            {
+                                @foreach (var lang in Localization.Data)
+                                {
+                                    <option value="@lang.Key">@lang.Value</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="form-row">
+                    <div class="col-auto py-2">
+                        <span class="fas fa-envelope"></span>
+                    </div>
+                    <div class="col-auto py-2">
+                        <a href="mailto:Strawberry_Str@hotmail.com">Email</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="form-row">
+                    <div class="col-auto py-2">
+                        <span class="fas fa-code-branch"></span>
+                    </div>
+                    <div class="col-auto py-2">
+                        <a href="https://github.com/Berrysoft/">Berrysoft</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        ThemeService.ThemeChanged += OnThemeChanged;
+        Localization.LanguageChangedAsync += OnLanguageChangedAsync;
+        await Task.Run(async () =>
+        {
+            await ThemeService.LoadDataAsync();
+            await Localization.LoadDataAsync();
+            StateHasChanged();
+        });
+    }
+
+    private void OnThemeChanged(object sender, Theme t)
+    {
+        StateHasChanged();
+    }
+
+    private ValueTask OnLanguageChangedAsync(object sender, string e)
+    {
+        StateHasChanged();
+        return new ValueTask();
+    }
+
+    public void Dispose()
+    {
+        ThemeService.ThemeChanged -= OnThemeChanged;
+        Localization.LanguageChangedAsync -= OnLanguageChangedAsync;
+    }
+}

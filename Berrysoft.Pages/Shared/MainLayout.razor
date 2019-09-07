@@ -20,6 +20,8 @@
     {
         await Task.Run(async () =>
         {
+            // Try to solve the bug on iOS.
+            await Task.Delay(500);
             await Localization.SetLanguageAsync(Thread.CurrentThread.CurrentUICulture.Name);
         });
     }

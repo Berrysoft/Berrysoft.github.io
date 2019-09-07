@@ -12,20 +12,24 @@
 {
     <NotFoundComponent />
 }
-else if (text != null)
+else if (text != null && post != null)
 {
-    <h1>@post.Title</h1>
-    <p class="text-secondary">
-        <time datetime="@post.Date">@post.Date.ToString(Localization.Culture.DateTimeFormat.LongDatePattern, Localization.Culture)</time>
-    </p>
-    @if (plainText)
-    {
-        @text
-    }
-    else
-    {
-        @((MarkupString)text)
-    }
+    <div class="fade-in fade-in-1">
+        <h1>@post.Title</h1>
+        <p class="text-secondary">
+            <time datetime="@post.Date">@post.Date.ToString(Localization.Culture.DateTimeFormat.LongDatePattern, Localization.Culture)</time>
+        </p>
+    </div>
+    <div class="fade-in fade-in-2">
+        @if (plainText)
+        {
+            @text
+        }
+        else
+        {
+            @((MarkupString)text)
+        }
+    </div>
 }
 
 @code {

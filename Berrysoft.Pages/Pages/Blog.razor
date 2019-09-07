@@ -7,22 +7,26 @@
 @inject ILocalizationService Localization
 @inject IBlogService BlogService
 
-<h1><Tred Key="blogTitle" /></h1>
+<div class="fade-in fade-in-1">
+    <h1><Tred Key="blogTitle" /></h1>
+</div>
 
-<ul class="list-group list-group-flush">
-    @if (BlogService.Data != null)
-    {
-        @foreach (var post in BlogService.Data.Reverse())
+<div class="fade-in fade-in-2">
+    <ul class="list-group list-group-flush">
+        @if (BlogService.Data != null)
         {
-            <li class="list-group-item">
-                <a href="blog/@post.Filename">
-                    <h2>@post.Title</h2>
-                </a>
-                <p>@post.Date.ToString(Localization.Culture)</p>
-            </li>
+            @foreach (var post in BlogService.Data.Reverse())
+            {
+                <li class="list-group-item">
+                    <a href="blog/@post.Filename">
+                        <h2>@post.Title</h2>
+                    </a>
+                    <p>@post.Date.ToString(Localization.Culture)</p>
+                </li>
+            }
         }
-    }
-</ul>
+    </ul>
+</div>
 
 @code {
     protected override async Task OnInitializedAsync()

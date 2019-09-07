@@ -5,26 +5,30 @@
 @inject HttpClient Http
 @inject ProjectService Project
 
-<h1><Tred Key="indexTitle" /></h1>
+<div class="fade-in fade-in-1">
+    <h1><Tred Key="indexTitle" /></h1>
 
-<p><Tred Key="indexDescription" /></p>
+    <p><Tred Key="indexDescription" /></p>
+</div>
 
 @if (Project.Data != null)
 {
-    <h2><Tred Key="indexOtherProjects" /></h2>
+    <div class="fade-in fade-in-2">
+        <h2><Tred Key="indexOtherProjects" /></h2>
 
-    <DataGrid T="ProjectBox" Items="@Project.Data">
-        <Headers>
-            <DataGridHeader PropertyName="Name" Sortable="true"><Tred Key="indexOtherProjectName" /></DataGridHeader>
-            <DataGridHeader PropertyName="Language" Sortable="true"><Tred Key="indexOtherProjectLanguage" /></DataGridHeader>
-            <DataGridHeader PropertyName="Description" Sortable="false"><Tred Key="indexOtherProjectDescription" /></DataGridHeader>
-        </Headers>
-        <ChildContent Context="project">
-            <td><a href="@project.Url">@project.Name</a></td>
-            <td>@project.Language</td>
-            <td>@project.Description</td>
-        </ChildContent>
-    </DataGrid>
+        <DataGrid T="ProjectBox" Items="@Project.Data">
+            <Headers>
+                <DataGridHeader PropertyName="Name" Sortable="true"><Tred Key="indexOtherProjectName" /></DataGridHeader>
+                <DataGridHeader PropertyName="Language" Sortable="true"><Tred Key="indexOtherProjectLanguage" /></DataGridHeader>
+                <DataGridHeader PropertyName="Description" Sortable="false"><Tred Key="indexOtherProjectDescription" /></DataGridHeader>
+            </Headers>
+            <ChildContent Context="project">
+                <td><a href="@project.Url">@project.Name</a></td>
+                <td>@project.Language</td>
+                <td>@project.Description</td>
+            </ChildContent>
+        </DataGrid>
+    </div>
 }
 
 @code {

@@ -56,10 +56,9 @@ namespace Berrysoft.Pages.Data
                     await LanguageChangedAsync(this, language);
                 }
             }
-            Culture = CultureInfo.GetCultureInfo(Language == InvarientLanguage ? string.Empty : Language);
         }
 
-        public CultureInfo Culture { get; private set; }
+        public CultureInfo Culture => CultureInfo.GetCultureInfo(Language == InvarientLanguage ? string.Empty : Language);
 
         public event LanguageChangedAsyncCallback LanguageChangedAsync;
 

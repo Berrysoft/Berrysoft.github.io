@@ -4,27 +4,31 @@
 
 @inject LibraryService Library
 
-<h1><Tred Key="aboutTitle" /></h1>
-<p class="text-secondary">
-    Copyright (c) 2019 Berrysoft
-    <br />
-    <a href="https://github.com/Berrysoft/Berrysoft.github.io"><Tred Key="aboutProjectSource" /></a>
-</p>
+<div class="fade-in fade-in-1">
+    <h1><Tred Key="aboutTitle" /></h1>
+    <p class="text-secondary">
+        Copyright (c) 2019 Berrysoft
+        <br />
+        <a href="https://github.com/Berrysoft/Berrysoft.github.io"><Tred Key="aboutProjectSource" /></a>
+    </p>
+</div>
 
 @if (Library.Data != null)
 {
-    <h2><Tred Key="aboutOtherLibraries" /></h2>
+    <div class="fade-in fade-in-2">
+        <h2><Tred Key="aboutOtherLibraries" /></h2>
 
-    <DataGrid T="LibraryBox" Items="@Library.Data">
-        <Headers>
-            <DataGridHeader PropertyName="Name" Sortable="true"><Tred Key="aboutOtherLibraryName" /></DataGridHeader>
-            <DataGridHeader PropertyName="License" Sortable="true"><Tred Key="aboutOtherLibraryLicense" /></DataGridHeader>
-        </Headers>
-        <ChildContent Context="library">
-            <td><a href="@library.Url">@library.Name</a></td>
-            <td>@((MarkupString)library.License)</td>
-        </ChildContent>
-    </DataGrid>
+        <DataGrid T="LibraryBox" Items="@Library.Data">
+            <Headers>
+                <DataGridHeader PropertyName="Name" Sortable="true"><Tred Key="aboutOtherLibraryName" /></DataGridHeader>
+                <DataGridHeader PropertyName="License" Sortable="true"><Tred Key="aboutOtherLibraryLicense" /></DataGridHeader>
+            </Headers>
+            <ChildContent Context="library">
+                <td><a href="@library.Url">@library.Name</a></td>
+                <td>@((MarkupString)library.License)</td>
+            </ChildContent>
+        </DataGrid>
+    </div>
 }
 
 @code {

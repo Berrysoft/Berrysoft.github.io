@@ -46,7 +46,7 @@ namespace Berrysoft.Pages.Data
                 {
                     if (Data == null)
                     {
-                        Data = await Http.GetJsonAsync<BlogPost[]>("blog/index.json");
+                        Data = await Http.GetJsonAsync<BlogPost[]>("blogdata/index.json");
                     }
                 });
             }
@@ -78,7 +78,7 @@ namespace Berrysoft.Pages.Data
             var post = await GetBlogPostAsync(filename);
             if (post != null)
             {
-                var url = $"blog/{filename}.{GetExtensionFromType(post.Type)}";
+                var url = $"blogdata/{filename}.{GetExtensionFromType(post.Type)}";
                 return await Http.GetStringAsync(url);
             }
             else

@@ -14,7 +14,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Localization.LanguageChanged += OnLocalizationLanguageChanged;
+        Localization.LanguageChangedAsync += OnLocalizationLanguageChanged;
         await Task.Run(async () =>
         {
             text = await Localization.GetStringAsync(Key);
@@ -31,6 +31,6 @@
 
     public void Dispose()
     {
-        Localization.LanguageChanged -= OnLocalizationLanguageChanged;
+        Localization.LanguageChangedAsync -= OnLocalizationLanguageChanged;
     }
 }

@@ -1,4 +1,9 @@
-﻿@inherits LayoutComponentBase
+﻿@using System.Threading
+@using Berrysoft.Pages.Data
+
+@inherits LayoutComponentBase
+
+@inject ILocalizationService Localization
 
 <div class="wrapper">
     <NavMenu />
@@ -9,3 +14,13 @@
         @Body
     </div>
 </div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(async () =>
+        {
+            await Localization.SetLanguageAsync(Thread.CurrentThread.CurrentUICulture.Name);
+        });
+    }
+}

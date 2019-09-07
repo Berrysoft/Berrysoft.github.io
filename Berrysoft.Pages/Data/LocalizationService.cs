@@ -12,8 +12,9 @@ namespace Berrysoft.Pages.Data
     public interface ILocalizationService : IDataLoaderService<IReadOnlyDictionary<string, string>>
     {
         string Language { get; set; }
+        ValueTask SetLanguageAsync(string value);
         ValueTask<string> GetStringAsync(string key);
-        event LanguageChangedAsyncCallback LanguageChanged;
+        event LanguageChangedAsyncCallback LanguageChangedAsync;
     }
 
     public class LocalizationService : ILocalizationService
@@ -40,21 +41,23 @@ namespace Berrysoft.Pages.Data
             get => language;
             set => SetLanguage(value);
         }
-        private async void SetLanguage(string value)
+        private async void SetLanguage(string value) => await SetLanguageAsync(value);
+
+        public async ValueTask SetLanguageAsync(string value)
         {
             await LoadDataAsync();
             value = GetCompatibleLanguage(value);
             if (language != value)
             {
                 language = value;
-                if (LanguageChanged != null)
+                if (LanguageChangedAsync != null)
                 {
-                    await LanguageChanged(this, language);
+                    await LanguageChangedAsync(this, language);
                 }
             }
         }
 
-        public event LanguageChangedAsyncCallback LanguageChanged;
+        public event LanguageChangedAsyncCallback LanguageChangedAsync;
 
         public ValueTask LoadDataAsync()
         {

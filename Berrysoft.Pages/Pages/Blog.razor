@@ -12,26 +12,24 @@
 </div>
 
 <div class="fade-in fade-in-2">
-    <ul class="list-group list-group-flush">
+    <div class="list-group list-group-flush">
         @if (BlogService.Data != null)
         {
             @foreach (var post in BlogService.Data.Reverse())
             {
-                <li class="list-group-item">
-                    <a href="blog/@post.Filename">
-                        <h2>@post.Title</h2>
-                    </a>
+                <a class="list-group-item list-group-item-action" href="blog/@post.Filename">
+                    <h2>@post.Title</h2>
                     <p>@post.Date.ToString(Localization.Culture)</p>
-                </li>
+                </a>
             }
         }
-    </ul>
+    </div>
 </div>
 
 @code {
     protected override async Task OnInitializedAsync()
     {
-        Localization.LanguageChangedAsync += OnLanguageChanged;
+        Localization.LanguageChanged += OnLanguageChanged;
         await Task.Run(async () =>
         {
             await BlogService.LoadDataAsync();
@@ -39,14 +37,13 @@
         });
     }
 
-    private ValueTask OnLanguageChanged(object sender, string e)
+    private void OnLanguageChanged(object sender, string e)
     {
         StateHasChanged();
-        return new ValueTask();
     }
 
     public void Dispose()
     {
-        Localization.LanguageChangedAsync -= OnLanguageChanged;
+        Localization.LanguageChanged -= OnLanguageChanged;
     }
 }

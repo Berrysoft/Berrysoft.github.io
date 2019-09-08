@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Berrysoft.Pages.Data
 {
+    public delegate void LanguageChangedCallback(object sender, string lang);
     public delegate ValueTask LanguageChangedAsyncCallback(object sender, string lang);
 
     public interface ILocalizationService : IDataLoaderService<IReadOnlyDictionary<string, string>>
@@ -15,6 +16,7 @@ namespace Berrysoft.Pages.Data
         CultureInfo Culture { get; }
         ValueTask SetLanguageAsync(string value);
         ValueTask<string> GetStringAsync(string key);
+        event LanguageChangedCallback LanguageChanged;
         event LanguageChangedAsyncCallback LanguageChangedAsync;
     }
 
@@ -51,16 +53,23 @@ namespace Berrysoft.Pages.Data
             if (language != value)
             {
                 language = value;
-                if (LanguageChangedAsync != null)
-                {
-                    await LanguageChangedAsync(this, language);
-                }
+                await OnLanguageChangedAsync(language);
             }
         }
 
         public CultureInfo Culture => CultureInfo.GetCultureInfo(Language == InvarientLanguage ? string.Empty : Language);
 
+        public event LanguageChangedCallback LanguageChanged;
         public event LanguageChangedAsyncCallback LanguageChangedAsync;
+
+        protected virtual async ValueTask OnLanguageChangedAsync(string lang)
+        {
+            if (LanguageChangedAsync != null)
+            {
+                await LanguageChangedAsync(this, lang);
+            }
+            LanguageChanged?.Invoke(this, lang);
+        }
 
         public ValueTask LoadDataAsync()
         {

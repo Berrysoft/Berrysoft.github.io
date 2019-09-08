@@ -45,7 +45,7 @@ else if (text != null && post != null)
 
     protected override async Task OnInitializedAsync()
     {
-        Localization.LanguageChangedAsync += OnLanguageChanged;
+        Localization.LanguageChanged += OnLanguageChanged;
         await Task.Run(async () =>
         {
             post = await BlogService.GetBlogPostAsync(Filename);
@@ -70,14 +70,13 @@ else if (text != null && post != null)
         });
     }
 
-    private ValueTask OnLanguageChanged(object sender, string e)
+    private void OnLanguageChanged(object sender, string e)
     {
         StateHasChanged();
-        return new ValueTask();
     }
 
     public void Dispose()
     {
-        Localization.LanguageChangedAsync -= OnLanguageChanged;
+        Localization.LanguageChanged -= OnLanguageChanged;
     }
 }

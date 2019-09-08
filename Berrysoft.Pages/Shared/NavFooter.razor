@@ -72,7 +72,7 @@
     protected override async Task OnInitializedAsync()
     {
         ThemeService.ThemeChanged += OnThemeChanged;
-        Localization.LanguageChangedAsync += OnLanguageChangedAsync;
+        Localization.LanguageChanged += OnLanguageChanged;
         await Task.Run(async () =>
         {
             await ThemeService.LoadDataAsync();
@@ -86,15 +86,14 @@
         StateHasChanged();
     }
 
-    private ValueTask OnLanguageChangedAsync(object sender, string e)
+    private void OnLanguageChanged(object sender, string e)
     {
         StateHasChanged();
-        return new ValueTask();
     }
 
     public void Dispose()
     {
         ThemeService.ThemeChanged -= OnThemeChanged;
-        Localization.LanguageChangedAsync -= OnLanguageChangedAsync;
+        Localization.LanguageChanged -= OnLanguageChanged;
     }
 }

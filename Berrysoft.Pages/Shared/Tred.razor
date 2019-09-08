@@ -17,7 +17,7 @@
         Localization.LanguageChangedAsync += OnLocalizationLanguageChanged;
         await Task.Run(async () =>
         {
-            text = await Localization.GetStringAsync(Key);
+            await RefreshTextAsync();
         });
     }
 

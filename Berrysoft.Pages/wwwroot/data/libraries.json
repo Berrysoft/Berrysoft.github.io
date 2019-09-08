@@ -27,6 +27,12 @@
   {
     "name": "Font-Awesome",
     "url": "https://github.com/FortAwesome/Font-Awesome",
-    "license": "<a href=\"https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt\">Font Awesome Free License</a>"
+    "license": "Font Awesome Free License",
+    "licenseUrl": "https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt"
+  },
+  {
+    "name": "Pek.Markdig.HighlightJs",
+    "url": "https://github.com/pauldotknopf/Pek.Markdig.HighlightJs",
+    "license": "MIT"
   }
 ]

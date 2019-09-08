@@ -24,8 +24,26 @@
                 <DataGridHeader PropertyName="License" Sortable="true"><Tred Key="aboutOtherLibraryLicense" /></DataGridHeader>
             </Headers>
             <ChildContent Context="library">
-                <td><a href="@library.Url">@library.Name</a></td>
-                <td>@((MarkupString)library.License)</td>
+                <td>
+                    @if (library.Url == null)
+                    {
+                        @library.Name
+                    }
+                    else
+                    {
+                        <a href="@library.Url">@library.Name</a>
+                    }
+                </td>
+                <td>
+                    @if (library.LicenseUrl == null)
+                    {
+                        @library.License
+                    }
+                    else
+                    {
+                        <a href="@library.LicenseUrl">@library.License</a>
+                    }
+                </td>
             </ChildContent>
         </DataGrid>
     </div>

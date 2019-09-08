@@ -3,7 +3,11 @@
 
 @inherits LayoutComponentBase
 
+@implements IDisposable
+
+@inject ILocalStorage Storage
 @inject ILocalizationService Localization
+@inject IThemeService ThemeService
 
 <NavMenu />
 
@@ -14,11 +18,31 @@
 <NavFooter />
 
 @code {
+    private const string ThemeKey = "Theme";
+
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(async () =>
         {
             await Localization.SetLanguageAsync(Thread.CurrentThread.CurrentUICulture.Name);
+            if (await Storage.GetStorageAvaliableAsync())
+            {
+                if (await Storage.ContainsKeyAsync(ThemeKey))
+                {
+                    await ThemeService.SetThemeAsync(await Storage.GetItemAsync(ThemeKey));
+                }
+                ThemeService.ThemeChangedAsync += OnThemeChangedAsync;
+            }
         });
+    }
+
+    private async ValueTask OnThemeChangedAsync(object sender, Theme t)
+    {
+        await Storage.SetItemAsync(ThemeKey, t.Name);
+    }
+
+    public void Dispose()
+    {
+        ThemeService.ThemeChangedAsync -= OnThemeChangedAsync;
     }
 }

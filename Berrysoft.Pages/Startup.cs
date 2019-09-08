@@ -11,6 +11,7 @@ namespace Berrysoft.Pages
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddLoadingBar();
+            services.AddSingleton<ILocalStorage, LocalStorage>();
             services.AddSingleton<ILocalizationService, LocalizationService>();
             services.AddSingleton<IThemeService, ThemeService>();
             services.AddSingleton<ProjectService>();

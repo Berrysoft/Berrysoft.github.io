@@ -23,12 +23,15 @@ namespace Berrysoft.Pages.Data
     }
 
     public delegate void ThemeChangedCallback(object e, Theme t);
+    public delegate ValueTask ThemeChangedAsyncCallback(object e, Theme t);
 
     public interface IThemeService : IDataLoaderService<IEnumerable<string>>
     {
         string Theme { get; set; }
+        ValueTask SetThemeAsync(string value);
         ThemeType Navbar { get; }
         event ThemeChangedCallback ThemeChanged;
+        event ThemeChangedAsyncCallback ThemeChangedAsync;
     }
 
     public class ThemeService : IThemeService
@@ -56,7 +59,7 @@ namespace Berrysoft.Pages.Data
         }
         private async void SetTheme(string value) => await SetThemeAsync(value);
 
-        private async ValueTask SetThemeAsync(string value)
+        public async ValueTask SetThemeAsync(string value)
         {
             await LoadDataAsync();
             if (theme != value && !string.IsNullOrEmpty(value))
@@ -67,6 +70,14 @@ namespace Berrysoft.Pages.Data
         }
 
         public event ThemeChangedCallback ThemeChanged;
+        public event ThemeChangedAsyncCallback ThemeChangedAsync;
+
+        protected virtual async ValueTask OnThemeChangedAsync(Theme t)
+        {
+            if (ThemeChangedAsync != null)
+                await ThemeChangedAsync(this, t);
+            ThemeChanged?.Invoke(this, t);
+        }
 
         private async ValueTask SetThemeAsync(Theme storedTheme)
         {
@@ -76,9 +87,9 @@ namespace Berrysoft.Pages.Data
                 Navbar = storedTheme.Navbar;
                 foreach (var pair in storedTheme.Links)
                 {
-                    await JSRuntime.InvokeAsync<object>("changeStyle", pair.Key, pair.Value);
+                    await JSRuntime.InvokeVoidAsync("changeStyle", pair.Key, pair.Value);
                 }
-                ThemeChanged?.Invoke(this, storedTheme);
+                await OnThemeChangedAsync(storedTheme);
             }
         }
 

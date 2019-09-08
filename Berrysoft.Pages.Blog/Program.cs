@@ -1,35 +1,66 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
 using Berrysoft.Pages.Data;
+using CommandLine;
 
 namespace Berrysoft.Pages.Blog
 {
+    class Options
+    {
+        [Option('t', "title", Required = true)]
+        public string Title { get; set; }
+        [Option('i', "input", Required = true)]
+        public string InputPath { get; set; }
+        [Option('o', "output", Required = true)]
+        public string OutputPath { get; set; }
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
-            if (args.Length == 2)
+            Parser.Default.ParseArguments<Options>(args).WithParsed(OnParsed);
+        }
+
+        static void OnParsed(Options options)
+        {
+            var file = new FileInfo(options.InputPath);
+            var (fn, fnex) = GetFilename(file);
+            var post = new BlogPost
             {
-                var title = args[0];
-                var filename = args[1];
-                var file = new FileInfo(filename);
-                var (fn, fnex) = GetFilename(file);
-                var post = new BlogPost
+                Title = options.Title,
+                Date = DateTime.Now,
+                Filename = fn,
+                Type = GetPostType(file)
+            };
+            var directory = new DirectoryInfo(options.OutputPath);
+            if (directory.Exists)
+            {
+                file.MoveTo(Path.Combine(directory.FullName, fnex));
+                var indexFile = Path.Combine(directory.FullName, "index.json");
+                var list = JsonSerializer.Deserialize<List<BlogPost>>(File.ReadAllBytes(indexFile), new JsonSerializerOptions()
                 {
-                    Title = title,
-                    Date = DateTime.Now,
-                    Filename = fn,
-                    Type = GetPostType(file)
-                };
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+                list.Add(post);
+                File.WriteAllBytes(indexFile, JsonSerializer.SerializeToUtf8Bytes(list, new JsonSerializerOptions()
+                {
+                    WriteIndented = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    Encoder = JavaScriptEncoder.Create(new TextEncoderSettings(UnicodeRange.Create('\0', '\x7F'), UnicodeRange.Create('\x4E00', '\x9FBF')))
+                }));
+            }
+            else
+            {
                 string json = JsonSerializer.Serialize(post, new JsonSerializerOptions()
                 {
-                    WriteIndented = true
+                    WriteIndented = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 });
-                if (file.Exists)
-                {
-                    file.MoveTo(Path.Combine(file.Directory.FullName, fnex));
-                }
                 Console.WriteLine(json);
             }
         }

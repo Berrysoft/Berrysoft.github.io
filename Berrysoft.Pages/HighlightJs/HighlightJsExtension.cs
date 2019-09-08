@@ -1,0 +1,34 @@
+﻿using Markdig;
+using Markdig.Renderers;
+using Markdig.Renderers.Html;
+
+namespace Berrysoft.Pages.HighlightJs
+{
+    public class HighlightJsExtension : IMarkdownExtension
+    {
+        private readonly IHighlightJsEngine _highlightJsEngine;
+
+        public HighlightJsExtension(IHighlightJsEngine highlightJsEngine)
+        {
+            _highlightJsEngine = highlightJsEngine;
+        }
+
+        public void Setup(MarkdownPipelineBuilder pipeline) { }
+
+        public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
+        {
+            if (!(renderer is TextRendererBase<HtmlRenderer> htmlRenderer))
+            {
+                return;
+            }
+
+            var originalCodeBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<CodeBlockRenderer>();
+            if (originalCodeBlockRenderer != null)
+            {
+                htmlRenderer.ObjectRenderers.Remove(originalCodeBlockRenderer);
+            }
+
+            htmlRenderer.ObjectRenderers.AddIfNotAlready(new HighlightJsCodeBlockRenderer(_highlightJsEngine, originalCodeBlockRenderer));
+        }
+    }
+}

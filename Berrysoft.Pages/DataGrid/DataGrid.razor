@@ -1,6 +1,6 @@
 ﻿@typeparam T
 
-@inherits DataGridBase<T>
+@inherits DataGridBase
 
 <CascadingValue Value=this>
     <table class="table table-hover">
@@ -19,3 +19,8 @@
         </tbody>
     </table>
 </CascadingValue>
+
+@code {
+    [Parameter]
+    public RenderFragment<T> ChildContent { get; set; }
+}

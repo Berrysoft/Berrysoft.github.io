@@ -36,10 +36,4 @@ namespace Berrysoft.Pages.DataGrid
             StateHasChanged();
         }
     }
-
-    public class DataGridBase<T> : DataGridBase
-    {
-        [Parameter]
-        public RenderFragment<T> ChildContent { get; set; }
-    }
 }

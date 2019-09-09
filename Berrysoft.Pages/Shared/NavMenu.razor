@@ -5,7 +5,7 @@
 @inject IJSRuntime JSRuntime
 @inject IThemeService ThemeService
 
-<header class="navbar navbar-expand-lg @(ThemeService.Navbar == ThemeType.Dark ? "navbar-dark bg-dark" : "navbar-light bg-light")">
+<header class="navbar navbar-expand-lg @NavbarClass">
     <div class="container">
         <a class="navbar-brand" href="">Berrysoft</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
@@ -40,6 +40,8 @@
 </header>
 
 @code {
+    private string NavbarClass => ThemeService.Navbar == ThemeType.Dark ? "navbar-dark bg-dark" : "navbar-light bg-light";
+
     protected override async Task OnInitializedAsync()
     {
         ThemeService.ThemeChanged += OnThemeChanged;

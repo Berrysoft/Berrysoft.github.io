@@ -5,7 +5,7 @@
 @inject ILocalizationService Localization
 @inject IThemeService ThemeService
 
-<footer class="navbar @(ThemeService.Navbar == ThemeType.Dark ? "navbar-dark bg-dark" : "navbar-light bg-light")">
+<footer class="navbar @NavbarClass">
     <div class="container">
         <div class="form-row ml-md-auto">
             <div class="col-auto">
@@ -69,6 +69,8 @@
 </footer>
 
 @code {
+    private string NavbarClass => ThemeService.Navbar == ThemeType.Dark ? "navbar-dark bg-dark" : "navbar-light bg-light";
+
     protected override async Task OnInitializedAsync()
     {
         ThemeService.ThemeChanged += OnThemeChanged;

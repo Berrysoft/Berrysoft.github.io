@@ -328,3 +328,8 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# Http minified file
+*.min.js
+*.min.js.map
+*.min.css

@@ -8,6 +8,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\css\site.css" />
+    <Content Remove="wwwroot\js\site.js" />
+    <Content Remove="wwwroot\js\storage.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\site.css" />
+    <None Include="wwwroot\js\site.js" />
+    <None Include="wwwroot\js\storage.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
     <PackageReference Include="Markdig" Version="0.17.1" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.0.0-preview9.19424.4" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.0.0-preview9.19424.4" PrivateAssets="all" />

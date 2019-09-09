@@ -5,6 +5,7 @@
 
 @implements IDisposable
 
+@inject IJSRuntime JSRuntime
 @inject ILocalStorage Storage
 @inject ILocalizationService Localization
 @inject IThemeService ThemeService
@@ -24,14 +25,21 @@
     {
         await Task.Run(async () =>
         {
-            await Localization.SetLanguageAsync(Thread.CurrentThread.CurrentUICulture.Name);
-            if (await Storage.GetStorageAvaliableAsync())
+            try
             {
-                if (await Storage.ContainsKeyAsync(ThemeKey))
+                await Localization.SetLanguageAsync(Thread.CurrentThread.CurrentUICulture.Name);
+                if (await Storage.GetStorageAvaliableAsync())
                 {
-                    await ThemeService.SetThemeAsync(await Storage.GetItemAsync(ThemeKey));
+                    if (await Storage.ContainsKeyAsync(ThemeKey))
+                    {
+                        await ThemeService.SetThemeAsync(await Storage.GetItemAsync(ThemeKey));
+                    }
+                    ThemeService.ThemeChangedAsync += OnThemeChangedAsync;
                 }
-                ThemeService.ThemeChangedAsync += OnThemeChangedAsync;
+            }
+            catch (Exception e)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", e.ToString());
             }
         });
     }

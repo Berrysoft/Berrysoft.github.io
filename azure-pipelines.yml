@@ -17,6 +17,13 @@ steps:
     version: '3.0.100-preview9-014004'
 
 - task: DotNetCoreCLI@2
+  displayName: Build App
+  inputs:
+    command: build
+    projects: Berrysoft.Pages/Berrysoft.Pages.csproj
+    configuration: $(buildConfiguration)
+
+- task: DotNetCoreCLI@2
   displayName: Publish App
   inputs:
     command: publish

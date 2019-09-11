@@ -62,23 +62,12 @@ namespace Berrysoft.Pages.Data
             return Data.Where(post => post.Filename == filename).FirstOrDefault();
         }
 
-        private string GetExtensionFromType(BlogPostType type)
-        {
-            return type switch
-            {
-                BlogPostType.Text => "txt",
-                BlogPostType.Html => "htm",
-                BlogPostType.Markdown => "md",
-                _ => string.Empty
-            };
-        }
-
         public async ValueTask<string> GetBlogPostContentAsync(string filename)
         {
             var post = await GetBlogPostAsync(filename);
             if (post != null)
             {
-                var url = $"blogdata/{filename}.{GetExtensionFromType(post.Type)}";
+                var url = $"blogdata/{filename}";
                 return await Http.GetStringAsync(url);
             }
             else

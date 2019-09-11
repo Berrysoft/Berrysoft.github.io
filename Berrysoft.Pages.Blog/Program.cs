@@ -29,7 +29,7 @@ namespace Berrysoft.Pages.Blog
         static void OnParsed(Options options)
         {
             var file = new FileInfo(options.InputPath);
-            var (fn, fnex) = GetFilename(file);
+            var fn = GetFilename(file);
             var post = new BlogPost
             {
                 Title = options.Title,
@@ -40,7 +40,7 @@ namespace Berrysoft.Pages.Blog
             var directory = new DirectoryInfo(options.OutputPath);
             if (directory.Exists)
             {
-                file.MoveTo(Path.Combine(directory.FullName, fnex));
+                file.MoveTo(Path.Combine(directory.FullName, fn));
                 var indexFile = Path.Combine(directory.FullName, "index.json");
                 var list = JsonSerializer.Deserialize<List<BlogPost>>(File.ReadAllBytes(indexFile), new JsonSerializerOptions()
                 {
@@ -65,22 +65,12 @@ namespace Berrysoft.Pages.Blog
             }
         }
 
-        static (string, string) GetFilename(FileInfo file)
+        static string GetFilename(FileInfo file)
         {
             string[] slices = file.Name.Split('.');
             string name = string.Join('.', slices[..^1]);
             var now = DateTime.Now;
-            var filename = $"{name}_{now.Year}_{now.Month}_{now.Day}";
-            var filenameWithEx = $"{name}_{now.Year}_{now.Month}_{now.Day}.{slices[^1]}";
-            switch (slices[^1])
-            {
-                case "txt":
-                case "htm":
-                case "md":
-                    return (filename, filenameWithEx);
-                default:
-                    return (filenameWithEx, filenameWithEx);
-            }
+            return $"{name}_{now.Year}_{now.Month}_{now.Day}.{slices[^1]}";
         }
 
         static BlogPostType GetPostType(FileInfo file)

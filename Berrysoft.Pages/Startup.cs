@@ -17,7 +17,7 @@ namespace Berrysoft.Pages
             services.AddSingleton<ProjectService>();
             services.AddSingleton<ICounterService, CounterService>();
             services.AddSingleton<IBlogService, BlogService>();
-            services.AddSingleton<IHighlightJsEngine, HighlightJsEngine>();
+            services.AddHighlightJs();
             services.AddSingleton<LibraryService>();
         }
 

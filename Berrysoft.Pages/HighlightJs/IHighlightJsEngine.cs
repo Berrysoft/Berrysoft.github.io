@@ -1,4 +1,4 @@
-﻿namespace Berrysoft.Pages.HighlightJs
+﻿namespace Pek.Markdig.HighlightJs
 {
     public interface IHighlightJsEngine
     {

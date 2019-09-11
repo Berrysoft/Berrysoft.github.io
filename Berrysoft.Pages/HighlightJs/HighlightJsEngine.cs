@@ -1,4 +1,5 @@
 ﻿using Microsoft.JSInterop;
+using Pek.Markdig.HighlightJs;
 
 namespace Berrysoft.Pages.HighlightJs
 {

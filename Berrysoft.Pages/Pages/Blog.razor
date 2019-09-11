@@ -19,7 +19,9 @@
             {
                 <a class="list-group-item list-group-item-action" href="blog/@post.Filename">
                     <h2>@post.Title</h2>
-                    <p>@post.Date.ToString(Localization.Culture)</p>
+                    <p class="text-secondary">
+                        <time datetime="@post.Date">@post.Date.ToString(Localization.Culture)</time>
+                    </p>
                 </a>
             }
         }

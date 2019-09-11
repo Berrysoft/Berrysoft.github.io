@@ -1,4 +1,6 @@
 ﻿using Markdig;
+using Microsoft.Extensions.DependencyInjection;
+using Pek.Markdig.HighlightJs;
 
 namespace Berrysoft.Pages.HighlightJs
 {
@@ -8,6 +10,11 @@ namespace Berrysoft.Pages.HighlightJs
         {
             pipeline.Extensions.Add(new HighlightJsExtension(highlightJsEngine));
             return pipeline;
+        }
+
+        public static IServiceCollection AddHighlightJs(this IServiceCollection services)
+        {
+            return services.AddSingleton<IHighlightJsEngine, HighlightJsEngine>();
         }
     }
 }

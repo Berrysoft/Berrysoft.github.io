@@ -3,6 +3,7 @@
 @using Berrysoft.Pages.Data
 @using Berrysoft.Pages.HighlightJs
 @using Markdig
+@using Pek.Markdig.HighlightJs
 
 @implements IDisposable
 
@@ -47,7 +48,8 @@ else if (text != null && post != null)
 
     protected override async Task OnInitializedAsync()
     {
-        markdigPipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseHighlightJs(HighlightJsEngine).Build();
+        if (markdigPipeline == null)
+            markdigPipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseHighlightJs(HighlightJsEngine).Build();
         Localization.LanguageChanged += OnLanguageChanged;
         await Task.Run(async () =>
         {

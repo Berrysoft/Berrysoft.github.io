@@ -1,6 +1,12 @@
 ﻿<th scope="col" style="cursor: @(Sortable ? "pointer" : "auto")" @onclick="OnColumnClick">
-    @ChildContent
-    <span class="fas @IconClass" hidden="@IconHidden"></span>
+    <div class="row">
+        <div class="col">
+            @ChildContent
+        </div>
+        <div class="col-auto" hidden="@IconHidden">
+            <span class="fas @IconClass"></span>
+        </div>
+    </div>
 </th>
 
 @code {

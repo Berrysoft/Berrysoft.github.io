@@ -4,7 +4,7 @@ using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Markdig.Syntax;
 
-namespace Berrysoft.Pages.HighlightJs
+namespace Pek.Markdig.HighlightJs
 {
     public class HighlightJsCodeBlockRenderer : HtmlObjectRenderer<CodeBlock>
     {

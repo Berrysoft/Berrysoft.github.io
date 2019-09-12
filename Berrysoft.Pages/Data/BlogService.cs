@@ -2,26 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 
 namespace Berrysoft.Pages.Data
 {
-    public enum BlogPostType
-    {
-        Text,
-        Html,
-        Markdown
-    }
-
     public class BlogPost
     {
         public string Title { get; set; }
         public DateTime Date { get; set; }
         public string Filename { get; set; }
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public BlogPostType Type { get; set; }
     }
 
     public interface IBlogService : IDataLoaderService<IEnumerable<BlogPost>>
@@ -67,7 +57,7 @@ namespace Berrysoft.Pages.Data
             var post = await GetBlogPostAsync(filename);
             if (post != null)
             {
-                var url = $"blogdata/{filename}";
+                var url = $"blogdata/{filename}.md";
                 return await Http.GetStringAsync(url);
             }
             else

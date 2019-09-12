@@ -2,6 +2,7 @@
 
 @using Berrysoft.Pages.Data
 @using Berrysoft.Pages.HighlightJs
+@using Berrysoft.Pages.Katex
 @using Markdig
 @using Pek.Markdig.HighlightJs
 
@@ -10,6 +11,7 @@
 @inject ILocalizationService Localization
 @inject IBlogService BlogService
 @inject IHighlightJsEngine HighlightJsEngine
+@inject IKatexEngine KatexEngine
 
 @if (notFound)
 {
@@ -24,14 +26,7 @@ else if (text != null && post != null)
         </p>
     </div>
     <div class="fade-in fade-in-2">
-        @if (plainText)
-        {
-            @text
-        }
-        else
-        {
-            @((MarkupString)text)
-        }
+        @((MarkupString)text)
     </div>
 }
 
@@ -42,14 +37,13 @@ else if (text != null && post != null)
     private BlogPost post;
     private string text;
     private bool notFound;
-    private bool plainText;
 
     private MarkdownPipeline markdigPipeline;
 
     protected override async Task OnInitializedAsync()
     {
         if (markdigPipeline == null)
-            markdigPipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseHighlightJs(HighlightJsEngine).Build();
+            markdigPipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseHighlightJs(HighlightJsEngine).UseKatex(KatexEngine).Build();
         Localization.LanguageChanged += OnLanguageChanged;
         await Task.Run(async () =>
         {
@@ -57,19 +51,11 @@ else if (text != null && post != null)
             if (post == null)
             {
                 text = null;
-                plainText = true;
                 notFound = true;
             }
             else
             {
-                var content = await BlogService.GetBlogPostContentAsync(Filename);
-                text = post.Type switch
-                {
-                    BlogPostType.Html => content,
-                    BlogPostType.Markdown => Markdown.ToHtml(content, markdigPipeline),
-                    _ => content
-                };
-                plainText = post.Type == BlogPostType.Text;
+                text = Markdown.ToHtml(await BlogService.GetBlogPostContentAsync(Filename), markdigPipeline);
                 notFound = false;
             }
         });

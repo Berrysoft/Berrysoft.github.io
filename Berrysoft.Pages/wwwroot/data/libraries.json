@@ -20,8 +20,18 @@
     "license": "MIT"
   },
   {
+    "name": "jQuery",
+    "url": "https://github.com/jquery/jquery",
+    "license": "MIT"
+  },
+  {
     "name": "bootstrap",
     "url": "https://github.com/twbs/bootstrap",
+    "license": "MIT"
+  },
+  {
+    "name": "bootswatch",
+    "url": "https://github.com/thomaspark/bootswatch",
     "license": "MIT"
   },
   {
@@ -31,8 +41,24 @@
     "licenseUrl": "https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt"
   },
   {
+    "name": "Highlight.js",
+    "url": "https://github.com/highlightjs/highlight.js",
+    "license": "Highlight.js License",
+    "licenseUrl": "https://github.com/highlightjs/highlight.js/blob/master/LICENSE"
+  },
+  {
     "name": "Pek.Markdig.HighlightJs",
     "url": "https://github.com/pauldotknopf/Pek.Markdig.HighlightJs",
     "license": "MIT"
+  },
+  {
+    "name": "KaTeX",
+    "url": "https://github.com/KaTeX/KaTeX",
+    "license": "MIT"
+  },
+  {
+    "name": "BuildBundlerMinifier",
+    "url": "https://github.com/madskristensen/BundlerMinifier",
+    "license": "Apache 2.0"
   }
 ]

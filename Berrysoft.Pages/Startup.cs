@@ -26,6 +26,7 @@ namespace Berrysoft.Pages
         public void Configure(IComponentsApplicationBuilder app)
         {
             app.UseLoadingBar();
+            app.UseLocalTimeZone();
             app.AddComponent<App>("app");
         }
     }

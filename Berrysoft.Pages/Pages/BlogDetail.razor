@@ -22,7 +22,7 @@ else if (text != null && post != null)
     <div class="fade-in fade-in-1">
         <h1>@post.Title</h1>
         <p class="text-secondary">
-            <time datetime="@post.Date">@post.Date.ToString(Localization.Culture.DateTimeFormat.LongDatePattern, Localization.Culture)</time>
+            <time datetime="@post.Date">@post.Date.ToString(Localization.Culture.DateTimeFormat.FullDateTimePattern, Localization.Culture)</time>
         </p>
     </div>
     <div class="fade-in fade-in-2">

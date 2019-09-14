@@ -1,6 +1,6 @@
 [
   {
-    "name": "defaultTheme",
+    "name": "Bootstrap",
     "navbar": "light",
     "links": {
       "bootstrapStyle": "https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css",
@@ -8,26 +8,26 @@
     }
   },
   {
-    "name": "solarTheme",
+    "name": "Solar",
     "navbar": "dark",
     "links": {
-      "bootstrapStyle": "https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/solar/bootstrap.min.css",
+      "bootstrapStyle": "https://cdn.bootcss.com/bootswatch/4.3.1/solar/bootstrap.min.css",
       "highlightStyle": "https://cdn.bootcss.com/highlight.js/9.15.10/styles/solarized-dark.min.css"
     }
   },
   {
-    "name": "lightTheme",
+    "name": "Flatly",
     "navbar": "light",
     "links": {
-      "bootstrapStyle": "https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/flatly/bootstrap.min.css",
+      "bootstrapStyle": "https://cdn.bootcss.com/bootswatch/4.3.1/flatly/bootstrap.min.css",
       "highlightStyle": "https://cdn.bootcss.com/highlight.js/9.15.9/styles/atom-one-light.min.css"
     }
   },
   {
-    "name": "darkTheme",
+    "name": "Darkly",
     "navbar": "light",
     "links": {
-      "bootstrapStyle": "https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css",
+      "bootstrapStyle": "https://cdn.bootcss.com/bootswatch/4.3.1/darkly/bootstrap.min.css",
       "highlightStyle": "https://cdn.bootcss.com/highlight.js/9.15.10/styles/atom-one-dark.min.css"
     }
   }

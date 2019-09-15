@@ -10,14 +10,14 @@ namespace Berrysoft.Pages.Data
     public delegate void LanguageChangedCallback(object sender, string lang);
     public delegate ValueTask LanguageChangedAsyncCallback(object sender, string lang);
 
-    public interface ILocalizationService : IDataLoaderService<IReadOnlyDictionary<string, string>>
+    public interface ILocalizationService : IDataLoaderService<IReadOnlyDictionary<string, string>?>
     {
-        string Language { get; set; }
+        string? Language { get; set; }
         CultureInfo Culture { get; }
-        ValueTask SetLanguageAsync(string value);
-        ValueTask<string> GetStringAsync(string key);
-        event LanguageChangedCallback LanguageChanged;
-        event LanguageChangedAsyncCallback LanguageChangedAsync;
+        ValueTask SetLanguageAsync(string? value);
+        ValueTask<string?> GetStringAsync(string key);
+        event LanguageChangedCallback? LanguageChanged;
+        event LanguageChangedAsyncCallback? LanguageChangedAsync;
     }
 
     public class LocalizationService : ILocalizationService
@@ -32,21 +32,21 @@ namespace Berrysoft.Pages.Data
 
         private const string InvarientLanguage = "invarient";
 
-        private Dictionary<string, string> languages;
-        public IReadOnlyDictionary<string, string> Data => languages;
+        private Dictionary<string, string>? languages;
+        public IReadOnlyDictionary<string, string>? Data => languages;
         private static readonly SemaphoreLocker languagesLocker = new SemaphoreLocker();
         private Dictionary<string, Dictionary<string, string>> strings;
         private static readonly SemaphoreLocker stringsLocker = new SemaphoreLocker();
 
-        private string language;
-        public string Language
+        private string? language;
+        public string? Language
         {
             get => language;
             set => SetLanguage(value);
         }
-        private async void SetLanguage(string value) => await SetLanguageAsync(value);
+        private async void SetLanguage(string? value) => await SetLanguageAsync(value);
 
-        public async ValueTask SetLanguageAsync(string value)
+        public async ValueTask SetLanguageAsync(string? value)
         {
             await LoadDataAsync();
             value = GetCompatibleLanguage(value);
@@ -59,8 +59,8 @@ namespace Berrysoft.Pages.Data
 
         public CultureInfo Culture => CultureInfo.GetCultureInfo(Language == InvarientLanguage ? string.Empty : Language);
 
-        public event LanguageChangedCallback LanguageChanged;
-        public event LanguageChangedAsyncCallback LanguageChangedAsync;
+        public event LanguageChangedCallback? LanguageChanged;
+        public event LanguageChangedAsyncCallback? LanguageChangedAsync;
 
         protected virtual async ValueTask OnLanguageChangedAsync(string lang)
         {
@@ -89,7 +89,7 @@ namespace Berrysoft.Pages.Data
             }
         }
 
-        private string GetParentLanguage(string lang)
+        private string? GetParentLanguage(string? lang)
         {
             try
             {
@@ -103,9 +103,9 @@ namespace Berrysoft.Pages.Data
             return lang;
         }
 
-        private string GetCompatibleLanguage(string lang)
+        private string GetCompatibleLanguage(string? lang)
         {
-            while (lang != null && !languages.ContainsKey(lang))
+            while (lang != null && !languages!.ContainsKey(lang))
             {
                 if (string.IsNullOrEmpty(lang))
                     return InvarientLanguage;
@@ -152,9 +152,9 @@ namespace Berrysoft.Pages.Data
             }
         }
 
-        public async ValueTask<string> GetStringAsync(string key)
+        public async ValueTask<string?> GetStringAsync(string key)
         {
-            string lang = Language ?? InvarientLanguage;
+            string? lang = Language ?? InvarientLanguage;
             while (lang != null)
             {
                 var document = await GetStringsAsync(lang);

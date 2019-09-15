@@ -13,7 +13,7 @@ namespace Berrysoft.Pages.DataGrid
 
     static class DataGridSortHelper
     {
-        public static IEnumerable<T> OrderBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector, DataGridSortDirection direction)
+        public static IEnumerable<T>? OrderBy<T, TKey>(this IEnumerable<T>? source, Func<T, TKey> keySelector, DataGridSortDirection direction)
         {
             return direction switch
             {

@@ -10,9 +10,9 @@ namespace Berrysoft.Pages.Data
         int SentenceCount { get; }
         int? AverageCount { get; }
 
-        string Text { get; set; }
+        string? Text { get; set; }
     }
-    
+
     public class CounterService : ICounterService
     {
         public int TotalCount { get; private set; }
@@ -23,8 +23,8 @@ namespace Berrysoft.Pages.Data
 
         public int? AverageCount { get; private set; }
 
-        private string text;
-        public string Text
+        private string? text;
+        public string? Text
         {
             get => text;
             set
@@ -43,19 +43,22 @@ namespace Berrysoft.Pages.Data
 
         private void CalculateCounts()
         {
-            var words = text
-                .Split(WordSeparator, StringSplitOptions.RemoveEmptyEntries)
-                .Select(w => w.Trim(WordTrimmer))
-                .Where(w => !string.IsNullOrEmpty(w))
-                .ToArray();
-            TotalCount = words.Length;
-            DistinctCount = words.Distinct(StringComparer.OrdinalIgnoreCase).Count();
-            SentenceCount = text
-                .Split(SentenceSeparator, StringSplitOptions.RemoveEmptyEntries)
-                .Select(w => w.Trim())
-                .Where(w => !string.IsNullOrEmpty(w))
-                .Count();
-            AverageCount = SentenceCount == 0 ? (int?)null : TotalCount / SentenceCount;
+            if (text != null)
+            {
+                var words = text
+                    .Split(WordSeparator, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(w => w.Trim(WordTrimmer))
+                    .Where(w => !string.IsNullOrEmpty(w))
+                    .ToArray();
+                TotalCount = words.Length;
+                DistinctCount = words.Distinct(StringComparer.OrdinalIgnoreCase).Count();
+                SentenceCount = text
+                    .Split(SentenceSeparator, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(w => w.Trim())
+                    .Where(w => !string.IsNullOrEmpty(w))
+                    .Count();
+                AverageCount = SentenceCount == 0 ? (int?)null : TotalCount / SentenceCount;
+            }
         }
     }
 }

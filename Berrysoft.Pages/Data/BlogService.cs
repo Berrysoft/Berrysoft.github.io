@@ -9,15 +9,15 @@ namespace Berrysoft.Pages.Data
 {
     public class BlogPost
     {
-        public string Title { get; set; }
+        public string? Title { get; set; }
         public DateTime Date { get; set; }
-        public string Filename { get; set; }
+        public string? Filename { get; set; }
     }
 
-    public interface IBlogService : IDataLoaderService<IEnumerable<BlogPost>>
+    public interface IBlogService : IDataLoaderService<IEnumerable<BlogPost>?>
     {
-        ValueTask<BlogPost> GetBlogPostAsync(string filename);
-        ValueTask<string> GetBlogPostContentAsync(string filename);
+        ValueTask<BlogPost?> GetBlogPostAsync(string filename);
+        ValueTask<string?> GetBlogPostContentAsync(string filename);
     }
 
     public class BlogService : IBlogService
@@ -25,7 +25,7 @@ namespace Berrysoft.Pages.Data
         protected HttpClient Http { get; set; }
         public BlogService(HttpClient http) => Http = http;
 
-        public IEnumerable<BlogPost> Data { get; private set; }
+        public IEnumerable<BlogPost>? Data { get; private set; }
         private static readonly SemaphoreLocker blogsLocker = new SemaphoreLocker();
 
         public ValueTask LoadDataAsync()
@@ -46,13 +46,13 @@ namespace Berrysoft.Pages.Data
             }
         }
 
-        public async ValueTask<BlogPost> GetBlogPostAsync(string filename)
+        public async ValueTask<BlogPost?> GetBlogPostAsync(string filename)
         {
             await LoadDataAsync();
-            return Data.Where(post => post.Filename == filename).FirstOrDefault();
+            return Data!.Where(post => post.Filename == filename).FirstOrDefault();
         }
 
-        public async ValueTask<string> GetBlogPostContentAsync(string filename)
+        public async ValueTask<string?> GetBlogPostContentAsync(string filename)
         {
             var post = await GetBlogPostAsync(filename);
             if (post != null)

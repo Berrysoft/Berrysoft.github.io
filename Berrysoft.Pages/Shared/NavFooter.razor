@@ -17,9 +17,9 @@
                         <select class="custom-select" @bind="@ThemeService.Theme">
                             @if (ThemeService.Data != null)
                             {
-                                @foreach (string theme in ThemeService.Data)
+                                @foreach (Theme theme in ThemeService.Data)
                                 {
-                                    <option value="@theme">@theme</option>
+                                    <option value="@theme.Name">@theme.Name</option>
                                 }
                             }
                         </select>

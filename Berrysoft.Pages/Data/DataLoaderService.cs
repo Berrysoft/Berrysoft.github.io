@@ -11,7 +11,7 @@ namespace Berrysoft.Pages.Data
         T Data { get; }
     }
 
-    public class EnumerableLoaderService<T> : IDataLoaderService<IEnumerable<T>>
+    public class EnumerableLoaderService<T> : IDataLoaderService<IEnumerable<T>?>
     {
         protected string Uri { get; set; }
         protected HttpClient Http { get; set; }
@@ -22,7 +22,7 @@ namespace Berrysoft.Pages.Data
             Http = http;
         }
 
-        public IEnumerable<T> Data { get; private set; }
+        public IEnumerable<T>? Data { get; private set; }
         private static readonly SemaphoreLocker dataLocker = new SemaphoreLocker();
 
         public ValueTask LoadDataAsync()

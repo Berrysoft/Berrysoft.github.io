@@ -10,11 +10,14 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in DisplayItems)
+            @if (DisplayItems != null)
             {
-                <tr>
-                    @ChildContent((T)item)
-                </tr>
+                @foreach (var item in DisplayItems)
+                {
+                    <tr>
+                        @ChildContent?.Invoke((T)item)
+                    </tr>
+                }
             }
         </tbody>
     </table>
@@ -22,5 +25,5 @@
 
 @code {
     [Parameter]
-    public RenderFragment<T> ChildContent { get; set; }
+    public RenderFragment<T>? ChildContent { get; set; }
 }

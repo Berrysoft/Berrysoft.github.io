@@ -11,18 +11,18 @@
 
 @code {
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
     public bool Sortable { get; set; }
 
     [Parameter]
-    public string PropertyName { get; set; }
+    public string? PropertyName { get; set; }
 
     [CascadingParameter]
-    public DataGridBase Grid { get; set; }
+    public DataGridBase? Grid { get; set; }
 
-    private Action<string, DataGridSortDirection> onclick;
+    private Action<string, DataGridSortDirection>? onclick;
 
     public DataGridSortDirection SortDirection { get; set; }
 
@@ -37,13 +37,16 @@
 
     protected override void OnParametersSet()
     {
-        onclick = Grid.SetColumnSortDirection;
-        Grid.ColumnSorted += OnGridSorted;
+        if (Grid != null)
+        {
+            onclick = Grid.SetColumnSortDirection;
+            Grid.ColumnSorted += OnGridSorted;
+        }
     }
 
     private void OnColumnClick()
     {
-        if (Sortable)
+        if (Sortable && PropertyName != null)
         {
             var dir = SortDirection;
             if (dir < DataGridSortDirection.Descending)

@@ -11,7 +11,7 @@ namespace Pek.Markdig.HighlightJs
         private readonly IHighlightJsEngine _highlightJsEngine;
         private readonly CodeBlockRenderer _underlyingRenderer;
 
-        public HighlightJsCodeBlockRenderer(IHighlightJsEngine highlightJsEngine, CodeBlockRenderer underlyingRenderer = null)
+        public HighlightJsCodeBlockRenderer(IHighlightJsEngine highlightJsEngine, CodeBlockRenderer? underlyingRenderer = null)
         {
             _highlightJsEngine = highlightJsEngine;
             _underlyingRenderer = underlyingRenderer ?? new CodeBlockRenderer();
@@ -19,10 +19,7 @@ namespace Pek.Markdig.HighlightJs
 
         protected override void Write(HtmlRenderer renderer, CodeBlock obj)
         {
-            var fencedCodeBlock = obj as FencedCodeBlock;
-            var parser = obj.Parser as FencedCodeBlockParser;
-
-            if (fencedCodeBlock == null || parser == null)
+            if (!(obj is FencedCodeBlock fencedCodeBlock) || !(obj.Parser is FencedCodeBlockParser parser))
             {
                 _underlyingRenderer.Write(renderer, obj);
                 return;
@@ -58,7 +55,7 @@ namespace Pek.Markdig.HighlightJs
         private string GetCode(CodeBlock obj)
         {
             var code = new StringBuilder();
-            string firstLine = null;
+            string? firstLine = null;
             foreach (var line in obj.Lines.Lines)
             {
                 var slice = line.Slice;

@@ -32,22 +32,22 @@ else if (text != null && post != null)
 
 @code {
     [Parameter]
-    public string Filename { get; set; }
+    public string? Filename { get; set; }
 
-    private BlogPost post;
-    private string text;
+    private BlogPost? post;
+    private string? text;
     private bool notFound;
 
-    private MarkdownPipeline markdigPipeline;
+    private MarkdownPipeline? markdigPipeline;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         if (markdigPipeline == null)
             markdigPipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseHighlightJs(HighlightJsEngine).UseKatex(KatexEngine).Build();
         Localization.LanguageChanged += OnLanguageChanged;
         await Task.Run(async () =>
         {
-            post = await BlogService.GetBlogPostAsync(Filename);
+            post = await BlogService.GetBlogPostAsync(Filename!);
             if (post == null)
             {
                 text = null;
@@ -55,7 +55,7 @@ else if (text != null && post != null)
             }
             else
             {
-                text = Markdown.ToHtml(await BlogService.GetBlogPostContentAsync(Filename), markdigPipeline);
+                text = Markdown.ToHtml(await BlogService.GetBlogPostContentAsync(Filename!), markdigPipeline);
                 notFound = false;
             }
         });

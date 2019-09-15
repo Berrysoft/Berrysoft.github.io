@@ -22,7 +22,7 @@ namespace Pek.Markdig.HighlightJs
                 return;
             }
 
-            var originalCodeBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<CodeBlockRenderer>();
+            CodeBlockRenderer? originalCodeBlockRenderer = htmlRenderer.ObjectRenderers.FindExact<CodeBlockRenderer>();
             if (originalCodeBlockRenderer != null)
             {
                 htmlRenderer.ObjectRenderers.Remove(originalCodeBlockRenderer);

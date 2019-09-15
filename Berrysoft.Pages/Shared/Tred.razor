@@ -8,11 +8,11 @@
 
 @code {
     [Parameter]
-    public string Key { get; set; }
+    public string? Key { get; set; }
 
-    string text;
+    string? text;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         Localization.LanguageChangedAsync += OnLocalizationLanguageChanged;
         await Task.Run(async () =>
@@ -25,7 +25,7 @@
 
     private async ValueTask RefreshTextAsync()
     {
-        text = await Localization.GetStringAsync(Key);
+        text = await Localization.GetStringAsync(Key!);
         StateHasChanged();
     }
 

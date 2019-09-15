@@ -12,11 +12,11 @@ namespace Berrysoft.Pages.Blog
     class Options
     {
         [Option('t', "title", Required = true)]
-        public string Title { get; set; }
+        public string? Title { get; set; }
         [Option('i', "input", Required = true)]
-        public string InputPath { get; set; }
+        public string? InputPath { get; set; }
         [Option('o', "output", Required = true)]
-        public string OutputPath { get; set; }
+        public string? OutputPath { get; set; }
     }
 
     class Program
@@ -28,16 +28,15 @@ namespace Berrysoft.Pages.Blog
 
         static void OnParsed(Options options)
         {
-            var file = new FileInfo(options.InputPath);
+            var file = new FileInfo(options.InputPath!);
             var fn = GetFilename(file);
             var post = new BlogPost
             {
-                Title = options.Title,
+                Title = options.Title!,
                 Date = DateTime.Now,
-                Filename = fn,
-                Type = GetPostType(file)
+                Filename = fn
             };
-            var directory = new DirectoryInfo(options.OutputPath);
+            var directory = new DirectoryInfo(options.OutputPath!);
             if (directory.Exists)
             {
                 file.MoveTo(Path.Combine(directory.FullName, fn));
@@ -70,18 +69,7 @@ namespace Berrysoft.Pages.Blog
             string[] slices = file.Name.Split('.');
             string name = string.Join('.', slices[..^1]);
             var now = DateTime.Now;
-            return $"{name}_{now.Year}_{now.Month}_{now.Day}.{slices[^1]}";
-        }
-
-        static BlogPostType GetPostType(FileInfo file)
-        {
-            string[] slices = file.Name.Split('.');
-            return slices[^1] switch
-            {
-                "htm" => BlogPostType.Html,
-                "md" => BlogPostType.Markdown,
-                _ => BlogPostType.Text
-            };
+            return $"{name}_{now.Year}_{now.Month}_{now.Day}";
         }
     }
 }

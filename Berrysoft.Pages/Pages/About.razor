@@ -18,34 +18,36 @@
     <div class="fade-in fade-in-2">
         <h2><Tred Key="aboutOtherLibraries" /></h2>
 
-        <DataGrid T="LibraryBox" Items="@Library.Data">
-            <Headers>
-                <DataGridHeader PropertyName="Name" Sortable="true"><Tred Key="aboutOtherLibraryName" /></DataGridHeader>
-                <DataGridHeader PropertyName="License" Sortable="true"><Tred Key="aboutOtherLibraryLicense" /></DataGridHeader>
-            </Headers>
-            <ChildContent Context="library">
-                <td>
-                    @if (library.Url == null)
-                    {
-                        @library.Name
-                    }
-                    else
-                    {
-                        <a href="@library.Url">@library.Name</a>
-                    }
-                </td>
-                <td>
-                    @if (library.LicenseUrl == null)
-                    {
-                        @library.License
-                    }
-                    else
-                    {
-                        <a href="@library.LicenseUrl">@library.License</a>
-                    }
-                </td>
-            </ChildContent>
-        </DataGrid>
+        <div class="table-responsive-xl">
+            <DataGrid T="LibraryBox" Items="@Library.Data">
+                <Headers>
+                    <DataGridHeader PropertyName="Name" Sortable="true"><Tred Key="aboutOtherLibraryName" /></DataGridHeader>
+                    <DataGridHeader PropertyName="License" Sortable="true"><Tred Key="aboutOtherLibraryLicense" /></DataGridHeader>
+                </Headers>
+                <ChildContent Context="library">
+                    <td>
+                        @if (library.Url == null)
+                        {
+                            @library.Name
+                        }
+                        else
+                        {
+                            <a href="@library.Url">@library.Name</a>
+                        }
+                    </td>
+                    <td>
+                        @if (library.LicenseUrl == null)
+                        {
+                            @library.License
+                        }
+                        else
+                        {
+                            <a href="@library.LicenseUrl">@library.License</a>
+                        }
+                    </td>
+                </ChildContent>
+            </DataGrid>
+        </div>
     </div>
 }
 

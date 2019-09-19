@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json.Serialization;
 
 namespace Berrysoft.Pages.Data
 {
@@ -25,6 +27,8 @@ namespace Berrysoft.Pages.Data
         public string? Type { get; set; }
         public GitHubRepo? Repo { get; set; }
         public GitHubPushPayload? Payload { get; set; }
+        [JsonPropertyName("created_at")]
+        public DateTime CreatedAt { get; set; }
     }
 
     public class GitHubEventService : EnumerableLoaderService<GitHubEvent>

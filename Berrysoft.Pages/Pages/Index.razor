@@ -3,6 +3,7 @@
 @using Berrysoft.Pages.Data
 
 @inject HttpClient Http
+@inject ILocalizationService Localization
 @inject GitHubEventService GitHubEvent
 @inject ProjectService Project
 
@@ -39,20 +40,26 @@
     <div class="fade-in fade-in-3">
         <h2><Tred Key="indexGitHubEvents" /></h2>
 
-        <div class="list-group list-group-flush">
-            @foreach (var e in GitHubEvent.Data.Where(ev => ev.Type == "PushEvent").Take(10))
-            {
-                <a class="list-group-item list-group-item-action" href="@($"https://github.com/{e.Repo!.Name}/commit/{e.Payload!.Commits.LastOrDefault()?.Sha}")">
-                    <div class="row">
-                        <div class="col">
-                            @e.Payload!.Commits.LastOrDefault()?.Message
-                        </div>
-                        <div class="col-auto ml-md-auto">
-                            @e.Repo!.Name
-                        </div>
-                    </div>
-                </a>
-            }
+        <div class="table-responsive-xl">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="row">Message</th>
+                        <th scope="row">Time</th>
+                        <th scope="row">Repo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var e in GitHubEvent.Data.Where(ev => ev.Type == "PushEvent").Take(10))
+                    {
+                        <tr>
+                            <td><a href="@($"https://github.com/{e.Repo!.Name}/commit/{e.Payload!.Commits.LastOrDefault()?.Sha}")">@e.Payload!.Commits.LastOrDefault()?.Message</a></td>
+                            <td><time datetime="@e.CreatedAt">@e.CreatedAt.ToString(Localization.Culture)</time></td>
+                            <td>@e.Repo!.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 }

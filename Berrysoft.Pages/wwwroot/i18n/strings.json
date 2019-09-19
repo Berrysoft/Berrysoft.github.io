@@ -14,6 +14,7 @@
   "indexGitHubEventMessage": "Message",
   "indexGitHubEventTime": "Time",
   "indexGitHubEventRepo": "Repository",
+  "indexLinks": "Links",
   "counterTitle": "Word Counter",
   "counterTotalCount": "Total words",
   "counterDistinctCount": "Isolated words",

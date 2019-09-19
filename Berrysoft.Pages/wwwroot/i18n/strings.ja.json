@@ -14,6 +14,7 @@
   "indexGitHubEventMessage": "メッセージ",
   "indexGitHubEventTime": "時間",
   "indexGitHubEventRepo": "リポジトリ",
+  "indexLinks": "リンク",
   "counterTitle": "単語カウンター",
   "counterTotalCount": "合計単語数",
   "counterDistinctCount": "独立語の数",

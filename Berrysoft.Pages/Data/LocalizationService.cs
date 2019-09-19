@@ -9,17 +9,7 @@ namespace Berrysoft.Pages.Data
     public delegate void LanguageChangedCallback(object sender, string lang);
     public delegate ValueTask LanguageChangedAsyncCallback(object sender, string lang);
 
-    public interface ILocalizationService : IDataLoaderService<IReadOnlyDictionary<string, string>?>
-    {
-        string? Language { get; set; }
-        CultureInfo Culture { get; }
-        ValueTask SetLanguageAsync(string? value);
-        ValueTask<string?> GetStringAsync(string key);
-        event LanguageChangedCallback? LanguageChanged;
-        event LanguageChangedAsyncCallback? LanguageChangedAsync;
-    }
-
-    public class LocalizationService : DataLoaderService<IReadOnlyDictionary<string, string>>, ILocalizationService
+    public class LocalizationService : DataLoaderService<IReadOnlyDictionary<string, string>>
     {
         public LocalizationService(HttpClient http) : base("i18n/index.json", http)
         {

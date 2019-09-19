@@ -13,13 +13,13 @@ namespace Berrysoft.Pages
         {
             services.AddLoadingBar();
             services.AddSingleton<ILocalStorage, LocalStorage>();
-            services.AddSingleton<ILocalizationService, LocalizationService>();
-            services.AddSingleton<IThemeService, ThemeService>();
+            services.AddSingleton<LocalizationService>();
+            services.AddSingleton<ThemeService>();
             services.AddSingleton<ProjectService>();
             services.AddSingleton<GitHubEventService>();
             services.AddSingleton<LinkService>();
-            services.AddSingleton<ICounterService, CounterService>();
-            services.AddSingleton<IBlogService, BlogService>();
+            services.AddSingleton<CounterService>();
+            services.AddSingleton<BlogService>();
             services.AddHighlightJs();
             services.AddKatex();
             services.AddSingleton<LibraryService>();

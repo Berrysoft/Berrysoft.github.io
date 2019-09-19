@@ -5,13 +5,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Berrysoft.Pages.Data
 {
-    public interface IDataLoaderService<T>
-    {
-        ValueTask LoadDataAsync();
-        T Data { get; }
-    }
-
-    public class DataLoaderService<T> : IDataLoaderService<T?>
+    public class DataLoaderService<T>
         where T : class
     {
         protected string Uri { get; set; }

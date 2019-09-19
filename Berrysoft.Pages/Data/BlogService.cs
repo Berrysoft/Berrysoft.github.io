@@ -17,12 +17,7 @@ namespace Berrysoft.Pages.Data
         public string? Filename { get; set; }
     }
 
-    public interface IBlogService : IDataLoaderService<IEnumerable<BlogPost>?>
-    {
-        ValueTask<(BlogPost?, string?)> GetBlogPostAsync(string filename);
-    }
-
-    public class BlogService : EnumerableLoaderService<BlogPost>, IBlogService
+    public class BlogService : EnumerableLoaderService<BlogPost>
     {
         protected IHighlightJsEngine HighlightJsEngine { get; set; }
 

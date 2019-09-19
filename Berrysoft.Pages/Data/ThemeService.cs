@@ -24,16 +24,7 @@ namespace Berrysoft.Pages.Data
     public delegate void ThemeChangedCallback(object e, Theme t);
     public delegate ValueTask ThemeChangedAsyncCallback(object e, Theme t);
 
-    public interface IThemeService : IDataLoaderService<IEnumerable<Theme>?>
-    {
-        string? Theme { get; set; }
-        ValueTask SetThemeAsync(string value);
-        ThemeType Navbar { get; }
-        event ThemeChangedCallback? ThemeChanged;
-        event ThemeChangedAsyncCallback? ThemeChangedAsync;
-    }
-
-    public class ThemeService : EnumerableLoaderService<Theme>, IThemeService
+    public class ThemeService : EnumerableLoaderService<Theme>
     {
         protected IJSRuntime JSRuntime { get; set; }
 

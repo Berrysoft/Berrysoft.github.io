@@ -40,12 +40,16 @@ else if (text != null && post != null)
 
     private MarkdownPipeline? markdigPipeline;
 
-    protected override async Task OnParametersSetAsync()
+    protected override void OnInitialized()
     {
         if (markdigPipeline == null)
             markdigPipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseHighlightJs(HighlightJsEngine).UseKatex(KatexEngine).Build();
         Localization.LanguageChanged += OnLanguageChanged;
-        await Task.Run(async () =>
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
         {
             post = await BlogService.GetBlogPostAsync(Filename!);
             if (post == null)
@@ -58,7 +62,8 @@ else if (text != null && post != null)
                 text = Markdown.ToHtml(await BlogService.GetBlogPostContentAsync(Filename!), markdigPipeline);
                 notFound = false;
             }
-        });
+            StateHasChanged();
+        }
     }
 
     private void OnLanguageChanged(object sender, string e)

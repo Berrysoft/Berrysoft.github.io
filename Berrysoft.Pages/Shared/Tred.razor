@@ -12,13 +12,17 @@
 
     string? text;
 
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
         Localization.LanguageChangedAsync += OnLocalizationLanguageChanged;
-        await Task.Run(async () =>
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
         {
             await RefreshTextAsync();
-        });
+        }
     }
 
     private ValueTask OnLocalizationLanguageChanged(object sender, string e) => RefreshTextAsync();

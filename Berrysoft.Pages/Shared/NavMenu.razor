@@ -42,14 +42,18 @@
 @code {
     private string NavbarClass => ThemeService.Navbar == ThemeType.Dark ? "navbar-dark bg-dark" : "navbar-light bg-light";
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         ThemeService.ThemeChanged += OnThemeChanged;
-        await Task.Run(async () =>
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
         {
             await ThemeService.LoadDataAsync();
             StateHasChanged();
-        });
+        }
     }
 
     private void OnThemeChanged(object sender, Theme t)

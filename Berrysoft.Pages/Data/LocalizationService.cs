@@ -57,7 +57,7 @@ namespace Berrysoft.Pages.Data
             }
         }
 
-        public CultureInfo Culture => CultureInfo.GetCultureInfo(Language == InvarientLanguage ? string.Empty : Language);
+        public CultureInfo Culture => CultureInfo.GetCultureInfo((Language == null || Language == InvarientLanguage) ? string.Empty : Language);
 
         public event LanguageChangedCallback? LanguageChanged;
         public event LanguageChangedAsyncCallback? LanguageChangedAsync;

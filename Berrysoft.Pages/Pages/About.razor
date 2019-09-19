@@ -52,12 +52,12 @@
 }
 
 @code {
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await Task.Run(async () =>
+        if (firstRender)
         {
             await Library.LoadDataAsync();
             StateHasChanged();
-        });
+        }
     }
 }

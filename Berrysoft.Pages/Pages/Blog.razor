@@ -29,14 +29,18 @@
 </div>
 
 @code {
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         Localization.LanguageChanged += OnLanguageChanged;
-        await Task.Run(async () =>
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
         {
             await BlogService.LoadDataAsync();
             StateHasChanged();
-        });
+        }
     }
 
     private void OnLanguageChanged(object sender, string e)

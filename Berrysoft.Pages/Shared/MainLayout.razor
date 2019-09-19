@@ -22,18 +22,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await Task.Run(async () =>
+        await Localization.SetLanguageAsync(Thread.CurrentThread.CurrentUICulture.Name);
+        if (await Storage.GetStorageAvaliableAsync())
         {
-            await Localization.SetLanguageAsync(Thread.CurrentThread.CurrentUICulture.Name);
-            if (await Storage.GetStorageAvaliableAsync())
+            if (await Storage.ContainsKeyAsync(ThemeKey))
             {
-                if (await Storage.ContainsKeyAsync(ThemeKey))
-                {
-                    await ThemeService.SetThemeAsync(await Storage.GetItemAsync(ThemeKey));
-                }
-                ThemeService.ThemeChangedAsync += OnThemeChangedAsync;
+                await ThemeService.SetThemeAsync(await Storage.GetItemAsync(ThemeKey));
             }
-        });
+            ThemeService.ThemeChangedAsync += OnThemeChangedAsync;
+        }
     }
 
     private async ValueTask OnThemeChangedAsync(object sender, Theme t)

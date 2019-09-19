@@ -3,6 +3,7 @@
 @using Berrysoft.Pages.Data
 
 @inject HttpClient Http
+@inject GitHubEventService GitHubEvent
 @inject ProjectService Project
 
 <div class="fade-in fade-in-1">
@@ -33,13 +34,38 @@
     </div>
 }
 
+@if (GitHubEvent.Data != null)
+{
+    <div class="fade-in fade-in-3">
+        <h2>GitHub Events</h2>
+
+        <div class="list-group list-group-flush">
+            @foreach (var e in GitHubEvent.Data.Where(ev => ev.Type == "PushEvent").Take(10))
+            {
+                <a class="list-group-item list-group-item-action" href="@($"https://github.com/{e.Repo!.Name}/commit/{e.Payload!.Commits.LastOrDefault()?.Sha}")">
+                    <div class="row">
+                        <div class="col">
+                            @e.Payload!.Commits.LastOrDefault()?.Message
+                        </div>
+                        <div class="col-auto ml-md-auto">
+                            @e.Repo!.Name
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+}
+
 @code {
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await Task.Run(async () =>
+        if (firstRender)
         {
             await Project.LoadDataAsync();
             StateHasChanged();
-        });
+            await GitHubEvent.LoadDataAsync();
+            StateHasChanged();
+        }
     }
 }

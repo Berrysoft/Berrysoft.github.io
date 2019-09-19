@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
+using Berrysoft.Pages.HighlightJs;
+using Berrysoft.Pages.Katex;
+using Markdig;
+using Pek.Markdig.HighlightJs;
 
 namespace Berrysoft.Pages.Data
 {
@@ -16,49 +19,38 @@ namespace Berrysoft.Pages.Data
 
     public interface IBlogService : IDataLoaderService<IEnumerable<BlogPost>?>
     {
-        ValueTask<BlogPost?> GetBlogPostAsync(string filename);
-        ValueTask<string?> GetBlogPostContentAsync(string filename);
+        ValueTask<(BlogPost?, string?)> GetBlogPostAsync(string filename);
     }
 
-    public class BlogService : IBlogService
+    public class BlogService : EnumerableLoaderService<BlogPost>, IBlogService
     {
-        protected HttpClient Http { get; set; }
-        public BlogService(HttpClient http) => Http = http;
+        protected IHighlightJsEngine HighlightJsEngine { get; set; }
 
-        public IEnumerable<BlogPost>? Data { get; private set; }
-        private static readonly SemaphoreLocker blogsLocker = new SemaphoreLocker();
+        protected IKatexEngine KatexEngine { get; set; }
 
-        public ValueTask LoadDataAsync()
+        protected MarkdownPipeline MarkdigPipeline { get; set; }
+
+        public BlogService(HttpClient http, IHighlightJsEngine highlightJsEngine, IKatexEngine katexEngine) : base("blogdata/index.json", http)
         {
-            if (Data == null)
-            {
-                return blogsLocker.LockAsync(async () =>
-                {
-                    if (Data == null)
-                    {
-                        Data = await Http.GetJsonAsync<BlogPost[]>("blogdata/index.json");
-                    }
-                });
-            }
-            else
-            {
-                return new ValueTask();
-            }
+            HighlightJsEngine = highlightJsEngine;
+            KatexEngine = katexEngine;
+            MarkdigPipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseHighlightJs(HighlightJsEngine).UseKatex(KatexEngine).Build();
         }
 
-        public async ValueTask<BlogPost?> GetBlogPostAsync(string filename)
+        public async ValueTask<(BlogPost?, string?)> GetBlogPostAsync(string filename)
         {
             await LoadDataAsync();
-            return Data!.Where(post => post.Filename == filename).FirstOrDefault();
+            var post = Data!.Where(post => post.Filename == filename).FirstOrDefault();
+            return (post, await GetBlogPostContentAsync(post));
         }
 
-        public async ValueTask<string?> GetBlogPostContentAsync(string filename)
+        private async ValueTask<string?> GetBlogPostContentAsync(BlogPost? post)
         {
-            var post = await GetBlogPostAsync(filename);
             if (post != null)
             {
-                var url = $"blogdata/{filename}.md";
-                return await Http.GetStringAsync(url);
+                var url = $"blogdata/{post.Filename}.md";
+                string md = await Http.GetStringAsync(url);
+                return Markdown.ToHtml(md, MarkdigPipeline);
             }
             else
             {

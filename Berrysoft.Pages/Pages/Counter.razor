@@ -10,24 +10,26 @@
 </div>
 
 <div class="fade-in fade-in-2">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col"><Tred Key="counterTotalCount" /></th>
-                <th scope="col"><Tred Key="counterDistinctCount" /></th>
-                <th scope="col"><Tred Key="counterSentenceCount" /></th>
-                <th scope="col"><Tred Key="counterAverageCount" /></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>@CounterService.TotalCount</td>
-                <td>@CounterService.DistinctCount</td>
-                <td>@CounterService.SentenceCount</td>
-                <td>@CounterService.AverageCount</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive-xl">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"><Tred Key="counterTotalCount" /></th>
+                    <th scope="col"><Tred Key="counterDistinctCount" /></th>
+                    <th scope="col"><Tred Key="counterSentenceCount" /></th>
+                    <th scope="col"><Tred Key="counterAverageCount" /></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@CounterService.TotalCount</td>
+                    <td>@CounterService.DistinctCount</td>
+                    <td>@CounterService.SentenceCount</td>
+                    <td>@CounterService.AverageCount</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div class="fade-in fade-in-3">

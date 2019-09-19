@@ -1,17 +1,11 @@
 ﻿@page "/blog/{filename}"
 
 @using Berrysoft.Pages.Data
-@using Berrysoft.Pages.HighlightJs
-@using Berrysoft.Pages.Katex
-@using Markdig
-@using Pek.Markdig.HighlightJs
 
 @implements IDisposable
 
 @inject ILocalizationService Localization
 @inject IBlogService BlogService
-@inject IHighlightJsEngine HighlightJsEngine
-@inject IKatexEngine KatexEngine
 
 @if (notFound)
 {
@@ -38,24 +32,11 @@ else if (text != null && post != null)
     private string? text;
     private bool notFound;
 
-    private MarkdownPipeline? markdigPipeline;
-
     protected override async Task OnInitializedAsync()
     {
-        if (markdigPipeline == null)
-            markdigPipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseHighlightJs(HighlightJsEngine).UseKatex(KatexEngine).Build();
         Localization.LanguageChanged += OnLanguageChanged;
-        post = await BlogService.GetBlogPostAsync(Filename!);
-        if (post == null)
-        {
-            text = null;
-            notFound = true;
-        }
-        else
-        {
-            text = Markdown.ToHtml(await BlogService.GetBlogPostContentAsync(Filename!), markdigPipeline);
-            notFound = false;
-        }
+        (post, text) = await BlogService.GetBlogPostAsync(Filename!);
+        notFound = post == null;
     }
 
     private void OnLanguageChanged(object sender, string e)

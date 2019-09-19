@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 
 namespace Berrysoft.Pages.Data
 {
@@ -20,21 +19,15 @@ namespace Berrysoft.Pages.Data
         event LanguageChangedAsyncCallback? LanguageChangedAsync;
     }
 
-    public class LocalizationService : ILocalizationService
+    public class LocalizationService : DataLoaderService<IReadOnlyDictionary<string, string>>, ILocalizationService
     {
-        protected HttpClient Http { get; set; }
-
-        public LocalizationService(HttpClient http)
+        public LocalizationService(HttpClient http) : base("i18n/index.json", http)
         {
-            Http = http;
             strings = new Dictionary<string, Dictionary<string, string>>();
         }
 
         private const string InvarientLanguage = "invarient";
 
-        private Dictionary<string, string>? languages;
-        public IReadOnlyDictionary<string, string>? Data => languages;
-        private static readonly SemaphoreLocker languagesLocker = new SemaphoreLocker();
         private Dictionary<string, Dictionary<string, string>> strings;
         private static readonly SemaphoreLocker stringsLocker = new SemaphoreLocker();
 
@@ -71,24 +64,6 @@ namespace Berrysoft.Pages.Data
             LanguageChanged?.Invoke(this, lang);
         }
 
-        public ValueTask LoadDataAsync()
-        {
-            if (languages == null)
-            {
-                return languagesLocker.LockAsync(async () =>
-                {
-                    if (languages == null)
-                    {
-                        languages = await Http.GetJsonAsync<Dictionary<string, string>>("i18n/index.json");
-                    }
-                });
-            }
-            else
-            {
-                return new ValueTask();
-            }
-        }
-
         private string? GetParentLanguage(string? lang)
         {
             try
@@ -105,7 +80,7 @@ namespace Berrysoft.Pages.Data
 
         private string GetCompatibleLanguage(string? lang)
         {
-            while (lang != null && !languages!.ContainsKey(lang))
+            while (lang != null && !Data!.ContainsKey(lang))
             {
                 if (string.IsNullOrEmpty(lang))
                     return InvarientLanguage;

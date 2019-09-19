@@ -11,18 +11,19 @@ namespace Berrysoft.Pages.Data
         T Data { get; }
     }
 
-    public class EnumerableLoaderService<T> : IDataLoaderService<IEnumerable<T>?>
+    public class DataLoaderService<T> : IDataLoaderService<T?>
+        where T : class
     {
         protected string Uri { get; set; }
         protected HttpClient Http { get; set; }
 
-        public EnumerableLoaderService(string uri, HttpClient http)
+        public DataLoaderService(string uri, HttpClient http)
         {
             Uri = uri;
             Http = http;
         }
 
-        public IEnumerable<T>? Data { get; private set; }
+        public T? Data { get; private set; }
         private static readonly SemaphoreLocker dataLocker = new SemaphoreLocker();
 
         public ValueTask LoadDataAsync()
@@ -33,7 +34,7 @@ namespace Berrysoft.Pages.Data
                 {
                     if (Data == null)
                     {
-                        Data = await Http.GetJsonAsync<T[]>(Uri);
+                        Data = await Http.GetJsonAsync<T>(Uri);
                     }
                 });
             }
@@ -42,5 +43,10 @@ namespace Berrysoft.Pages.Data
                 return new ValueTask();
             }
         }
+    }
+
+    public class EnumerableLoaderService<T> : DataLoaderService<IEnumerable<T>>
+    {
+        public EnumerableLoaderService(string uri, HttpClient http) : base(uri, http) { }
     }
 }

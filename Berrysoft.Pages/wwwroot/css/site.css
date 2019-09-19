@@ -104,6 +104,12 @@
         animation-delay: 0.7s;
     }
 
+    .fade-in.fade-in-4 {
+        -webkit-animation-delay: 0.9s;
+        -moz-animation-delay: 0.9s;
+        animation-delay: 0.9s;
+    }
+
 @-webkit-keyframes fadeIn {
     from {
         opacity: 0;

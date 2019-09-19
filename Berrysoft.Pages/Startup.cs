@@ -15,8 +15,9 @@ namespace Berrysoft.Pages
             services.AddSingleton<ILocalStorage, LocalStorage>();
             services.AddSingleton<ILocalizationService, LocalizationService>();
             services.AddSingleton<IThemeService, ThemeService>();
-            services.AddSingleton<GitHubEventService>();
             services.AddSingleton<ProjectService>();
+            services.AddSingleton<GitHubEventService>();
+            services.AddSingleton<LinkService>();
             services.AddSingleton<ICounterService, CounterService>();
             services.AddSingleton<IBlogService, BlogService>();
             services.AddHighlightJs();

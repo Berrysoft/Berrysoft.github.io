@@ -37,7 +37,7 @@
 @if (GitHubEvent.Data != null)
 {
     <div class="fade-in fade-in-3">
-        <h2>GitHub Events</h2>
+        <h2><Tred Key="indexGitHubEvents" /></h2>
 
         <div class="list-group list-group-flush">
             @foreach (var e in GitHubEvent.Data.Where(ev => ev.Type == "PushEvent").Take(10))

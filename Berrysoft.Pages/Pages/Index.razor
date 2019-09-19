@@ -41,25 +41,18 @@
         <h2><Tred Key="indexGitHubEvents" /></h2>
 
         <div class="table-responsive-xl">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="row">Message</th>
-                        <th scope="row">Time</th>
-                        <th scope="row">Repo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var e in GitHubEvent.Data.Where(ev => ev.Type == "PushEvent").Take(10))
-                    {
-                        <tr>
-                            <td><a href="@($"https://github.com/{e.Repo!.Name}/commit/{e.Payload!.Commits.LastOrDefault()?.Sha}")">@e.Payload!.Commits.LastOrDefault()?.Message</a></td>
-                            <td><time datetime="@e.CreatedAt">@e.CreatedAt.ToString(Localization.Culture)</time></td>
-                            <td>@e.Repo!.Name</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <DataGrid T="GitHubEvent" Items="@GitHubEvent.Data.Where(ev => ev.Type == "PushEvent").Take(10)">
+                <Headers>
+                    <DataGridHeader Sortable="false"><Tred Key="indexGitHubEventMessage" /></DataGridHeader>
+                    <DataGridHeader Sortable="false"><Tred Key="indexGitHubEventTime" /></DataGridHeader>
+                    <DataGridHeader Sortable="false"><Tred Key="indexGitHubEventRepo" /></DataGridHeader>
+                </Headers>
+                <ChildContent Context="e">
+                    <td><a href="@($"https://github.com/{e.Repo!.Name}/commit/{e.Payload!.Commits.LastOrDefault()?.Sha}")">@e.Payload!.Commits.LastOrDefault()?.Message</a></td>
+                    <td><time datetime="@e.CreatedAt">@e.CreatedAt.ToString(Localization.Culture)</time></td>
+                    <td>@e.Repo!.Name</td>
+                </ChildContent>
+            </DataGrid>
         </div>
     </div>
 }

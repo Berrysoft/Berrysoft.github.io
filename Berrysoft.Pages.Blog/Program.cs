@@ -31,7 +31,7 @@ namespace Berrysoft.Pages.Blog
             string description;
             using (var reader = new StreamReader(file.FullName))
             {
-                description = Markdown.ToPlainText(reader.ReadLine() ?? string.Empty);
+                description = Markdown.ToPlainText(reader.ReadLine() ?? string.Empty).Trim(' ', '\n', '\r');
             }
             var fn = GetFilename(file);
             var item = new SyndicationItem
@@ -42,7 +42,7 @@ namespace Berrysoft.Pages.Blog
             };
             item.Links.Add(new SyndicationLink(new Uri($"https://berrysoft.github.io/blog/{fn}")));
             var directory = new DirectoryInfo(options.OutputPath!);
-            file.MoveTo(Path.Combine(directory.FullName, fn));
+            file.MoveTo(Path.Combine(directory.FullName, fn + ".md"));
             var indexFile = Path.Combine(directory.FullName, "rss.xml");
             SyndicationFeed feed;
             using (var stream = new FileStream(indexFile, FileMode.Open))
@@ -52,9 +52,13 @@ namespace Berrysoft.Pages.Blog
             }
             feed.Items = feed.Items.Append(item);
             using (var stream = new FileStream(indexFile, FileMode.OpenOrCreate))
-            using (var writer = XmlWriter.Create(stream))
+            using (var writer = XmlWriter.Create(stream, new XmlWriterSettings()
+            {
+                Indent = true
+            }))
             {
                 feed.SaveAsRss20(writer);
+                writer.Flush();
             }
         }
 

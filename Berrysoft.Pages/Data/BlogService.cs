@@ -56,7 +56,7 @@ namespace Berrysoft.Pages.Data
                         Data = feed.Items.Select(item => new BlogPost
                         {
                             Title = item.Title?.Text,
-                            Description = item.Summary?.Text,
+                            Description = (item.Content as TextSyndicationContent)?.Text,
                             Date = item.LastUpdatedTime.LocalDateTime,
                             Filename = item.Links?.FirstOrDefault()?.Uri?.LocalPath?.Split('/')?.LastOrDefault()
                         });

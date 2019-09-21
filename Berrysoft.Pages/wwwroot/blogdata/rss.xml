@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Berrysoft</title>
+    <description>Berrysoft's blog</description>
+    <link>https://berrysoft.github.io/blog/</link>
+    <atom:link href="https://berrysoft.github.io/blogdata/rss.xml" rel="self" type="application/rss+xml"/>
+    <language>zh-cn</language>
+    <copyright>Copyright 2019</copyright>
+    <lastBuildDate>Sat, 21 Sep 2019 13:49:38 +0800</lastBuildDate>
+    <generator>Berrysoft.Pages.Blog</generator>
+
+    <atom:author>
+      <atom:name>Berrysoft</atom:name>
+      <atom:uri>https://berrysoft.github.io/</atom:uri>
+      <atom:email>Strawberry_Str@hotmail.com</atom:email>
+    </atom:author>
+
+    <item>
+      <link>https://berrysoft.github.io/blog/First_2019_9_6</link>
+      <title>测试页面</title>
+      <description>这是第一篇博文，也是测试页面。</description>
+      <atom:updated>2019-09-06T10:19:00.000000+08:00</atom:updated>
+    </item>
+
+    <item>
+      <link>https://berrysoft.github.io/blog/Gains_2019_9_8</link>
+      <title>一些收获</title>
+      <description>最近有一些收获。</description>
+      <atom:updated>2019-09-08T12:16:37.785494+08:00</atom:updated>
+    </item>
+
+    <item>
+      <link>https://berrysoft.github.io/blog/Gains_2019_9_12</link>
+      <title>统计力学笔记</title>
+      <description>复习了一下概率方面的知识，顺便测试一下Markdig的数学函数功能。</description>
+      <atom:updated>2019-09-12T22:48:51.6650551+08:00</atom:updated>
+    </item>
+  </channel>
+</rss>

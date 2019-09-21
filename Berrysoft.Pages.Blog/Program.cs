@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text.Encodings.Web;
-using System.Text.Json;
-using System.Text.Unicode;
-using Berrysoft.Pages.Data;
+using System.Linq;
+using System.ServiceModel.Syndication;
+using System.Xml;
 using CommandLine;
+using Markdig;
 
 namespace Berrysoft.Pages.Blog
 {
@@ -29,38 +28,33 @@ namespace Berrysoft.Pages.Blog
         static void OnParsed(Options options)
         {
             var file = new FileInfo(options.InputPath!);
-            var fn = GetFilename(file);
-            var post = new BlogPost
+            string description;
+            using (var reader = new StreamReader(file.FullName))
             {
-                Title = options.Title!,
-                Date = DateTime.Now,
-                Filename = fn
-            };
-            var directory = new DirectoryInfo(options.OutputPath!);
-            if (directory.Exists)
-            {
-                file.MoveTo(Path.Combine(directory.FullName, fn));
-                var indexFile = Path.Combine(directory.FullName, "index.json");
-                var list = JsonSerializer.Deserialize<List<BlogPost>>(File.ReadAllBytes(indexFile), new JsonSerializerOptions()
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                });
-                list.Add(post);
-                File.WriteAllBytes(indexFile, JsonSerializer.SerializeToUtf8Bytes(list, new JsonSerializerOptions()
-                {
-                    WriteIndented = true,
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                    Encoder = JavaScriptEncoder.Create(new TextEncoderSettings(UnicodeRange.Create('\0', '\x7F'), UnicodeRange.Create('\x4E00', '\x9FBF')))
-                }));
+                description = Markdown.ToPlainText(reader.ReadLine() ?? string.Empty);
             }
-            else
+            var fn = GetFilename(file);
+            var item = new SyndicationItem
             {
-                string json = JsonSerializer.Serialize(post, new JsonSerializerOptions()
-                {
-                    WriteIndented = true,
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                });
-                Console.WriteLine(json);
+                Title = new TextSyndicationContent(options.Title!),
+                LastUpdatedTime = DateTime.Now,
+                Summary = new TextSyndicationContent(description)
+            };
+            item.Links.Add(new SyndicationLink(new Uri($"https://berrysoft.github.io/blog/{fn}")));
+            var directory = new DirectoryInfo(options.OutputPath!);
+            file.MoveTo(Path.Combine(directory.FullName, fn));
+            var indexFile = Path.Combine(directory.FullName, "rss.xml");
+            SyndicationFeed feed;
+            using (var stream = new FileStream(indexFile, FileMode.Open))
+            using (var reader = XmlReader.Create(stream))
+            {
+                feed = SyndicationFeed.Load(reader);
+            }
+            feed.Items = feed.Items.Append(item);
+            using (var stream = new FileStream(indexFile, FileMode.OpenOrCreate))
+            using (var writer = XmlWriter.Create(stream))
+            {
+                feed.SaveAsRss20(writer);
             }
         }
 

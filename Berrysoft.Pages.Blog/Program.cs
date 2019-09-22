@@ -34,22 +34,17 @@ namespace Berrysoft.Pages.Blog
                 description = Markdown.ToPlainText(reader.ReadLine() ?? string.Empty).Trim(' ', '\n', '\r');
             }
             var fn = GetFilename(file);
-            var item = new SyndicationItem
-            {
-                Title = new TextSyndicationContent(options.Title!),
-                LastUpdatedTime = DateTime.Now,
-                Summary = new TextSyndicationContent(description)
-            };
-            item.Links.Add(new SyndicationLink(new Uri($"https://berrysoft.github.io/blog/{fn}")));
+            var item = new SyndicationItem(options.Title!, description, new Uri($"https://berrysoft.github.io/blog/{fn}"), fn, DateTime.Now);
             var directory = new DirectoryInfo(options.OutputPath!);
             file.MoveTo(Path.Combine(directory.FullName, fn + ".md"));
-            var indexFile = Path.Combine(directory.FullName, "rss.xml");
+            var indexFile = Path.Combine(directory.FullName, "feed.xml");
             SyndicationFeed feed;
             using (var stream = new FileStream(indexFile, FileMode.Open))
             using (var reader = XmlReader.Create(stream))
             {
                 feed = SyndicationFeed.Load(reader);
             }
+            feed.LastUpdatedTime = DateTime.Now;
             feed.Items = feed.Items.Append(item);
             using (var stream = new FileStream(indexFile, FileMode.OpenOrCreate))
             using (var writer = XmlWriter.Create(stream, new XmlWriterSettings()

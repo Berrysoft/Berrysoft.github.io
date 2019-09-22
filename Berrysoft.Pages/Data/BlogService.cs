@@ -49,14 +49,14 @@ namespace Berrysoft.Pages.Data
                 {
                     if (Data == null)
                     {
-                        using var response = await Http.GetAsync("blogdata/rss.xml");
+                        using var response = await Http.GetAsync("blogdata/feed.xml");
                         using var stream = await response.Content.ReadAsStreamAsync();
                         using var reader = XmlReader.Create(stream);
                         var feed = SyndicationFeed.Load(reader);
                         Data = feed.Items.Select(item => new BlogPost
                         {
                             Title = item.Title?.Text,
-                            Description = (item.Content as TextSyndicationContent)?.Text,
+                            Description = item.Summary?.Text,
                             Date = item.LastUpdatedTime.LocalDateTime,
                             Filename = item.Links?.FirstOrDefault()?.Uri?.LocalPath?.Split('/')?.LastOrDefault()
                         });

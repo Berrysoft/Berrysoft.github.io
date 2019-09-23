@@ -18,22 +18,33 @@
             <option value="@TeaCryptorType.XXTea">XXTEA</option>
         </select>
     </div>
-    <div class="col-auto py-2">
-        Key:
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="row">
+            <div class="col-auto py-2">
+                Key:
+            </div>
+            <div class="col-auto">
+                <input class="form-control" type="text" @bind="@TeaService.KeyString" />
+            </div>
+        </div>
     </div>
-    <div class="col-auto">
-        <input class="form-control" type="text" @bind="@TeaService.KeyString" />
-    </div>
-    <div class="col-auto py-2">
-        Key string type:
-    </div>
-    <div class="col-auto">
-        <select class="custom-select" @bind="@TeaService.KeyStringType">
-            <option value="@StringType.UTF8">UTF-8</option>
-            <option value="@StringType.Unicode">Unicode</option>
-            <option value="@StringType.ASCII">ASCII</option>
-            <option value="@StringType.Base64">Base64</option>
-        </select>
+    <div class="col">
+        <div class="row">
+            <div class="col-auto py-2">
+                Key string type:
+            </div>
+            <div class="col-auto">
+                <select class="custom-select" @bind="@TeaService.KeyStringType">
+                    <option value="@StringType.UTF8">UTF-8</option>
+                    <option value="@StringType.Unicode">Unicode</option>
+                    <option value="@StringType.ASCII">ASCII</option>
+                    <option value="@StringType.Base64">Base64</option>
+                </select>
+            </div>
+        </div>
     </div>
 </div>
 

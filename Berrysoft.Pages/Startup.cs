@@ -19,6 +19,7 @@ namespace Berrysoft.Pages
             services.AddSingleton<GitHubEventService>();
             services.AddSingleton<LinkService>();
             services.AddSingleton<CounterService>();
+            services.AddSingleton<TeaService>();
             services.AddSingleton<BlogService>();
             services.AddHighlightJs();
             services.AddKatex();

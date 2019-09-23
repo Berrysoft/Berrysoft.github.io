@@ -78,13 +78,20 @@ namespace Berrysoft.Pages.Data
         {
             if (cryptor != null)
             {
-                byte[]? inputData = Encode(OriginalString, OriginalStringType);
-                byte[] keyData = Encode(KeyString, KeyStringType) ?? Array.Empty<byte>();
-                if (inputData != null)
+                try
                 {
-                    cryptor.ConsumeKey(keyData);
-                    byte[] outputData = cryptor.Encrypt(inputData);
-                    EncryptedString = Decode(outputData, EncryptedStringType);
+                    byte[]? inputData = Encode(OriginalString, OriginalStringType);
+                    byte[] keyData = Encode(KeyString, KeyStringType) ?? Array.Empty<byte>();
+                    if (inputData != null)
+                    {
+                        cryptor.ConsumeKey(keyData);
+                        byte[] outputData = cryptor.Encrypt(inputData);
+                        EncryptedString = Decode(outputData, EncryptedStringType);
+                    }
+                }
+                catch (Exception e)
+                {
+                    EncryptedString = e.ToString();
                 }
             }
         }
@@ -93,13 +100,20 @@ namespace Berrysoft.Pages.Data
         {
             if (cryptor != null)
             {
-                byte[]? inputData = Encode(EncryptedString, EncryptedStringType);
-                byte[] keyData = Encode(KeyString, KeyStringType) ?? Array.Empty<byte>();
-                if (inputData != null)
+                try
                 {
-                    cryptor.ConsumeKey(keyData);
-                    byte[] outputData = cryptor.Decrypt(inputData);
-                    OriginalString = Decode(outputData, OriginalStringType);
+                    byte[]? inputData = Encode(EncryptedString, EncryptedStringType);
+                    byte[] keyData = Encode(KeyString, KeyStringType) ?? Array.Empty<byte>();
+                    if (inputData != null)
+                    {
+                        cryptor.ConsumeKey(keyData);
+                        byte[] outputData = cryptor.Decrypt(inputData);
+                        OriginalString = Decode(outputData, OriginalStringType);
+                    }
+                }
+                catch (Exception e)
+                {
+                    OriginalString = e.ToString();
                 }
             }
         }

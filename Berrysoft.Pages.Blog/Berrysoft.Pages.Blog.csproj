@@ -8,10 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.6.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Berrysoft.Pages\Berrysoft.Pages.csproj" />
+    <PackageReference Include="Markdig" Version="0.17.1" />
+    <PackageReference Include="System.ServiceModel.Syndication" Version="4.6.0" />
   </ItemGroup>
 
 </Project>

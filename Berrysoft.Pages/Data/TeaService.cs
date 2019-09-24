@@ -17,17 +17,11 @@ namespace Berrysoft.Pages.Data
         UTF8,
         Unicode,
         ASCII,
-        GB2312,
         Base64
     }
 
     public class TeaService
     {
-        public TeaService()
-        {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        }
-
         public string? OriginalString { get; set; }
         public StringType OriginalStringType { get; set; }
         public string? KeyString { get; set; }
@@ -62,7 +56,6 @@ namespace Berrysoft.Pages.Data
                 StringType.UTF8 => Encoding.UTF8.GetBytes(notNullStr),
                 StringType.Unicode => Encoding.Unicode.GetBytes(notNullStr),
                 StringType.ASCII => Encoding.ASCII.GetBytes(notNullStr),
-                StringType.GB2312 => Encoding.GetEncoding("gb2312").GetBytes(notNullStr),
                 StringType.Base64 => Convert.FromBase64String(notNullStr),
                 _ => null
             };
@@ -76,7 +69,6 @@ namespace Berrysoft.Pages.Data
                 StringType.UTF8 => Encoding.UTF8.GetString(notNullData),
                 StringType.Unicode => Encoding.Unicode.GetString(notNullData),
                 StringType.ASCII => Encoding.ASCII.GetString(notNullData),
-                StringType.GB2312 => Encoding.GetEncoding("gb2312").GetString(notNullData),
                 StringType.Base64 => Convert.ToBase64String(notNullData),
                 _ => null
             };

@@ -29,7 +29,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.0.0-preview9.19465.2" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0.0-preview9.19465.2" PrivateAssets="all" />
     <PackageReference Include="System.ServiceModel.Syndication" Version="4.6.0" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.6.0" />
     <PackageReference Include="Toolbelt.Blazor.LoadingBar" Version="7.0.0" />
     <PackageReference Include="Toolbelt.Blazor.TimeZoneKit" Version="5.0.2" />
   </ItemGroup>

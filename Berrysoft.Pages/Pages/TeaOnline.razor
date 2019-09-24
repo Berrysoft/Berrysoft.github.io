@@ -4,15 +4,15 @@
 
 @inject TeaService TeaService
 
-<h1>Online TEA Cryptor</h1>
+<h1><Tred Key="teaTitle" /></h1>
 
 <div class="row">
     <div class="col-auto py-2">
-        Cryptor:
+        <label for="selectCryptor"><Tred Key="teaCryptorSelectLabel" /></label>
     </div>
     <div class="col-auto">
-        <select class="custom-select" @bind="@TeaService.CryptorType">
-            <option value="@TeaCryptorType.Unselected" disabled>Select cryptor</option>
+        <select id="selectCryptor" class="custom-select" @bind="@TeaService.CryptorType">
+            <option value="@TeaCryptorType.Unselected" disabled><Tred Key="teaCryptorSelectTitle" /></option>
             <option value="@TeaCryptorType.Tea">TEA</option>
             <option value="@TeaCryptorType.XTea">XTEA</option>
             <option value="@TeaCryptorType.XXTea">XXTEA</option>
@@ -24,23 +24,24 @@
     <div class="col">
         <div class="row">
             <div class="col-auto py-2">
-                Key:
+                <label for="key"><Tred Key="teaKeyLabel" /></label>
             </div>
             <div class="col-auto">
-                <input class="form-control" type="text" @bind="@TeaService.KeyString" />
+                <input id="key" class="form-control" type="text" @bind="@TeaService.KeyString" />
             </div>
         </div>
     </div>
     <div class="col">
         <div class="row">
             <div class="col-auto py-2">
-                Key string type:
+                <label for="keyType"><Tred Key="teaKeyStringTypeSelectLabel" /></label>
             </div>
             <div class="col-auto">
-                <select class="custom-select" @bind="@TeaService.KeyStringType">
+                <select id="keyType" class="custom-select" @bind="@TeaService.KeyStringType">
                     <option value="@StringType.UTF8">UTF-8</option>
                     <option value="@StringType.Unicode">Unicode</option>
                     <option value="@StringType.ASCII">ASCII</option>
+                    <option value="@StringType.GB2312">GB2312</option>
                     <option value="@StringType.Base64">Base64</option>
                 </select>
             </div>
@@ -51,44 +52,52 @@
 <div class="row">
     <div class="col">
         <div class="row py-2">
-            <textarea class="form-control" style="height: 60vh; resize: vertical;" @bind="@TeaService.OriginalString" />
+            <label for="originalData"><Tred Key="teaOriginalStringLabel" /></label>
+        </div>
+        <div class="row py-2">
+            <textarea id="originalData" class="form-control" style="height: 60vh; resize: vertical;" @bind="@TeaService.OriginalString" />
         </div>
         <div class="row py-2">
             <div class="col-auto py-2">
-                Original string type:
+                <label for="originalDataType"><Tred Key="teaOriginalStringTypeSelectLabel" /></label>
             </div>
             <div class="col-auto">
-                <select class="custom-select" @bind="@TeaService.OriginalStringType">
+                <select id="originalDataType" class="custom-select" @bind="@TeaService.OriginalStringType">
                     <option value="@StringType.UTF8">UTF-8</option>
                     <option value="@StringType.Unicode">Unicode</option>
                     <option value="@StringType.ASCII">ASCII</option>
+                    <option value="@StringType.GB2312">GB2312</option>
                     <option value="@StringType.Base64">Base64</option>
                 </select>
             </div>
         </div>
         <div class="row py-2">
-            <button class="btn btn-primary btn-block" @onclick="TeaService.Encrypt">Encrypt</button>
+            <button class="btn btn-primary btn-block" @onclick="TeaService.Encrypt"><Tred Key="teaEncrypt" /></button>
         </div>
     </div>
     <div class="col">
         <div class="row py-2">
-            <textarea class="form-control" style="height: 60vh; resize: vertical;" @bind="@TeaService.EncryptedString" />
+            <label for="encryptedData"><Tred Key="teaEncryptedStringLabel" /></label>
+        </div>
+        <div class="row py-2">
+            <textarea id="encryptedData" class="form-control" style="height: 60vh; resize: vertical;" @bind="@TeaService.EncryptedString" />
         </div>
         <div class="row py-2">
             <div class="col-auto py-2">
-                Encrypted string type:
+                <label for="encryptedDataType"><Tred Key="teaEncryptedStringTypeSelectLabel" /></label>
             </div>
             <div class="col-auto">
-                <select class="custom-select" @bind="@TeaService.EncryptedStringType">
+                <select id="encryptedDataType" class="custom-select" @bind="@TeaService.EncryptedStringType">
                     <option value="@StringType.UTF8">UTF-8</option>
                     <option value="@StringType.Unicode">Unicode</option>
                     <option value="@StringType.ASCII">ASCII</option>
+                    <option value="@StringType.GB2312">GB2312</option>
                     <option value="@StringType.Base64">Base64</option>
                 </select>
             </div>
         </div>
         <div class="row py-2">
-            <button class="btn btn-primary btn-block" @onclick="TeaService.Decrypt">Decrypt</button>
+            <button class="btn btn-primary btn-block" @onclick="TeaService.Decrypt"><Tred Key="teaDecrypt" /></button>
         </div>
     </div>
 </div>

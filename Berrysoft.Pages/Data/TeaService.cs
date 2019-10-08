@@ -9,7 +9,8 @@ namespace Berrysoft.Pages.Data
         Unselected,
         Tea,
         XTea,
-        XXTea
+        XXTea,
+        AuthTea
     }
 
     public enum StringType
@@ -37,6 +38,7 @@ namespace Berrysoft.Pages.Data
                 TeaCryptor _ => TeaCryptorType.Tea,
                 XTeaCryptor _ => TeaCryptorType.XTea,
                 XXTeaCryptor _ => TeaCryptorType.XXTea,
+                AuthTeaCryptor _ => TeaCryptorType.AuthTea,
                 _ => TeaCryptorType.Unselected
             };
             set => cryptor = value switch
@@ -44,6 +46,7 @@ namespace Berrysoft.Pages.Data
                 TeaCryptorType.Tea => new TeaCryptor(),
                 TeaCryptorType.XTea => new XTeaCryptor(),
                 TeaCryptorType.XXTea => new XXTeaCryptor(),
+                TeaCryptorType.AuthTea => new AuthTeaCryptor(),
                 _ => null
             };
         }

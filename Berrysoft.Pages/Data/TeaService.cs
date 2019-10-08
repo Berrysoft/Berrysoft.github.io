@@ -84,8 +84,7 @@ namespace Berrysoft.Pages.Data
                     byte[] keyData = Encode(KeyString, KeyStringType) ?? Array.Empty<byte>();
                     if (inputData != null)
                     {
-                        cryptor.ConsumeKey(keyData);
-                        byte[] outputData = cryptor.Encrypt(inputData);
+                        byte[] outputData = cryptor.Encrypt(inputData, keyData);
                         EncryptedString = Decode(outputData, EncryptedStringType);
                     }
                 }
@@ -106,8 +105,7 @@ namespace Berrysoft.Pages.Data
                     byte[] keyData = Encode(KeyString, KeyStringType) ?? Array.Empty<byte>();
                     if (inputData != null)
                     {
-                        cryptor.ConsumeKey(keyData);
-                        byte[] outputData = cryptor.Decrypt(inputData);
+                        byte[] outputData = cryptor.Decrypt(inputData, keyData);
                         OriginalString = Decode(outputData, OriginalStringType);
                     }
                 }

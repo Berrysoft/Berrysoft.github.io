@@ -12,6 +12,12 @@
     "description": "An extension for ToString in .NET"
   },
   {
+    "name": "Berrysoft.XXTea",
+    "url": "https://github.com/Berrysoft/Berrysoft.XXTea",
+    "language": "C#",
+    "description": "A .NET implementation of TEA, XTEA and XXTEA algorithm"
+  },
+  {
     "name": "tunet-rust",
     "url": "https://github.com/Berrysoft/tunet-rust",
     "language": "Rust",
@@ -21,30 +27,30 @@
     "name": "StreamFormat",
     "url": "https://github.com/Berrysoft/StreamFormat",
     "language": "C++",
-    "description": "A C++ format IO library, based on standard streams."
+    "description": "A C++ format IO library, based on standard streams"
   },
   {
     "name": "CppLinq",
     "url": "https://github.com/Berrysoft/CppLinq",
     "language": "C++",
-    "description": "A simple linq library for C++."
+    "description": "A simple linq library for C++"
   },
   {
     "name": "WinCThreads",
     "url": "https://github.com/Berrysoft/WinCThreads",
     "language": "C",
-    "description": "A simple C11 <threads.h> implementation for Windows."
+    "description": "A simple C11 <threads.h> implementation for Windows"
   },
   {
     "name": "AnguloRuler",
     "url": "https://github.com/Berrysoft/AnguloRuler",
     "language": "Visual Basic",
-    "description": "一个小程序，用来测量角度与长度。"
+    "description": "一个小程序，用来测量角度与长度"
   },
   {
     "name": "Games",
     "url": "https://github.com/Berrysoft/Games",
     "language": "Visual Basic",
-    "description": "Remake some games."
+    "description": "Remake some games"
   }
 ]

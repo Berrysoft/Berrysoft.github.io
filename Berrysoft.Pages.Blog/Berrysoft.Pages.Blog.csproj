@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.6.0" />
     <PackageReference Include="Markdig" Version="0.18.0" />
-    <PackageReference Include="System.ServiceModel.Syndication" Version="4.7.0-preview2.19523.17" />
+    <PackageReference Include="System.ServiceModel.Syndication" Version="4.7.0-preview3.19551.4" />
   </ItemGroup>
 
 </Project>

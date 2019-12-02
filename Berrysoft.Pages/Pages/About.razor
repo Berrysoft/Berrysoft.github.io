@@ -21,7 +21,7 @@
         <div class="table-responsive-xl">
             <DataGrid T="LibraryBox" Items="@Library.Data">
                 <Headers>
-                    <DataGridHeader PropertyName="Name" Sortable="true"><Tred Key="aboutOtherLibraryName" /></DataGridHeader>
+                    <DataGridHeader PropertyName="Name" Sortable="true" Comparer="@StringComparer.OrdinalIgnoreCase"><Tred Key="aboutOtherLibraryName" /></DataGridHeader>
                     <DataGridHeader PropertyName="License" Sortable="true"><Tred Key="aboutOtherLibraryLicense" /></DataGridHeader>
                 </Headers>
                 <ChildContent Context="library">

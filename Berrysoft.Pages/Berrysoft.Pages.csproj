@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Berrysoft.Blazor.DataGrid" Version="1.0.0-preview3" />
     <PackageReference Include="Berrysoft.XXTea" Version="4.0.9" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.435" />
     <PackageReference Include="Markdig" Version="0.18.0" />

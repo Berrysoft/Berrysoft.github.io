@@ -18,6 +18,12 @@
     "description": "A .NET implementation of TEA, XTEA and XXTEA algorithm"
   },
   {
+    "name": "FeedReader",
+    "url": "https://github.com/Berrysoft/FeedReader",
+    "language": "C#",
+    "description": "A Blazor Atom/RSS reader"
+  },
+  {
     "name": "tunet-rust",
     "url": "https://github.com/Berrysoft/tunet-rust",
     "language": "Rust",

@@ -16,8 +16,16 @@ namespace Berrysoft.Pages.Data
     public class Theme
     {
         public string? Name { get; set; }
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public ThemeType Navbar { get; set; }
+        // Avoid cannot find converter bug.
+        [JsonPropertyName("navbar")]
+        public string? NavbarInternal { get; set; }
+        [JsonIgnore]
+        public ThemeType Navbar => NavbarInternal!.ToLower() switch
+        {
+            "light" => ThemeType.Light,
+            "dark" => ThemeType.Dark,
+            _ => ThemeType.Light
+        };
         public Dictionary<string, string>? Links { get; set; }
     }
 

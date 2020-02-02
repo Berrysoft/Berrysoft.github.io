@@ -18,6 +18,12 @@
     "description": "A .NET implementation of TEA, XTEA and XXTEA algorithm"
   },
   {
+    "name": "WSLLauncher",
+    "url": "https://github.com/Berrysoft/WSLLauncher",
+    "language": "C#",
+    "description": "Launcher for distributions on WSL"
+  },
+  {
     "name": "FeedReader",
     "url": "https://github.com/Berrysoft/FeedReader",
     "language": "C#",
@@ -40,6 +46,12 @@
     "url": "https://github.com/Berrysoft/CppLinq",
     "language": "C++",
     "description": "A simple linq library for C++"
+  },
+  {
+    "name": "XamlCpp",
+    "url": "https://github.com/Berrysoft/XamlCpp",
+    "language": "C++",
+    "description": "An implementation of XAML cross-platform framework for C++"
   },
   {
     "name": "WinCThreads",

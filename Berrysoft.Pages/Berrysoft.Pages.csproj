@@ -24,14 +24,14 @@
     <PackageReference Include="Berrysoft.Blazor.DataGrid" Version="1.0.0" />
     <PackageReference Include="Berrysoft.XXTea" Version="4.0.9" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.435" />
-    <PackageReference Include="Markdig" Version="0.18.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.1.0-preview4.19579.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.1.0-preview4.19579.2" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.1.0-preview4.19579.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.1.0-preview4.19579.2" PrivateAssets="all" />
+    <PackageReference Include="Markdig" Version="0.18.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.2.0-preview1.20073.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="3.2.0-preview1.20073.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.2.0-preview1.20073.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.2.0-preview1.20073.1" PrivateAssets="all" />
     <PackageReference Include="System.ServiceModel.Syndication" Version="4.7.0" />
-    <PackageReference Include="Toolbelt.Blazor.LoadingBar" Version="8.0.0" />
-    <PackageReference Include="Toolbelt.Blazor.TimeZoneKit" Version="5.0.3" />
+    <PackageReference Include="Toolbelt.Blazor.LoadingBar" Version="10.0.0" />
+    <PackageReference Include="Toolbelt.Blazor.TimeZoneKit" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

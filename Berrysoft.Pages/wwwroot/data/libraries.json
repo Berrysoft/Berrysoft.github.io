@@ -10,6 +10,11 @@
     "license": "MPL 2.0"
   },
   {
+    "name": "Toolbelt.Blazor.TimeZoneKit",
+    "url": "https://github.com/jsakamoto/Toolbelt.Blazor.TimeZoneKit",
+    "license": "MPL 2.0"
+  },
+  {
     "name": "SpinKit",
     "url": "https://github.com/tobiasahlin/SpinKit",
     "license": "MIT"

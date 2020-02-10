@@ -25,7 +25,7 @@
   },
   {
     "name": "Darkly",
-    "navbar": "light",
+    "navbar": "dark",
     "links": {
       "bootstrapStyle": "https://cdn.jsdelivr.net/npm/bootswatch/dist/darkly/bootstrap.min.css",
       "highlightStyle": "https://cdn.jsdelivr.net/npm/highlight.js/styles/atom-one-dark.css"

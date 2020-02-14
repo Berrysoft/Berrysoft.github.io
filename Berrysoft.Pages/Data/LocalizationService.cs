@@ -11,14 +11,11 @@ namespace Berrysoft.Pages.Data
 
     public class LocalizationService : DataLoaderService<IReadOnlyDictionary<string, string>>
     {
-        public LocalizationService(HttpClient http) : base("i18n/index.json", http)
-        {
-            strings = new Dictionary<string, Dictionary<string, string>>();
-        }
+        public LocalizationService(HttpClient http) : base("i18n/index.json", http) { }
 
         private const string InvarientLanguage = "invarient";
 
-        private Dictionary<string, Dictionary<string, string>> strings;
+        private readonly Dictionary<string, Dictionary<string, string>> strings = new Dictionary<string, Dictionary<string, string>>();
         private static readonly SemaphoreLocker stringsLocker = new SemaphoreLocker();
 
         private string? language;

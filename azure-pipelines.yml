@@ -35,18 +35,18 @@ steps:
   displayName: Copy License
   inputs:
     contents: 'LICENSE'
-    targetFolder: $(Build.ArtifactStagingDirectory)/Berrysoft.Pages/Berrysoft.Pages/dist
+    targetFolder: $(Build.ArtifactStagingDirectory)/wwwroot
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifacts'
   inputs:
-    pathtoPublish: $(Build.ArtifactStagingDirectory)/Berrysoft.Pages
+    pathtoPublish: $(Build.ArtifactStagingDirectory)/wwwroot
     artifactName: 'Dist'
 
 - script: |
     git config --global user.name "$NAME"
     git config --global user.email "$EMAIL"
-    cd $(Build.ArtifactStagingDirectory)/Berrysoft.Pages/Berrysoft.Pages/dist
+    cd $(Build.ArtifactStagingDirectory)/wwwroot
     git init
     git checkout -b master
     git add -A

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
 using System.Text.Json;
@@ -106,7 +107,7 @@ namespace Berrysoft.Pages.Data
                     else
                     {
                         var (realLang, filename) = await GetStringsFileNameAsync(lang);
-                        var document = JsonSerializer.Deserialize<Dictionary<string, string>>(await Http.GetByteArrayAsync(filename));
+                        var document = await Http.GetJsonAsync<Dictionary<string, string>>(filename);
                         strings[realLang] = document;
                         return document;
                     }

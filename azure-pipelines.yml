@@ -16,20 +16,8 @@ steps:
     packageType: 'sdk'
     version: '3.1.102'
 
-- task: DotNetCoreCLI@2
-  displayName: Build App
-  inputs:
-    command: build
-    projects: Berrysoft.Pages/Berrysoft.Pages.csproj
-    configuration: $(buildConfiguration)
-
-- task: DotNetCoreCLI@2
+- script: dotnet publish Berrysoft.Pages/Berrysoft.Pages.csproj -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)
   displayName: Publish App
-  inputs:
-    command: publish
-    projects: Berrysoft.Pages/Berrysoft.Pages.csproj
-    zipAfterPublish: false
-    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
 
 - task: CopyFiles@2
   displayName: Copy License

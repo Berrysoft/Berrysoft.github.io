@@ -14,6 +14,7 @@ namespace Berrysoft.Pages
         {
             var builder = WebAssemblyHostBuilder.CreateDefault();
             builder.RootComponents.Add<App>("app");
+            builder.Services.AddBaseAddressHttpClient();
             builder.Services.AddLoadingBar();
             builder.Services.AddSingleton<ILocalStorage, LocalStorage>();
             builder.Services.AddSingleton<LocalizationService>();

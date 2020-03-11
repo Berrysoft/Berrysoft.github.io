@@ -33,6 +33,6 @@ namespace Berrysoft.Pages.Data
 
     public class GitHubEventService : EnumerableLoaderService<GitHubEvent>
     {
-        public GitHubEventService(HttpClient http) : base("https://api.github.com/users/berrysoft/events", http) { }
+        public GitHubEventService(HttpClient http) : base("//api.github.com/users/berrysoft/events", http) { }
     }
 }

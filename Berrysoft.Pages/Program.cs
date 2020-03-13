@@ -10,12 +10,12 @@ namespace Berrysoft.Pages
 {
     public class Program
     {
-        public static async Task Main()
+        public static Task Main()
         {
             var builder = WebAssemblyHostBuilder.CreateDefault();
             builder.RootComponents.Add<App>("app");
             builder.Services.AddBaseAddressHttpClient();
-            //builder.Services.AddLoadingBar();
+            builder.Services.AddLoadingBar();
             builder.Services.AddSingleton<ILocalStorage, LocalStorage>();
             builder.Services.AddSingleton<LocalizationService>();
             builder.Services.AddSingleton<ThemeService>();
@@ -28,7 +28,7 @@ namespace Berrysoft.Pages
             builder.Services.AddHighlightJs();
             builder.Services.AddKatex();
             builder.Services.AddSingleton<LibraryService>();
-            await builder.Build()/*.UseLoadingBar()*/.UseLocalTimeZone().RunAsync();
+            return builder.Build().UseLoadingBar().UseLocalTimeZone().RunAsync();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 
 namespace Berrysoft.Pages.Data
 {
@@ -28,7 +28,7 @@ namespace Berrysoft.Pages.Data
                 {
                     if (Data == null)
                     {
-                        Data = await Http.GetJsonAsync<T>(Uri);
+                        Data = await Http.GetFromJsonAsync<T>(Uri);
                     }
                 });
             }

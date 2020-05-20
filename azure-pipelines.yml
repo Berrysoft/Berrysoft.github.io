@@ -14,7 +14,7 @@ steps:
   displayName: Install Latest .NET Core 3.0 SDK
   inputs:
     packageType: 'sdk'
-    version: '3.1.102'
+    version: '3.1.300'
 
 - script: dotnet publish Berrysoft.Pages/Berrysoft.Pages.csproj -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)
   displayName: Publish App

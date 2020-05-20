@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Berrysoft.Pages.Data;
 using Berrysoft.Pages.HighlightJs;
 using Berrysoft.Pages.Katex;
@@ -14,7 +16,7 @@ namespace Berrysoft.Pages
         {
             var builder = WebAssemblyHostBuilder.CreateDefault();
             builder.RootComponents.Add<App>("app");
-            builder.Services.AddBaseAddressHttpClient();
+            builder.Services.AddSingleton(new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddLoadingBar();
             builder.Services.AddSingleton<ILocalStorage, LocalStorage>();
             builder.Services.AddSingleton<LocalizationService>();
@@ -28,7 +30,7 @@ namespace Berrysoft.Pages
             builder.Services.AddHighlightJs();
             builder.Services.AddKatex();
             builder.Services.AddSingleton<LibraryService>();
-            return builder.Build().UseLoadingBar().UseLocalTimeZone().RunAsync();
+            return builder.Build().UseLoadingBar().RunAsync();
         }
     }
 }

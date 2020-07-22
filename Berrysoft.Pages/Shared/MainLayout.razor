@@ -23,7 +23,6 @@
     protected override async Task OnInitializedAsync()
     {
         await Localization.SetLanguageAsync(CultureInfo.CurrentCulture.Name);
-        Console.WriteLine(CultureInfo.CurrentCulture);
         if (await Storage.GetStorageAvaliableAsync())
         {
             if (await Storage.ContainsKeyAsync(ThemeKey))

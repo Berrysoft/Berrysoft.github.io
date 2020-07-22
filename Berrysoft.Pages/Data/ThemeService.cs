@@ -57,7 +57,7 @@ namespace Berrysoft.Pages.Data
             await LoadDataAsync();
             if (theme != value && !string.IsNullOrEmpty(value))
             {
-                Theme? storedTheme = Data.Where(t => t.Name == value).FirstOrDefault();
+                Theme? storedTheme = Data!.Where(t => t.Name == value).FirstOrDefault();
                 await SetThemeAsync(storedTheme);
             }
         }

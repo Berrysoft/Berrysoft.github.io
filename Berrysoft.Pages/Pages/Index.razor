@@ -49,7 +49,7 @@
                     <DataGridHeader Sortable="false"><Tred Key="indexGitHubEventRepo" /></DataGridHeader>
                 </Headers>
                 <ChildContent Context="e">
-                    <td><a href="https://github.com/@e.Repo!.Name/commit/@e.Payload!.Commits.LastOrDefault()?.Sha">@e.Payload!.Commits.LastOrDefault()?.Message</a></td>
+                    <td><a href="https://github.com/@e.Repo!.Name/commit/@e.Payload!.Commits!.LastOrDefault()?.Sha">@e.Payload!.Commits!.LastOrDefault()?.Message</a></td>
                     <td><time datetime="@e.CreatedAt">@e.CreatedAt.ToString(Localization.Culture)</time></td>
                     <td>@e.Repo!.Name</td>
                 </ChildContent>

@@ -3,8 +3,7 @@
 @implements IDisposable
 
 @inject LocalizationService Localization
-
-@((MarkupString)text)
+@((MarkupString)(text ?? string.Empty))
 
 @code {
     [Parameter]

@@ -1,4 +1,4 @@
-﻿@using System.Threading
+﻿@using System.Globalization
 @using Berrysoft.Pages.Data
 
 @inherits LayoutComponentBase
@@ -22,7 +22,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await Localization.SetLanguageAsync(Thread.CurrentThread.CurrentUICulture.Name);
+        await Localization.SetLanguageAsync(CultureInfo.CurrentCulture.Name);
+        Console.WriteLine(CultureInfo.CurrentCulture);
         if (await Storage.GetStorageAvaliableAsync())
         {
             if (await Storage.ContainsKeyAsync(ThemeKey))

@@ -55,8 +55,11 @@ namespace Berrysoft.Pages.Data
         {
             try
             {
-                var culture = CultureInfo.GetCultureInfo(lang);
-                lang = culture.Parent.Name.ToLower();
+                if (lang != null)
+                {
+                    var culture = CultureInfo.GetCultureInfo(lang);
+                    lang = culture.Parent.Name.ToLower();
+                }
             }
             catch (CultureNotFoundException)
             {

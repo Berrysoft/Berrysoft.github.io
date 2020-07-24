@@ -3,7 +3,7 @@
     "name": "Bootstrap",
     "navbar": "light",
     "links": {
-      "bootstrapStyle": "https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.0-alpha1/css/bootstrap-grid.min.css",
+      "bootstrapStyle": "https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.0-alpha1/css/bootstrap.min.css",
       "highlightStyle": "https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.1/styles/github.min.css"
     }
   },

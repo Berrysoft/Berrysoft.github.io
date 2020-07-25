@@ -7,7 +7,7 @@
     <language>zh-cn</language>
     <copyright>Copyright (c) 2019</copyright>
     <managingEditor>Strawberry_Str@hotmail.com</managingEditor>
-    <lastBuildDate>Fri, 24 Jul 2020 20:11:35 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 25 Jul 2020 11:22:48 +0800</lastBuildDate>
     <generator>Berrysoft.Pages.Blog</generator>
     <a10:link rel="self" type="application/rss+xml" href="https://berrysoft.github.io/blogdata/rss.xml" />
     <item>
@@ -65,6 +65,13 @@
       <title>X Server评测</title>
       <description>踩了这么多坑，评测一下各个能在 Windows 上用的 X Server，或者类似方案。这些方案几乎没有普适的，不过我更倾向于 XRDP。</description>
       <a10:updated>2020-07-24T20:11:35+08:00</a10:updated>
+    </item>
+    <item>
+      <guid isPermaLink="false">Graph_2020_7_25</guid>
+      <link>https://berrysoft.github.io/blog/Graph_2020_7_25</link>
+      <title>C++ 有向图</title>
+      <description>用 Boost.MultiIndex 实现了一个简单的有向图。</description>
+      <a10:updated>2020-07-25T11:22:47+08:00</a10:updated>
     </item>
   </channel>
 </rss>

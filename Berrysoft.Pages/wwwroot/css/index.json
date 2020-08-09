@@ -3,7 +3,7 @@
     "name": "Bootstrap",
     "navbar": "light",
     "links": {
-      "bootstrapStyle": "https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css",
+      "bootstrapStyle": "https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css",
       "highlightStyle": "https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.1/styles/github.min.css"
     }
   },
@@ -11,7 +11,7 @@
     "name": "Solar",
     "navbar": "dark",
     "links": {
-      "bootstrapStyle": "https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.0/solar/bootstrap.min.css",
+      "bootstrapStyle": "https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.1/solar/bootstrap.min.css",
       "highlightStyle": "https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.1/styles/solarized-dark.min.css"
     }
   },
@@ -19,7 +19,7 @@
     "name": "Flatly",
     "navbar": "light",
     "links": {
-      "bootstrapStyle": "https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.0/flatly/bootstrap.min.css",
+      "bootstrapStyle": "https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.1/flatly/bootstrap.min.css",
       "highlightStyle": "https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.1/styles/atom-one-light.min.css"
     }
   },
@@ -27,7 +27,7 @@
     "name": "Darkly",
     "navbar": "dark",
     "links": {
-      "bootstrapStyle": "https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.0/darkly/bootstrap.min.css",
+      "bootstrapStyle": "https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.1/darkly/bootstrap.min.css",
       "highlightStyle": "https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.1/styles/atom-one-dark.min.css"
     }
   }

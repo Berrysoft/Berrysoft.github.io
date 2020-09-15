@@ -50,8 +50,8 @@
   {
     "name": "XamlCpp",
     "url": "https://github.com/Berrysoft/XamlCpp",
-    "language": "C++",
-    "description": "An implementation of XAML cross-platform framework for C++"
+    "language": "C, C++, Objective-C",
+    "description": "An implementation of XAML cross-platform framework for C/C++"
   },
   {
     "name": "WinCThreads",

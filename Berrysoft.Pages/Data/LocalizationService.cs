@@ -15,7 +15,7 @@ namespace Berrysoft.Pages.Data
 
         private const string InvarientLanguage = "invarient";
 
-        private readonly Dictionary<string, Dictionary<string, string>> strings = new Dictionary<string, Dictionary<string, string>>();
+        private readonly Dictionary<string, Dictionary<string, string>?> strings = new Dictionary<string, Dictionary<string, string>?>();
         private static readonly SemaphoreLocker stringsLocker = new SemaphoreLocker();
 
         private string? language;
@@ -92,11 +92,11 @@ namespace Berrysoft.Pages.Data
             }
         }
 
-        private ValueTask<Dictionary<string, string>> GetStringsAsync(string lang)
+        private ValueTask<Dictionary<string, string>?> GetStringsAsync(string lang)
         {
             if (strings.ContainsKey(lang))
             {
-                return new ValueTask<Dictionary<string, string>>(strings[lang]);
+                return new ValueTask<Dictionary<string, string>?>(strings[lang]);
             }
             else
             {

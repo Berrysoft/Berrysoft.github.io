@@ -11,10 +11,10 @@ variables:
 
 steps:
 - task: UseDotNet@2
-  displayName: Install Latest .NET Core 3.0 SDK
+  displayName: Install Latest .NET 5.0 SDK
   inputs:
     packageType: 'sdk'
-    version: '5.0.100-preview.8.20417.9'
+    version: '5.0.100-rc.1.20452.10'
 
 - script: dotnet publish Berrysoft.Pages/Berrysoft.Pages.csproj -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)
   displayName: Publish App

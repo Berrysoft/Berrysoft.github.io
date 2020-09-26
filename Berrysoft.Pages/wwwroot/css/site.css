@@ -18,7 +18,6 @@
 }
 
     .spinner > div {
-        background-color: #333;
         height: 100%;
         width: 6px;
         display: inline-block;
@@ -50,6 +49,26 @@
         -webkit-animation-delay: -0.8s;
         animation-delay: -0.8s;
     }
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #333
+    }
+
+    .spinner > div {
+        background-color: white
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    body {
+        background-color: white
+    }
+
+    .spinner > div {
+        background-color: #333
+    }
+}
 
 @-webkit-keyframes sk-stretchdelay {
     0%, 40%, 100% {

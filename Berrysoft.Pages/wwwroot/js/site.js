@@ -3,6 +3,10 @@
     link.href = url;
 }
 
+function enableElement(element, enable) {
+    element.disabled = !enable;
+}
+
 function focusElement(element) {
     element.focus();
 }

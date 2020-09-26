@@ -14,18 +14,18 @@
             @controller.CurrentKana
         </div>
     </div>
-    <div class="row">
+    <div class="row py-2">
         <div class="col"></div>
         <div class="col-2">
-            <input @ref="inputReference" class="form-control" type="text" @bind="@controller.Input" @bind:event="oninput" @onkeypress="@OnInputKeyPress" disabled="@(!controller.Running)" />
+            <input @ref="inputReference" class="form-control" type="text" @bind="@controller.Input" @bind:event="oninput" @onkeypress="@OnInputKeyPress" />
         </div>
         <div class="col text-danger">
             @controller.CorrectAnswer
         </div>
     </div>
-    <div class="row">
+    <div class="row py-2">
         <div class="col">
-            <button type="button" class="btn btn-primary btn-block" @onclick="@controller.Start" disabled="@(controller.Running)">
+            <button @ref="startReference" type="button" class="btn btn-primary btn-block" @onclick="@controller.Start" disabled="@(controller.Running)">
                 <Tred Key="kanaLearnStart" />
             </button>
         </div>
@@ -41,10 +41,18 @@
     private Controller controller = new Controller();
 
     private ElementReference inputReference;
+    private ElementReference startReference;
 
     protected override void OnInitialized()
     {
-        controller.RunningChanged += async (sender, running) => await JSRuntime.InvokeVoidAsync("focusElement", inputReference);
+        controller.RunningChanged += async (sender, running) =>
+        {
+            if (running)
+            {
+                await JSRuntime.InvokeVoidAsync("enableElement", inputReference, true);
+                await JSRuntime.InvokeVoidAsync("focusElement", inputReference);
+            }
+        };
         controller.Ticked += (sender, e) => StateHasChanged();
     }
 

@@ -3,6 +3,10 @@
     link.href = url;
 }
 
+function focusElement(element) {
+    element.focus();
+}
+
 function highlight(language, code) {
     return hljs.highlight(language, code).value;
 }

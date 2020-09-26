@@ -1,0 +1,58 @@
+﻿@page "/kanalearn"
+
+@using Berrysoft.Pages.KanaLearn
+
+@inject IJSRuntime JSRuntime
+
+<div class="fade-in fade-in-1">
+    <h1><Tred Key="kanaLearnTitle" /></h1>
+</div>
+
+<div class="fade-in fade-in-2">
+    <div class="row">
+        <div class="col" style="font-size:20vw;font-family:'Yu Mincho';text-align:center">
+            @controller.CurrentKana
+        </div>
+    </div>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-2">
+            <input @ref="inputReference" class="form-control" type="text" @bind="@controller.Input" @bind:event="oninput" @onkeypress="@OnInputKeyPress" disabled="@(!controller.Running)" />
+        </div>
+        <div class="col text-danger">
+            @controller.CorrectAnswer
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-primary btn-block" @onclick="@controller.Start" disabled="@(controller.Running)">
+                <Tred Key="kanaLearnStart" />
+            </button>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-primary btn-block" @onclick="@controller.Pause" disabled="@(!controller.Running)">
+                <Tred Key="kanaLearnPause" />
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private Controller controller = new Controller();
+
+    private ElementReference inputReference;
+
+    protected override void OnInitialized()
+    {
+        controller.RunningChanged += async (sender, running) => await JSRuntime.InvokeVoidAsync("focusElement", inputReference);
+        controller.Ticked += (sender, e) => StateHasChanged();
+    }
+
+    private void OnInputKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            controller.Confirm();
+        }
+    }
+}

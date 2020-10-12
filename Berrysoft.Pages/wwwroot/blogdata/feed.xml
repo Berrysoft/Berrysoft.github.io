@@ -7,7 +7,7 @@
     <language>zh-cn</language>
     <copyright>Copyright (c) 2019</copyright>
     <managingEditor>Strawberry_Str@hotmail.com</managingEditor>
-    <lastBuildDate>Sat, 25 Jul 2020 11:22:48 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 12 Oct 2020 13:46:59 +0800</lastBuildDate>
     <generator>Berrysoft.Pages.Blog</generator>
     <a10:link rel="self" type="application/rss+xml" href="https://berrysoft.github.io/blogdata/rss.xml" />
     <item>
@@ -72,6 +72,13 @@
       <title>C++ 有向图</title>
       <description>用 Boost.MultiIndex 实现了一个简单的有向图。</description>
       <a10:updated>2020-07-25T11:22:47+08:00</a10:updated>
+    </item>
+    <item>
+      <guid isPermaLink="false">Darling_2020_10_12</guid>
+      <link>https://berrysoft.github.io/blog/Darling_2020_10_12</link>
+      <title>Darling on WSL</title>
+      <description>记录一下在 WSL 上安装 Darling 并成功运行 macOS X 程序的故事。</description>
+      <a10:updated>2020-10-12T13:46:58+08:00</a10:updated>
     </item>
   </channel>
 </rss>

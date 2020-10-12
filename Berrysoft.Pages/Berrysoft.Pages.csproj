@@ -20,10 +20,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TrimmerRootAssembly Include="Berrysoft.Pages" />
+    <TrimmerRootAssembly Include="Markdig" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Berrysoft.Blazor.DataGrid" Version="1.0.3-preview.7" />
     <PackageReference Include="Berrysoft.XXTea" Version="4.0.9" />
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
-    <PackageReference Include="Markdig" Version="0.21.1" />
+    <PackageReference Include="Markdig" Version="0.22.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web.Extensions" Version="5.0.0-preview9.20467.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.0-rc.1.20451.17" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.0-rc.1.20451.17" PrivateAssets="all" />

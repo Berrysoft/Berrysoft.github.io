@@ -14,7 +14,7 @@ steps:
   displayName: Install Latest .NET 5.0 SDK
   inputs:
     packageType: 'sdk'
-    version: '5.0.100-rc.2.20479.15'
+    version: '5.0.100'
 
 - script: dotnet publish Berrysoft.Pages/Berrysoft.Pages.csproj -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)
   displayName: Publish App

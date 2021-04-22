@@ -16,7 +16,7 @@ impl Component for Footer {
     }
 
     fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
+        false
     }
 
     fn view(&self) -> Html {

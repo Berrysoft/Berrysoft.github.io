@@ -9,6 +9,7 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 web-sys = { version = "0.3", features = ["DomParser", "Document", "SupportedType", "HtmlCollection"] }
 yew = "0.17"
+yew-router = "0.14"
 anyhow = "1.0"
 http = "0.2"
 console_error_panic_hook = "0.1"

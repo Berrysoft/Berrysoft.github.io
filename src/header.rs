@@ -18,7 +18,7 @@ impl Component for Header {
     }
 
     fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
+        false
     }
 
     fn view(&self) -> Html {
@@ -33,7 +33,10 @@ impl Component for Header {
                     <div id="navbarSupportedContent" class="navbar-collapse collapse" onclick=self.link.callback(|_| collapse_nav())>
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="/">{"主页"}</a>
+                                <a class="nav-link" href="">{"主页"}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="about">{"关于"}</a>
                             </li>
                         </ul>
                     </div>

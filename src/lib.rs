@@ -1,7 +1,15 @@
-use wasm_bindgen::prelude::*;
-use wasm_bindgen_futures::spawn_local;
-use yew::prelude::*;
+#![recursion_limit = "512"]
 
+use chrono::{DateTime, FixedOffset, Utc};
+use std::sync::Arc;
+use wasm_bindgen::prelude::*;
+use yew::callback::Callback;
+use yew::format::{Json, Nothing};
+use yew::prelude::*;
+use yew::services::fetch::{FetchService, FetchTask, Request, Response};
+
+mod datagrid;
+mod github;
 mod index;
 
 #[wasm_bindgen(start)]
@@ -20,8 +28,4 @@ macro_rules! console_log {
         #[allow(unused_unsafe)]
         unsafe { web_sys::console::log_1(&format_args!($($t)*).to_string().into()) }
     }
-}
-
-pub fn base_url() -> Option<String> {
-    web_sys::window().and_then(|w| w.location().origin().ok())
 }

@@ -10,19 +10,16 @@ variables:
   value: 'Release'
 
 steps:
-- task: UseDotNet@2
-  displayName: Install Latest .NET 5.0 SDK
-  inputs:
-    packageType: 'sdk'
-    version: '5.0.100'
-
-- script: dotnet publish Berrysoft.Pages/Berrysoft.Pages.csproj -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)
+- script: cargo make fixrel
   displayName: Publish App
 
 - task: CopyFiles@2
-  displayName: Copy License
+  displayName: Copy Files
   inputs:
-    contents: 'LICENSE'
+    contents: |
+      static/*
+      LICENSE
+      README.md
     targetFolder: $(Build.ArtifactStagingDirectory)/wwwroot
 
 - task: PublishBuildArtifacts@1

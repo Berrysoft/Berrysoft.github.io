@@ -8,6 +8,16 @@ script = [
     "git restore ./static/.gitignore"
 ]
 
+[tasks.buildrel]
+command = "wasm-pack"
+args = ["build", "--release", "--target", "web", "--no-typescript", "--out-name", "wasm", "--out-dir", "./static"]
+
+[tasks.fixrel]
+dependencies = ["buildrel"]
+script = [
+    "git restore ./static/.gitignore"
+]
+
 [tasks.serve]
 dependencies = ["fix"]
 command = "simple-http-server"

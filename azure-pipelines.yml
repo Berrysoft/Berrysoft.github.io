@@ -19,7 +19,6 @@ steps:
     contents: |
       static/*
       LICENSE
-      README.md
     targetFolder: $(Build.ArtifactStagingDirectory)/wwwroot
 
 - task: PublishBuildArtifacts@1

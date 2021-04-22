@@ -15,7 +15,7 @@ args = ["build", "--release", "--target", "web", "--no-typescript", "--out-name"
 [tasks.fixrel]
 dependencies = ["buildrel"]
 script = [
-    "git restore ./static/.gitignore"
+    "rm ./static/.gitignore"
 ]
 
 [tasks.serve]

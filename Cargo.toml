@@ -7,5 +7,9 @@ edition = "2018"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
+web-sys = { version = "0.3", features = ["DomParser", "Document", "SupportedType", "HtmlCollection"] }
 yew = "0.17"
+console_error_panic_hook = "0.1"
 wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
+reqwest = { version = "0.11", features = ["json"] }

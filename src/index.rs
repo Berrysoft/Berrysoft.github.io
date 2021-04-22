@@ -1,3 +1,4 @@
+use crate::tred::*;
 use crate::*;
 
 pub struct IndexPage {}
@@ -7,11 +8,11 @@ impl Component for IndexPage {
 
     type Properties = ();
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(_props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Self {}
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
         true
     }
 
@@ -23,9 +24,9 @@ impl Component for IndexPage {
         html! {
             <div class="container">
                 <div class="fade-in fade-in-1">
-                    <h1>{"Title"}</h1>
+                    <h1><Tred k="indexTitle"/></h1>
 
-                    <p>{"Description"}</p>
+                    <p><Tred k="indexDescription"/></p>
                 </div>
             </div>
         }

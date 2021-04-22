@@ -50,6 +50,10 @@ impl Component for BlogDetailPage {
         false
     }
 
+    fn rendered(&mut self, _first_render: bool) {
+        highlight_all();
+    }
+
     fn view(&self) -> Html {
         let title = if let Some(blogs) = self.blogs.get() {
             let ch = rss::Channel::read_from(blogs.as_bytes()).unwrap();
@@ -111,4 +115,12 @@ impl Component for BlogDetailPage {
             </>
         }
     }
+}
+
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_name = katexRender)]
+    fn katex_render(code: String, display: bool) -> String;
+    #[wasm_bindgen(js_namespace = hljs, js_name = highlightAll)]
+    fn highlight_all();
 }

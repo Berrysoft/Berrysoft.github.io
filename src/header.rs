@@ -1,16 +1,22 @@
 use crate::*;
 
 pub struct Header {
+    props: HeaderProperties,
     link: ComponentLink<Self>,
+}
+
+#[derive(Debug, Clone, Properties)]
+pub struct HeaderProperties {
+    pub index: usize,
 }
 
 impl Component for Header {
     type Message = ();
 
-    type Properties = ();
+    type Properties = HeaderProperties;
 
-    fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Self { link }
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        Self { props, link }
     }
 
     fn update(&mut self, _msg: Self::Message) -> ShouldRender {
@@ -18,10 +24,26 @@ impl Component for Header {
     }
 
     fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        false
+        true
     }
 
     fn view(&self) -> Html {
+        let items = HEADER_ITEMS
+            .iter()
+            .enumerate()
+            .map(|(i, (title, link))| {
+                let class = if i == self.props.index {
+                    "nav-item active"
+                } else {
+                    "nav-item"
+                };
+                html! {
+                    <li class=class>
+                        <a class="nav-link" href=*link>{title}</a>
+                    </li>
+                }
+            })
+            .collect::<Vec<Html>>();
         html! {
             <header class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container">
@@ -31,19 +53,17 @@ impl Component for Header {
                     </button>
 
                     <div id="navbarSupportedContent" class="navbar-collapse collapse" onclick=self.link.callback(|_| collapse_nav())>
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="">{"主页"}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="about">{"关于"}</a>
-                            </li>
-                        </ul>
+                        <ul class="navbar-nav mr-auto">{items}</ul>
                     </div>
                 </div>
             </header>
         }
     }
+}
+
+lazy_static! {
+    static ref HEADER_ITEMS: Vec<(&'static str, &'static str)> =
+        vec![("主页", ""), ("博客", ""), ("关于", "about")];
 }
 
 #[wasm_bindgen]

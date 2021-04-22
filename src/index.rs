@@ -57,7 +57,7 @@ impl Component for IndexPage {
     }
 
     fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
+        false
     }
 
     fn view(&self) -> Html {
@@ -96,7 +96,7 @@ impl Component for IndexPage {
         };
         html! {
             <>
-                <Header/>
+                <Header index=0/>
                 <div class="container">
                     <div class="fade-in fade-in-1">
                         <h1>{"Berrysoft 的 HTML 实验室"}</h1>

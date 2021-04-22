@@ -31,7 +31,7 @@ impl Component for AboutPage {
     }
 
     fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
+        false
     }
 
     fn view(&self) -> Html {
@@ -53,7 +53,7 @@ impl Component for AboutPage {
         };
         html! {
             <>
-                <Header/>
+                <Header index=2/>
                 <div class="container">
                     <div class="fade-in fade-in-1">
                         <h1>{"关于本网站"}</h1>

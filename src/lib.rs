@@ -1,11 +1,10 @@
 #![recursion_limit = "256"]
 
 use chrono::{DateTime, FixedOffset, Utc};
+use lazy_static::lazy_static;
 use std::sync::Arc;
 use wasm_bindgen::prelude::*;
-use yew::format::{Json, Nothing};
 use yew::prelude::*;
-use yew::services::fetch::{FetchService, FetchTask, Request, Response};
 use yew_router::prelude::*;
 
 mod data;

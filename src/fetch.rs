@@ -2,6 +2,8 @@ use crate::*;
 use http::Uri;
 use serde::de::DeserializeOwned;
 use std::convert::TryFrom;
+use yew::format::{Json, Nothing};
+use yew::services::fetch::{FetchService, FetchTask, Request, Response};
 
 pub struct Fetcher<T: DeserializeOwned + 'static> {
     data: FetcherData<T>,

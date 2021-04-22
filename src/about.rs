@@ -1,18 +1,33 @@
-use crate::{footer::*, header::*, *};
+use crate::{data::*, datagrid::*, fetch::*, footer::*, header::*, *};
 
-pub struct AboutPage;
+pub struct AboutPage {
+    libs: Fetcher<Library>,
+}
+
+pub enum AboutPageMessage {
+    GetLibraries(FetcherMessage<Library>),
+}
 
 impl Component for AboutPage {
-    type Message = ();
+    type Message = AboutPageMessage;
 
     type Properties = ();
 
-    fn create(_props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self
+    fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        Self {
+            libs: Fetcher::new("/data/libraries.json", link, |msg| {
+                AboutPageMessage::GetLibraries(msg)
+            }),
+        }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        true
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        match msg {
+            AboutPageMessage::GetLibraries(msg) => {
+                self.libs.update(msg);
+                true
+            }
+        }
     }
 
     fn change(&mut self, _props: Self::Properties) -> ShouldRender {
@@ -20,6 +35,22 @@ impl Component for AboutPage {
     }
 
     fn view(&self) -> Html {
+        let libraries = if let Some(libs) = self.libs.get() {
+            html! {
+                <DataGrid<Library> data=libs>
+                    <DataGridColumn<Library> header="名称" fmt=box_fmt(|lib: &Library| format!("<a href=\"{}\">{}</a>", lib.url, lib.name))/>
+                    <DataGridColumn<Library> header="许可证" fmt=box_fmt(|lib: &Library| {
+                        if let Some(url) = &lib.license_url {
+                            format!("<a href=\"{}\">{}</a>", url, lib.license)
+                        } else {
+                            lib.license.clone()
+                        }
+                    })/>
+                </DataGrid<Library>>
+            }
+        } else {
+            html! {}
+        };
         html! {
             <>
                 <Header/>
@@ -31,6 +62,10 @@ impl Component for AboutPage {
                             <br />
                             <a href="//github.com/Berrysoft/Berrysoft.github.io">{"项目源代码"}</a>
                         </p>
+                    </div>
+                    <div class="fade-in fade-in-2">
+                        <h2>{"包含的开源库"}</h2>
+                        <div class="table-responsive-xl">{libraries}</div>
                     </div>
                 </div>
                 <Footer/>

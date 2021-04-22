@@ -16,3 +16,12 @@ pub struct FriendLink {
     pub title: String,
     pub url: String,
 }
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct Library {
+    pub name: String,
+    pub url: String,
+    pub license: String,
+    #[serde(default, rename = "licenseUrl")]
+    pub license_url: Option<String>,
+}

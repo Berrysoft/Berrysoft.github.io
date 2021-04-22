@@ -1,4 +1,3 @@
-use crate::tred::*;
 use crate::*;
 
 pub struct IndexPage {}
@@ -24,9 +23,9 @@ impl Component for IndexPage {
         html! {
             <div class="container">
                 <div class="fade-in fade-in-1">
-                    <h1><Tred k="indexTitle"/></h1>
+                    <h1>{"Berrysoft 的 HTML 实验室"}</h1>
 
-                    <p><Tred k="indexDescription"/></p>
+                    <p>{"本网站使用 "}<a href="https://www.rust-lang.org/zh-CN/">{"Rust"}</a>{" 开发。"}</p>
                 </div>
             </div>
         }

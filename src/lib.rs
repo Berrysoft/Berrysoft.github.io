@@ -3,12 +3,10 @@ use wasm_bindgen_futures::spawn_local;
 use yew::prelude::*;
 
 mod index;
-mod tred;
 
 #[wasm_bindgen(start)]
-pub async fn run_app() {
+pub fn run_app() {
     set_panic_hook();
-    tred::init_strings_map().await;
     App::<index::IndexPage>::new().mount_to_body();
 }
 

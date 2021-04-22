@@ -1,28 +1,15 @@
-use crate::{datagrid::*, *};
+use crate::{data::*, datagrid::*, fetch::*, *};
 
 pub struct IndexPage {
-    link: ComponentLink<Self>,
-    github_events: Arc<Vec<github::Event>>,
-    github_events_loaded: bool,
-    #[allow(dead_code)]
-    github_events_task: Option<FetchTask>,
+    projects: Fetcher<PersonalProject>,
+    github_events: Fetcher<github::Event>,
+    links: Fetcher<FriendLink>,
 }
 
 pub enum IndexPageMessage {
-    GetGitHubEvents,
-    GetGitHubEventsSuccess(Vec<github::Event>),
-    GetGitHubEventsError,
-}
-
-impl IndexPage {
-    fn get_github_events(
-        callback: Callback<Response<Json<Result<Vec<github::Event>, anyhow::Error>>>>,
-    ) -> FetchTask {
-        let req = Request::get("//api.github.com/users/berrysoft/events")
-            .body(Nothing)
-            .unwrap();
-        FetchService::fetch(req, callback).unwrap()
-    }
+    GetProjects(FetcherMessage<PersonalProject>),
+    GetGitHubEvents(FetcherMessage<github::Event>),
+    GetFriendLinks(FetcherMessage<FriendLink>),
 }
 
 impl Component for IndexPage {
@@ -31,44 +18,39 @@ impl Component for IndexPage {
     type Properties = ();
 
     fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        link.send_message(IndexPageMessage::GetGitHubEvents);
         Self {
-            link,
-            github_events: Arc::new(vec![]),
-            github_events_loaded: false,
-            github_events_task: None,
+            projects: Fetcher::new("/data/projects.json", link.clone(), |msg| {
+                IndexPageMessage::GetProjects(msg)
+            }),
+            github_events: Fetcher::new(
+                "//api.github.com/users/berrysoft/events",
+                link.clone(),
+                |msg| IndexPageMessage::GetGitHubEvents(msg),
+            ),
+            links: Fetcher::new("/data/links.json", link.clone(), |msg| {
+                IndexPageMessage::GetFriendLinks(msg)
+            }),
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            IndexPageMessage::GetGitHubEvents => {
-                self.github_events_loaded = false;
-                let handler = self.link.callback(
-                    move |res: Response<Json<Result<Vec<github::Event>, anyhow::Error>>>| {
-                        let (_, Json(data)) = res.into_parts();
-                        match data {
-                            Ok(events) => IndexPageMessage::GetGitHubEventsSuccess(events),
-                            Err(_) => IndexPageMessage::GetGitHubEventsError,
-                        }
-                    },
-                );
-                self.github_events_task = Some(Self::get_github_events(handler));
+            IndexPageMessage::GetProjects(msg) => {
+                self.projects.update(msg);
                 true
             }
-            IndexPageMessage::GetGitHubEventsSuccess(events) => {
-                self.github_events = Arc::new(
-                    events
+            IndexPageMessage::GetGitHubEvents(mut msg) => {
+                if let Ok(events) = msg {
+                    msg = Ok(events
                         .into_iter()
                         .filter(|e| e.r#type == "PushEvent")
-                        .take(10)
-                        .collect(),
-                );
-                self.github_events_loaded = true;
+                        .collect());
+                }
+                self.github_events.update(msg);
                 true
             }
-            IndexPageMessage::GetGitHubEventsError => {
-                self.github_events_loaded = false;
+            IndexPageMessage::GetFriendLinks(msg) => {
+                self.links.update(msg);
                 true
             }
         }
@@ -79,6 +61,39 @@ impl Component for IndexPage {
     }
 
     fn view(&self) -> Html {
+        let projects = if let Some(projects) = self.projects.get() {
+            html! {
+                <DataGrid<PersonalProject> data=projects>
+                    <DataGridColumn<PersonalProject> header="名称" fmt=box_fmt(|p: &PersonalProject| format!("<a href=\"{}\">{}</a>", p.url, p.name))/>
+                    <DataGridColumn<PersonalProject> header="主要语言" fmt=box_fmt(|p: &PersonalProject| p.language.clone())/>
+                    <DataGridColumn<PersonalProject> header="简介" fmt=box_fmt(|p: &PersonalProject| p.description.clone())/>
+                </DataGrid<PersonalProject>>
+            }
+        } else {
+            html! {}
+        };
+        let github_events_node = if let Some(events) = self.github_events.get() {
+            html! {
+                <DataGrid<github::Event> data=events>
+                    <DataGridColumn<github::Event> header="消息" fmt=box_fmt(|e: &github::Event| {
+                        let msg = e.payload.commits.last().map(|c| c.message.replace("\r\n", "<br/>").replace("\n", "<br/>")).unwrap_or_default();
+                        let link = format!("//github.com/{}/commit/{}", e.repo.name, e.payload.commits.last().map(|c| c.sha.clone()).unwrap_or_default());
+                        format!("<a href=\"{}\">{}</a>", link, msg)
+                    })/>
+                    <DataGridColumn<github::Event> header="时间" fmt=box_fmt(|e: &github::Event| e.created_at.with_timezone(&FixedOffset::east(8 * 3600)).naive_local().to_string())/>
+                    <DataGridColumn<github::Event> header="存储库" fmt=box_fmt(|e: &github::Event| e.repo.name.clone())/>
+                </DataGrid<github::Event>>
+            }
+        } else {
+            html! {}
+        };
+        let friend_links = if let Some(links) = self.links.get() {
+            links.iter().map(|link| html! {
+                <a class="list-group-item list-group-item-action" href=link.url.clone()>{&format!("{} - {}", link.name, link.title)}</a>
+            }).collect()
+        } else {
+            vec![]
+        };
         html! {
             <div class="container">
                 <div class="fade-in fade-in-1">
@@ -87,33 +102,15 @@ impl Component for IndexPage {
                 </div>
                 <div class="fade-in fade-in-2">
                     <h2>{"其它个人开源项目"}</h2>
-                    <div class="table-responsive-xl">
-
-                    </div>
+                    <div class="table-responsive-xl">{projects}</div>
                 </div>
                 <div class="fade-in fade-in-3">
                     <h2>{"GitHub 事件"}</h2>
-                    <div class="table-responsive-xl">
-                        {
-                            if self.github_events_loaded {
-                                html! {
-                                    <DataGrid<github::Event> data=self.github_events.clone()>
-                                        <DataGridColumn<github::Event> header="消息" fmt=box_fmt(|e: &github::Event| e.payload.commits.last().map(|c| c.message.replace("\r\n", "<br/>").replace("\n", "<br/>")).unwrap_or_default())/>
-                                        <DataGridColumn<github::Event> header="时间" fmt=box_fmt(|e: &github::Event| e.created_at.with_timezone(&FixedOffset::east(8 * 3600)).naive_local().to_string())/>
-                                        <DataGridColumn<github::Event> header="存储库" fmt=box_fmt(|e: &github::Event| e.repo.name.clone())/>
-                                    </DataGrid<github::Event>>
-                                }
-                            } else {
-                                html! {}
-                            }
-                        }
-                    </div>
+                    <div class="table-responsive-xl">{github_events_node}</div>
                 </div>
                 <div class="fade-in fade-in-4">
                     <h2>{"友情链接"}</h2>
-                    <div class="list-group list-group-flush">
-
-                    </div>
+                    <div class="list-group list-group-flush">{friend_links}</div>
                 </div>
             </div>
         }

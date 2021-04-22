@@ -1,5 +1,4 @@
-use crate::*;
-use serde::*;
+use crate::{data::*, *};
 
 #[derive(Debug, Default, Clone, Deserialize)]
 pub struct Repo {

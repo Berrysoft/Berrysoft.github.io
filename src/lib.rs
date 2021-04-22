@@ -1,15 +1,15 @@
-#![recursion_limit = "512"]
+#![recursion_limit = "256"]
 
 use chrono::{DateTime, FixedOffset, Utc};
 use std::sync::Arc;
 use wasm_bindgen::prelude::*;
-use yew::callback::Callback;
 use yew::format::{Json, Nothing};
 use yew::prelude::*;
 use yew::services::fetch::{FetchService, FetchTask, Request, Response};
 
+mod data;
 mod datagrid;
-mod github;
+mod fetch;
 mod index;
 
 #[wasm_bindgen(start)]

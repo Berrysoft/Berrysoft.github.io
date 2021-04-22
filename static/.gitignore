@@ -1,5 +1,3 @@
 wasm.js
-wasm.d.ts
 package.json
 *.wasm
-*.wasm.d.ts

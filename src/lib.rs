@@ -14,12 +14,17 @@ mod footer;
 mod header;
 
 mod about;
+mod blog;
 mod index;
 
-#[derive(Debug, Clone, Copy, Switch)]
+#[derive(Debug, Clone, Switch)]
 enum AppRoute {
     #[to = "/about"]
     About,
+    #[to = "/blog/{*}"]
+    BlogDetail(String),
+    #[to = "/blog"]
+    Blog,
     #[to = "/"]
     Index,
 }
@@ -46,6 +51,8 @@ impl Component for AppRoot {
     fn view(&self) -> Html {
         let render = Router::render(|switch: AppRoute| match switch {
             AppRoute::Index => html! {<index::IndexPage />},
+            AppRoute::BlogDetail(name) => html! {<blog::detail::BlogDetailPage name=name />},
+            AppRoute::Blog => html! {<blog::BlogPage />},
             AppRoute::About => html! {<about::AboutPage />},
         });
         html! {

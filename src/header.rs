@@ -63,7 +63,7 @@ impl Component for Header {
 
 lazy_static! {
     static ref HEADER_ITEMS: Vec<(&'static str, &'static str)> =
-        vec![("主页", ""), ("博客", ""), ("关于", "about")];
+        vec![("主页", ""), ("博客", "blog"), ("关于", "about")];
 }
 
 #[wasm_bindgen]

@@ -1,15 +1,15 @@
 use crate::{data::*, datagrid::*, fetch::*, footer::*, header::*, *};
 
 pub struct IndexPage {
-    projects: Fetcher<PersonalProject>,
-    github_events: Fetcher<github::Event>,
-    links: Fetcher<FriendLink>,
+    projects: JsonFetcher<PersonalProject>,
+    github_events: JsonFetcher<github::Event>,
+    links: JsonFetcher<FriendLink>,
 }
 
 pub enum IndexPageMessage {
-    GetProjects(FetcherMessage<PersonalProject>),
-    GetGitHubEvents(FetcherMessage<github::Event>),
-    GetFriendLinks(FetcherMessage<FriendLink>),
+    GetProjects(JsonFetcherMessage<PersonalProject>),
+    GetGitHubEvents(JsonFetcherMessage<github::Event>),
+    GetFriendLinks(JsonFetcherMessage<FriendLink>),
 }
 
 impl Component for IndexPage {
@@ -19,15 +19,15 @@ impl Component for IndexPage {
 
     fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Self {
-            projects: Fetcher::new("/data/projects.json", link.clone(), |msg| {
+            projects: JsonFetcher::new("/data/projects.json", link.clone(), |msg| {
                 IndexPageMessage::GetProjects(msg)
             }),
-            github_events: Fetcher::new(
+            github_events: JsonFetcher::new(
                 "//api.github.com/users/berrysoft/events",
                 link.clone(),
                 |msg| IndexPageMessage::GetGitHubEvents(msg),
             ),
-            links: Fetcher::new("/data/links.json", link.clone(), |msg| {
+            links: JsonFetcher::new("/data/links.json", link.clone(), |msg| {
                 IndexPageMessage::GetFriendLinks(msg)
             }),
         }

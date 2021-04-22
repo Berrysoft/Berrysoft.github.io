@@ -1,11 +1,11 @@
 use crate::{data::*, datagrid::*, fetch::*, footer::*, header::*, *};
 
 pub struct AboutPage {
-    libs: Fetcher<Library>,
+    libs: JsonFetcher<Library>,
 }
 
 pub enum AboutPageMessage {
-    GetLibraries(FetcherMessage<Library>),
+    GetLibraries(JsonFetcherMessage<Library>),
 }
 
 impl Component for AboutPage {
@@ -15,7 +15,7 @@ impl Component for AboutPage {
 
     fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Self {
-            libs: Fetcher::new("/data/libraries.json", link, |msg| {
+            libs: JsonFetcher::new("/data/libraries.json", link, |msg| {
                 AboutPageMessage::GetLibraries(msg)
             }),
         }

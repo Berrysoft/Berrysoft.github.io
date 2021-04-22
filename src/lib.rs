@@ -65,6 +65,9 @@ pub fn set_panic_hook() {
     console_error_panic_hook::set_once();
 }
 
+#[global_allocator]
+static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+
 #[macro_export]
 macro_rules! console_log {
     ($($t:tt)*) => {

@@ -39,7 +39,9 @@ impl Component for BlogPage {
     fn view(&self) -> Html {
         let blogs = if let Some(blogs) = self.blogs.get() {
             let ch = rss::Channel::read_from(blogs.as_bytes()).unwrap();
-            ch.items
+            let mut items = ch.items;
+            items.reverse();
+            items
                 .into_iter()
                 .map(|item| {
                     let filename = std::path::PathBuf::from(item.link.unwrap_or_default())

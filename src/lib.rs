@@ -10,6 +10,8 @@ use yew::services::fetch::{FetchService, FetchTask, Request, Response};
 mod data;
 mod datagrid;
 mod fetch;
+mod footer;
+mod header;
 mod index;
 
 #[wasm_bindgen(start)]

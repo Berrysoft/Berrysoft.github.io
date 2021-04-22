@@ -1,14 +1,5 @@
-﻿function changeStyle(name, url) {
-    var link = document.getElementById(name);
-    link.href = url;
-}
-
-function enableElement(element, enable) {
-    element.disabled = !enable;
-}
-
-function focusElement(element) {
-    element.focus();
+﻿function collapseNav() {
+    $('#navbarSupportedContent').collapse('hide');
 }
 
 function highlight(language, code) {

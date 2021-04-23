@@ -10,6 +10,11 @@ variables:
   value: 'Release'
 
 steps:
+- script: |
+    cargo install wasm-pack
+    cargo install cargo-make
+  displayName: install tools
+
 - script: cargo make fixrel
   displayName: Publish App
 

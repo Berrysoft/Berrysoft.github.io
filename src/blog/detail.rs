@@ -124,8 +124,8 @@ impl Component for BlogDetailPage {
 
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(js_name = mathAll)]
+    #[wasm_bindgen(js_namespace = MathJax, js_name = typeset)]
     fn math_all();
-    #[wasm_bindgen(js_name = highlightAll)]
+    #[wasm_bindgen(js_namespace = hljs, js_name = highlightAll)]
     fn highlight_all();
 }

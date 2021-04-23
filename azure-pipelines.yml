@@ -10,31 +10,38 @@ variables:
   value: 'Release'
 
 steps:
-- task: UseDotNet@2
-  displayName: Install Latest .NET 5.0 SDK
-  inputs:
-    packageType: 'sdk'
-    version: '5.0.100'
+- script: |
+    cargo install wasm-pack
+    cargo install cargo-make
+  displayName: Install tools
 
-- script: dotnet publish Berrysoft.Pages/Berrysoft.Pages.csproj -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)
-  displayName: Publish App
+- script: cargo make fixrel
+  displayName: Build app
 
 - task: CopyFiles@2
-  displayName: Copy License
+  displayName: Copy files
   inputs:
-    contents: 'LICENSE'
-    targetFolder: $(Build.ArtifactStagingDirectory)/wwwroot
+    contents: |
+      static/**
+    targetFolder: $(Build.ArtifactStagingDirectory)
+
+- task: CopyFiles@2
+  displayName: Copy license
+  inputs:
+    contents: |
+      LICENSE
+    targetFolder: $(Build.ArtifactStagingDirectory)/static
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifacts'
+  displayName: 'Publish artifacts'
   inputs:
-    pathtoPublish: $(Build.ArtifactStagingDirectory)/wwwroot
+    pathtoPublish: $(Build.ArtifactStagingDirectory)/static
     artifactName: 'Dist'
 
 - script: |
     git config --global user.name "$NAME"
     git config --global user.email "$EMAIL"
-    cd $(Build.ArtifactStagingDirectory)/wwwroot
+    cd $(Build.ArtifactStagingDirectory)/static
     git init
     git checkout -b master
     git add -A

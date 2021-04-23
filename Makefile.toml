@@ -1,0 +1,24 @@
+[tasks.build]
+command = "wasm-pack"
+args = ["build", "--dev", "--target", "web", "--no-typescript", "--out-name", "wasm", "--out-dir", "./static"]
+
+[tasks.fix]
+dependencies = ["build"]
+script = [
+    "git restore ./static/.gitignore"
+]
+
+[tasks.buildrel]
+command = "wasm-pack"
+args = ["build", "--release", "--target", "web", "--no-typescript", "--out-name", "wasm", "--out-dir", "./static"]
+
+[tasks.fixrel]
+dependencies = ["buildrel"]
+script = [
+    "rm ./static/.gitignore"
+]
+
+[tasks.serve]
+dependencies = ["fix"]
+command = "simple-http-server"
+args = ["-i", "./static/", "-p", "3000", "--nocache", "--try-file", "./static/404.html"]

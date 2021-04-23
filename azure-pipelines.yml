@@ -13,29 +13,35 @@ steps:
 - script: |
     cargo install wasm-pack
     cargo install cargo-make
-  displayName: install tools
+  displayName: Install tools
 
 - script: cargo make fixrel
-  displayName: Publish App
+  displayName: Build app
 
 - task: CopyFiles@2
-  displayName: Copy Files
+  displayName: Copy files
   inputs:
     contents: |
-      static/*
+      static/**
+    targetFolder: $(Build.ArtifactStagingDirectory)
+
+- task: CopyFiles@2
+  displayName: Copy license
+  inputs:
+    contents: |
       LICENSE
-    targetFolder: $(Build.ArtifactStagingDirectory)/wwwroot
+    targetFolder: $(Build.ArtifactStagingDirectory)/static
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifacts'
+  displayName: 'Publish artifacts'
   inputs:
-    pathtoPublish: $(Build.ArtifactStagingDirectory)/wwwroot
+    pathtoPublish: $(Build.ArtifactStagingDirectory)/static
     artifactName: 'Dist'
 
 - script: |
     git config --global user.name "$NAME"
     git config --global user.email "$EMAIL"
-    cd $(Build.ArtifactStagingDirectory)/wwwroot
+    cd $(Build.ArtifactStagingDirectory)/static
     git init
     git checkout -b master
     git add -A

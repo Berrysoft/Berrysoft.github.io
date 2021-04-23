@@ -7,9 +7,9 @@
     <language>zh-cn</language>
     <copyright>Copyright (c) 2019-2021</copyright>
     <managingEditor>Strawberry_Str@hotmail.com</managingEditor>
-    <lastBuildDate>Fri, 23 Apr 2021 17:22:04 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 23 Apr 2021 21:39:57 +0800</lastBuildDate>
     <generator>pages::blog</generator>
-    <a10:link href="https://berrysoft.github.io/blogdata/rss.xml" rel="self" type="application/rss+xml">
+    <a10:link href="https://berrysoft.github.io/blogdata/rss.xml" type="application/rss+xml" rel="self">
     </a10:link>
     <item>
       <title>测试页面</title>
@@ -100,6 +100,15 @@
       </description>
       <guid isPermaLink="false">Darling_2020_10_12</guid>
       <pubDate>Mon, 12 Oct 2020 13:46:58 +0800</pubDate>
+    </item>
+    <item>
+      <title>用Rust重写网站</title>
+      <link>https://berrysoft.github.io/blog/Rust_2021_4_23</link>
+      <description>
+        <![CDATA[花了两天把网站用 Rust 重写了。]]>
+      </description>
+      <guid isPermaLink="false">Rust_2021_4_23</guid>
+      <pubDate>Fri, 23 Apr 2021 21:39:57 +0800</pubDate>
     </item>
   </channel>
 </rss>

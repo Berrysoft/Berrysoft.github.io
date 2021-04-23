@@ -46,21 +46,24 @@ fn main() -> Result<(), Box<dyn Error>> {
             .unwrap_or_default()
     };
     let new_filename = format!(
-        "{}_{}_{}_{}.{}",
+        "{}_{}_{}_{}",
         input
-            .file_name()
+            .file_stem()
             .map(|s| s.to_string_lossy())
             .unwrap_or_default(),
         now.year(),
         now.month(),
-        now.day(),
+        now.day()
+    );
+    let mut new_input = input.clone();
+    new_input.set_file_name(format!(
+        "{}.{}",
+        new_filename,
         input
             .extension()
             .map(|s| s.to_string_lossy())
             .unwrap_or_default()
-    );
-    let mut new_input = input.clone();
-    new_input.set_file_name(&new_filename);
+    ));
     std::fs::rename(input, new_input)?;
     ch.items.push({
         let mut item = rss::Item::default();

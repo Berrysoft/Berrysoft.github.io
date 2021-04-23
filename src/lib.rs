@@ -7,15 +7,15 @@ use wasm_bindgen::prelude::*;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-mod data;
-mod datagrid;
-mod fetch;
-mod footer;
-mod header;
+pub mod data;
+pub mod datagrid;
+pub mod fetch;
+pub mod footer;
+pub mod header;
 
-mod about;
-mod blog;
-mod index;
+pub mod about;
+pub mod blog;
+pub mod index;
 
 #[derive(Debug, Clone, Switch)]
 enum AppRoute {

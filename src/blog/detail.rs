@@ -1,4 +1,4 @@
-use crate::{fetch::*, footer::*, header::*, *};
+use crate::{blog::BlogItem, fetch::*, footer::*, header::*, *};
 use pulldown_cmark::{html, Parser};
 
 pub struct BlogDetailPage {
@@ -61,30 +61,16 @@ impl Component for BlogDetailPage {
 
     fn view(&self) -> Html {
         let title = if let Some(blogs) = self.blogs.get() {
-            let ch = rss::Channel::read_from(blogs.as_bytes()).unwrap();
-            let item = ch
-                .items
+            let item = BlogItem::parse_rss(blogs)
                 .into_iter()
-                .filter(|item| {
-                    let filename = std::path::PathBuf::from(
-                        item.link.as_ref().map(|s| s.as_str()).unwrap_or(""),
-                    )
-                    .file_name()
-                    .map(|name| name.to_string_lossy().into_owned())
-                    .unwrap_or_default();
-                    filename == self.props.name
-                })
+                .filter(|item| item.filename == self.props.name)
                 .next()
                 .unwrap();
-            let time = DateTime::parse_from_rfc2822(
-                item.pub_date.as_ref().map(|s| s.as_str()).unwrap_or(""),
-            )
-            .unwrap();
             html! {
                 <>
-                    <h1>{item.title.unwrap_or_default()}</h1>
+                    <h1>{item.title}</h1>
                     <p class="text-secondary">
-                        <time datetime=time.naive_local().to_string()>{time.naive_local().to_string()}</time>
+                        <time datetime=item.time.naive_local().to_string()>{item.time.naive_local().to_string()}</time>
                     </p>
                 </>
             }

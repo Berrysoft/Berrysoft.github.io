@@ -38,25 +38,16 @@ impl Component for BlogPage {
 
     fn view(&self) -> Html {
         let blogs = if let Some(blogs) = self.blogs.get() {
-            let ch = rss::Channel::read_from(blogs.as_bytes()).unwrap();
-            let mut items = ch.items;
-            items.reverse();
-            items
+            BlogItem::parse_rss(blogs)
                 .into_iter()
                 .map(|item| {
-                    let filename = std::path::PathBuf::from(item.link.unwrap_or_default())
-                        .file_name()
-                        .map(|name| name.to_string_lossy().into_owned())
-                        .unwrap_or_default();
-                    let time =
-                        DateTime::parse_from_rfc2822(&item.pub_date.unwrap_or_default()).unwrap();
                     html!{
-                        <a class="list-group-item list-group-item-action" href=format!("/blog/{}", filename)>
-                            <h2>{item.title.unwrap_or_default()}</h2>
+                        <a class="list-group-item list-group-item-action" href=format!("/blog/{}", item.filename)>
+                            <h2>{item.title}</h2>
                             <p class="text-secondary">
-                                <time datetime=time.naive_local().to_string()>{time.naive_local().to_string()}</time>
+                                <time datetime=item.time.naive_local().to_string()>{item.time.naive_local().to_string()}</time>
                             </p>
-                            <p>{item.description.unwrap_or_default()}</p>
+                            <p>{item.description}</p>
                         </a>
                     }
                 })
@@ -78,5 +69,38 @@ impl Component for BlogPage {
                 <Footer />
             </>
         }
+    }
+}
+
+#[derive(Debug)]
+pub struct BlogItem {
+    pub filename: String,
+    pub title: String,
+    pub description: String,
+    pub time: DateTime<FixedOffset>,
+}
+
+impl BlogItem {
+    pub fn parse_rss(blogs: String) -> Vec<Self> {
+        let ch = rss::Channel::read_from(blogs.as_bytes()).unwrap();
+        let mut items = ch.items;
+        items.reverse();
+        items
+            .into_iter()
+            .map(|item| {
+                let filename = std::path::PathBuf::from(item.link.unwrap_or_default())
+                    .file_name()
+                    .map(|name| name.to_string_lossy().into_owned())
+                    .unwrap_or_default();
+                let time =
+                    DateTime::parse_from_rfc2822(&item.pub_date.unwrap_or_default()).unwrap();
+                Self {
+                    filename,
+                    title: item.title.unwrap_or_default(),
+                    description: item.description.unwrap_or_default(),
+                    time,
+                }
+            })
+            .collect()
     }
 }

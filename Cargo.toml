@@ -8,6 +8,7 @@ crate-type = ["cdylib", "rlib"]
 
 [[bin]]
 name = "blog"
+required-features = ["blog"]
 
 [dependencies]
 web-sys = { version = "0.3", features = ["DomParser", "Document", "SupportedType", "HtmlCollection"] }
@@ -23,6 +24,12 @@ serde = "1.0"
 lazy_static = "1.4"
 rss = "1.10"
 pulldown-cmark = { version = "0.8", default-features = false }
+
+structopt = { version = "0.3", optional = true }
+
+[features]
+default = []
+blog = ["structopt"]
 
 [profile.release]
 lto = true

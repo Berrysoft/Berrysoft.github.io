@@ -1,27 +1,88 @@
 #![feature(with_options)]
 
-use chrono::{FixedOffset, Local};
+use chrono::{Datelike, FixedOffset, Local};
+use pulldown_cmark::{Event, Parser};
+use std::error::Error;
 use std::fs::File;
-use std::io::{BufReader, BufWriter};
+use std::io::{BufReader, BufWriter, Read};
+use std::path::PathBuf;
+use structopt::StructOpt;
 
-fn main() {
+#[derive(Debug, StructOpt)]
+#[structopt(name = "add", about = "Add a piece of blog.")]
+struct Opt {
+    #[structopt()]
+    input: String,
+    #[structopt(long)]
+    title: String,
+}
+
+fn main() -> Result<(), Box<dyn Error>> {
+    let opt = Opt::from_args();
+    let mut input = PathBuf::from("static/blogdata");
+    input.push(opt.input);
     let mut ch = {
-        let rss_file = File::open("static/blogdata/feed.xml").unwrap();
+        let rss_file = File::open("static/blogdata/feed.xml")?;
         let rss_file = BufReader::new(rss_file);
-        rss::Channel::read_from(rss_file).unwrap()
+        rss::Channel::read_from(rss_file)?
     };
-    ch.last_build_date = Some(
-        Local::now()
-            .with_timezone(&FixedOffset::east(8 * 3600))
-            .to_rfc2822(),
-    );
+    let now = Local::now();
+    ch.last_build_date = Some(now.with_timezone(&FixedOffset::east(8 * 3600)).to_rfc2822());
     ch.generator = Some("pages::blog".to_string());
+    let description = {
+        let mut blog_file = File::open(&input)?;
+        let mut text = String::new();
+        blog_file.read_to_string(&mut text)?;
+        let parser = Parser::new(&text);
+        parser
+            .filter_map(|e| {
+                if let Event::Text(text) = e {
+                    Some(text.to_string())
+                } else {
+                    None
+                }
+            })
+            .next()
+            .unwrap_or_default()
+    };
+    let new_filename = format!(
+        "{}_{}_{}_{}.{}",
+        input
+            .file_name()
+            .map(|s| s.to_string_lossy())
+            .unwrap_or_default(),
+        now.year(),
+        now.month(),
+        now.day(),
+        input
+            .extension()
+            .map(|s| s.to_string_lossy())
+            .unwrap_or_default()
+    );
+    let mut new_input = input.clone();
+    new_input.set_file_name(&new_filename);
+    std::fs::rename(input, new_input)?;
+    ch.items.push({
+        let mut item = rss::Item::default();
+        item.set_title(opt.title);
+        item.set_link(format!("{}{}", ch.link, new_filename));
+        item.set_description(description);
+        item.set_guid(
+            rss::GuidBuilder::default()
+                .permalink(false)
+                .value(new_filename)
+                .build()
+                .ok(),
+        );
+        item.set_pub_date(ch.last_build_date.clone());
+        item
+    });
     {
         let rss_file = File::with_options()
             .write(true)
-            .open("static/blogdata/feed.xml")
-            .unwrap();
+            .open("static/blogdata/feed.xml")?;
         let rss_file = BufWriter::new(rss_file);
-        ch.pretty_write_to(rss_file, b' ', 2).unwrap();
+        ch.pretty_write_to(rss_file, b' ', 2)?;
     }
+    Ok(())
 }

@@ -51,7 +51,12 @@ impl Component for BlogDetailPage {
     }
 
     fn rendered(&mut self, _first_render: bool) {
-        highlight_all();
+        // Make analyzer happy
+        #[allow(unused_unsafe)]
+        unsafe {
+            highlight_all();
+            math_all();
+        }
     }
 
     fn view(&self) -> Html {
@@ -119,8 +124,8 @@ impl Component for BlogDetailPage {
 
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(js_name = katexRender)]
-    fn katex_render(code: String, display: bool) -> String;
-    #[wasm_bindgen(js_namespace = hljs, js_name = highlightAll)]
+    #[wasm_bindgen(js_name = mathAll)]
+    fn math_all();
+    #[wasm_bindgen(js_name = highlightAll)]
     fn highlight_all();
 }

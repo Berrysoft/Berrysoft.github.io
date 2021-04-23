@@ -1,69 +1,79 @@
 [
-  {
-    "name": "Markdig",
-    "url": "https://github.com/lunet-io/markdig",
-    "license": "BSD 2-Clause"
-  },
-  {
-    "name": "Toolbelt.Blazor.LoadingBar",
-    "url": "https://github.com/jsakamoto/Toolbelt.Blazor.LoadingBar",
-    "license": "MPL 2.0"
-  },
-  {
-    "name": "Toolbelt.Blazor.TimeZoneKit",
-    "url": "https://github.com/jsakamoto/Toolbelt.Blazor.TimeZoneKit",
-    "license": "MPL 2.0"
-  },
-  {
-    "name": "SpinKit",
-    "url": "https://github.com/tobiasahlin/SpinKit",
-    "license": "MIT"
-  },
-  {
-    "name": "SPA GitHub Pages",
-    "url": "https://github.com/rafrex/spa-github-pages",
-    "license": "MIT"
-  },
-  {
-    "name": "jQuery",
-    "url": "https://github.com/jquery/jquery",
-    "license": "MIT"
-  },
-  {
-    "name": "Bootstrap",
-    "url": "https://github.com/twbs/bootstrap",
-    "license": "MIT"
-  },
-  {
-    "name": "Bootswatch",
-    "url": "https://github.com/thomaspark/bootswatch",
-    "license": "MIT"
-  },
-  {
-    "name": "Font-Awesome",
-    "url": "https://github.com/FortAwesome/Font-Awesome",
-    "license": "Font Awesome Free License",
-    "licenseUrl": "https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt"
-  },
-  {
-    "name": "Highlight.js",
-    "url": "https://github.com/highlightjs/highlight.js",
-    "license": "Highlight.js License",
-    "licenseUrl": "https://github.com/highlightjs/highlight.js/blob/master/LICENSE"
-  },
-  {
-    "name": "Pek.Markdig.HighlightJs",
-    "url": "https://github.com/pauldotknopf/Pek.Markdig.HighlightJs",
-    "license": "MIT"
-  },
-  {
-    "name": "KaTeX",
-    "url": "https://github.com/KaTeX/KaTeX",
-    "license": "MIT"
-  },
-  {
-    "name": "BuildBundlerMinifier",
-    "url": "https://github.com/madskristensen/BundlerMinifier",
-    "license": "Apache 2.0"
-  }
+    {
+        "name": "chrono",
+        "url": "https://crates.io/crates/chrono",
+        "license": "MIT"
+    },
+    {
+        "name": "console_error_panic_hook",
+        "url": "https://crates.io/crates/console_error_panic_hook",
+        "license": "Apache-2.0"
+    },
+    {
+        "name": "jQuery",
+        "url": "https://github.com/jquery/jquery",
+        "license": "MIT"
+    },
+    {
+        "name": "lazy_static",
+        "url": "https://crates.io/crates/lazy_static",
+        "license": "Apache-2.0"
+    },
+    {
+        "name": "pulldown-cmark",
+        "url": "https://crates.io/crates/pulldown-cmark",
+        "license": "MIT"
+    },
+    {
+        "name": "rss",
+        "url": "https://crates.io/crates/rss",
+        "license": "Apache-2.0"
+    },
+    {
+        "name": "serde",
+        "url": "https://crates.io/crates/serde",
+        "license": "Apache-2.0"
+    },
+    {
+        "name": "wasm-bindgen",
+        "url": "https://crates.io/crates/wasm-bindgen",
+        "license": "Apache-2.0"
+    },
+    {
+        "name": "yew",
+        "url": "https://crates.io/crates/yew",
+        "license": "Apache-2.0"
+    },
+    {
+        "name": "Bootstrap",
+        "url": "https://github.com/twbs/bootstrap",
+        "license": "MIT"
+    },
+    {
+        "name": "Bootswatch",
+        "url": "https://github.com/thomaspark/bootswatch",
+        "license": "MIT"
+    },
+    {
+        "name": "Font-Awesome",
+        "url": "https://github.com/FortAwesome/Font-Awesome",
+        "license": "Font Awesome Free License",
+        "licenseUrl": "https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt"
+    },
+    {
+        "name": "Highlight.js",
+        "url": "https://github.com/highlightjs/highlight.js",
+        "license": "Highlight.js License",
+        "licenseUrl": "https://github.com/highlightjs/highlight.js/blob/master/LICENSE"
+    },
+    {
+        "name": "MathJax",
+        "url": "https://github.com/mathjax/MathJax",
+        "license": "Apache-2.0"
+    },
+    {
+        "name": "SPA GitHub Pages",
+        "url": "https://github.com/rafrex/spa-github-pages",
+        "license": "MIT"
+    }
 ]

@@ -15,12 +15,13 @@ fn main() {
             .with_timezone(&FixedOffset::east(8 * 3600))
             .to_rfc2822(),
     );
+    ch.generator = Some("pages::blog".to_string());
     {
         let rss_file = File::with_options()
             .write(true)
             .open("static/blogdata/feed.xml")
             .unwrap();
         let rss_file = BufWriter::new(rss_file);
-        ch.write_to(rss_file).unwrap();
+        ch.pretty_write_to(rss_file, b' ', 2).unwrap();
     }
 }

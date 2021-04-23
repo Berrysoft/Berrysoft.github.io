@@ -1,83 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0">
+<rss version="2.0" xmlns:a10="http://www.w3.org/2005/Atom">
   <channel>
     <title>Berrysoft</title>
     <link>https://berrysoft.github.io/blog/</link>
-    <description>Berrysoft's blog</description>
+    <description>Berrysoft&apos;s blog</description>
     <language>zh-cn</language>
-    <copyright>Copyright (c) 2019</copyright>
+    <copyright>Copyright (c) 2019-2021</copyright>
     <managingEditor>Strawberry_Str@hotmail.com</managingEditor>
-    <lastBuildDate>Mon, 12 Oct 2020 13:46:59 +0800</lastBuildDate>
-    <generator>Berrysoft.Pages.Blog</generator>
-    <a10:link rel="self" type="application/rss+xml" href="https://berrysoft.github.io/blogdata/rss.xml" />
+    <lastBuildDate>Fri, 23 Apr 2021 17:17:55 +0800</lastBuildDate>
+    <generator>pages::blog</generator>
+    <a10:link href="https://berrysoft.github.io/blogdata/rss.xml" rel="self" type="application/rss+xml">
+    </a10:link>
     <item>
-      <guid isPermaLink="false">First_2019_9_6</guid>
-      <link>https://berrysoft.github.io/blog/First_2019_9_6</link>
       <title>测试页面</title>
-      <description>这是第一篇博文，也是测试页面。</description>
+      <link>https://berrysoft.github.io/blog/First_2019_9_6</link>
+      <description>
+        <![CDATA[这是第一篇博文，也是测试页面。]]>
+      </description>
+      <guid isPermaLink="false">First_2019_9_6</guid>
       <pubDate>Fri, 06 Sep 2019 10:19:00 +0800</pubDate>
     </item>
     <item>
-      <guid isPermaLink="false">Gains_2019_9_8</guid>
-      <link>https://berrysoft.github.io/blog/Gains_2019_9_8</link>
       <title>一些收获</title>
-      <description>最近有一些收获。</description>
+      <link>https://berrysoft.github.io/blog/Gains_2019_9_8</link>
+      <description>
+        <![CDATA[最近有一些收获。]]>
+      </description>
+      <guid isPermaLink="false">Gains_2019_9_8</guid>
       <pubDate>Sun, 08 Sep 2019 12:16:37 +0800</pubDate>
     </item>
     <item>
-      <guid isPermaLink="false">Gains_2019_9_12</guid>
-      <link>https://berrysoft.github.io/blog/Gains_2019_9_12</link>
       <title>统计力学笔记</title>
-      <description>复习了一下概率方面的知识，顺便测试一下Markdig的数学函数功能。</description>
+      <link>https://berrysoft.github.io/blog/Gains_2019_9_12</link>
+      <description>
+        <![CDATA[复习了一下概率方面的知识，顺便测试一下Markdig的数学函数功能。]]>
+      </description>
+      <guid isPermaLink="false">Gains_2019_9_12</guid>
       <pubDate>Thu, 12 Sep 2019 22:48:51 +0800</pubDate>
     </item>
     <item>
-      <guid isPermaLink="false">XXTea_2019_9_22</guid>
-      <link>https://berrysoft.github.io/blog/XXTea_2019_9_22</link>
       <title>XXTea算法</title>
-      <description>今天才刚发现原来清华大学校园网的Auth连接方式，使用了XXTea加密算法。</description>
+      <link>https://berrysoft.github.io/blog/XXTea_2019_9_22</link>
+      <description>
+        <![CDATA[今天才刚发现原来清华大学校园网的Auth连接方式，使用了XXTea加密算法。]]>
+      </description>
+      <guid isPermaLink="false">XXTea_2019_9_22</guid>
       <pubDate>Sun, 22 Sep 2019 11:39:37 +0800</pubDate>
     </item>
     <item>
-      <guid isPermaLink="false">Gains_2019_9_25</guid>
-      <link>https://berrysoft.github.io/blog/Gains_2019_9_25</link>
       <title>统计力学推导热力学</title>
-      <description>试图用统计的方法推导热力学定律。</description>
+      <link>https://berrysoft.github.io/blog/Gains_2019_9_25</link>
+      <description>
+        <![CDATA[试图用统计的方法推导热力学定律。]]>
+      </description>
+      <guid isPermaLink="false">Gains_2019_9_25</guid>
       <pubDate>Wed, 25 Sep 2019 00:26:40 +0800</pubDate>
     </item>
     <item>
-      <guid isPermaLink="false">Gains_2019_10_12</guid>
-      <link>https://berrysoft.github.io/blog/Gains_2019_10_12</link>
       <title>Klein-Gordon场</title>
-      <description>总结一下Klein-Gordon场的一些相关知识点。</description>
+      <link>https://berrysoft.github.io/blog/Gains_2019_10_12</link>
+      <description>
+        <![CDATA[总结一下Klein-Gordon场的一些相关知识点。]]>
+      </description>
+      <guid isPermaLink="false">Gains_2019_10_12</guid>
       <pubDate>Sat, 12 Oct 2019 10:58:34 +0800</pubDate>
     </item>
     <item>
-      <guid isPermaLink="false">ROOT_2019_12_2</guid>
-      <link>https://berrysoft.github.io/blog/ROOT_2019_12_2</link>
       <title>在Windows上编译支持C++17的ROOT</title>
-      <description>终于在Windows上成功编译了支持C++17的32位ROOT。</description>
+      <link>https://berrysoft.github.io/blog/ROOT_2019_12_2</link>
+      <description>
+        <![CDATA[终于在Windows上成功编译了支持C++17的32位ROOT。]]>
+      </description>
+      <guid isPermaLink="false">ROOT_2019_12_2</guid>
       <pubDate>Mon, 02 Dec 2019 01:06:55 +0800</pubDate>
     </item>
     <item>
-      <guid isPermaLink="false">X11_2020_7_24</guid>
-      <link>https://berrysoft.github.io/blog/X11_2020_7_24</link>
       <title>X Server评测</title>
-      <description>踩了这么多坑，评测一下各个能在 Windows 上用的 X Server，或者类似方案。这些方案几乎没有普适的，不过我更倾向于 XRDP。</description>
+      <link>https://berrysoft.github.io/blog/X11_2020_7_24</link>
+      <description>
+        <![CDATA[踩了这么多坑，评测一下各个能在 Windows 上用的 X Server，或者类似方案。这些方案几乎没有普适的，不过我更倾向于 XRDP。]]>
+      </description>
+      <guid isPermaLink="false">X11_2020_7_24</guid>
       <pubDate>Fri, 24 Jul 2020 20:11:35 +0800</pubDate>
     </item>
     <item>
-      <guid isPermaLink="false">Graph_2020_7_25</guid>
-      <link>https://berrysoft.github.io/blog/Graph_2020_7_25</link>
       <title>C++ 有向图</title>
-      <description>用 Boost.MultiIndex 实现了一个简单的有向图。</description>
+      <link>https://berrysoft.github.io/blog/Graph_2020_7_25</link>
+      <description>
+        <![CDATA[用 Boost.MultiIndex 实现了一个简单的有向图。]]>
+      </description>
+      <guid isPermaLink="false">Graph_2020_7_25</guid>
       <pubDate>Sat, 25 Jul 2020 11:22:47 +0800</pubDate>
     </item>
     <item>
-      <guid isPermaLink="false">Darling_2020_10_12</guid>
-      <link>https://berrysoft.github.io/blog/Darling_2020_10_12</link>
       <title>Darling on WSL</title>
-      <description>记录一下在 WSL 上安装 Darling 并成功运行 macOS X 程序的故事。</description>
+      <link>https://berrysoft.github.io/blog/Darling_2020_10_12</link>
+      <description>
+        <![CDATA[记录一下在 WSL 上安装 Darling 并成功运行 macOS X 程序的故事。]]>
+      </description>
+      <guid isPermaLink="false">Darling_2020_10_12</guid>
       <pubDate>Mon, 12 Oct 2020 13:46:58 +0800</pubDate>
     </item>
   </channel>

@@ -60,39 +60,36 @@ impl Component for BlogDetailPage {
     }
 
     fn view(&self) -> Html {
-        let title = if let Some(blogs) = self.blogs.get() {
-            let item = BlogItem::parse_rss(blogs)
-                .into_iter()
-                .filter(|item| item.filename == self.props.name)
-                .next()
-                .unwrap();
-            html! {
-                <>
-                    <h1>{item.title}</h1>
-                    <p class="text-secondary">
-                        <time datetime=item.time.naive_local().to_string()>{item.time.naive_local().to_string()}</time>
-                    </p>
-                </>
-            }
-        } else {
-            html! {}
-        };
-        let text = if let Some(text) = self.text.get() {
-            let parser = Parser::new(&text);
-            let mut out = String::new();
-            html::push_html(&mut out, parser);
-            let dom = web_sys::DomParser::new()
-                .unwrap()
-                .parse_from_string(
-                    &format!("<parse>{}</parse>", out),
-                    web_sys::SupportedType::TextHtml,
-                )
-                .unwrap();
-            let body = dom.body().unwrap();
-            yew::virtual_dom::VNode::VRef(body.children().get_with_index(0).unwrap().into())
-        } else {
-            html! {}
-        };
+        let title = self
+            .blogs
+            .get()
+            .and_then(|blogs| {
+                BlogItem::parse_rss(blogs)
+                    .into_iter()
+                    .filter(|item| item.filename == self.props.name)
+                    .next()
+            })
+            .map(|item| {
+                html! {
+                    <>
+                        <h1>{item.title}</h1>
+                        <p class="text-secondary">
+                            <time datetime=item.time.naive_local().to_string()>{item.time.naive_local().to_string()}</time>
+                        </p>
+                    </>
+                }
+            })
+            .unwrap_or_default();
+        let text = self
+            .text
+            .get()
+            .map(|text| {
+                let parser = Parser::new(&text);
+                let mut out = String::new();
+                html::push_html(&mut out, parser);
+                parse_html(&out)
+            })
+            .unwrap_or_default();
         html! {
             <>
                 <Header index=1/>

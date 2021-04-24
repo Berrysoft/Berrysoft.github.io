@@ -1,4 +1,4 @@
-use crate::*;
+use crate::{data::*, *};
 use std::fmt::Debug;
 
 #[derive(Debug)]
@@ -42,17 +42,7 @@ impl<T: Clone + 'static> Component for DataGrid<T> {
                     .children
                     .iter()
                     .map(|c| {
-                        let dom = web_sys::DomParser::new()
-                            .unwrap()
-                            .parse_from_string(
-                                &format!("<parse>{}</parse>", c.props.fmt.fmt(d)),
-                                web_sys::SupportedType::TextHtml,
-                            )
-                            .unwrap();
-                        let body = dom.body().unwrap();
-                        let child = yew::virtual_dom::VNode::VRef(
-                            body.children().get_with_index(0).unwrap().into(),
-                        );
+                        let child = parse_html(&c.props.fmt.fmt(d));
                         html! {<td>{child}</td>}
                     })
                     .collect::<Vec<Html>>();

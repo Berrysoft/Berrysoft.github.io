@@ -3,10 +3,12 @@ use serde::*;
 mod blog;
 mod fetch;
 mod github;
+mod html;
 
 pub use blog::*;
 pub use fetch::*;
 pub use github::Event as GitHubEvent;
+pub use html::*;
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct PersonalProject {

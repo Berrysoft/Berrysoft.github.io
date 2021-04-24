@@ -35,22 +35,24 @@ impl Component for AboutPage {
     }
 
     fn view(&self) -> Html {
-        let libraries = if let Some(libs) = self.libs.get() {
-            html! {
-                <DataGrid<Library> data=libs>
-                    <DataGridColumn<Library> header="名称" fmt=box_fmt(|lib: &Library| format!("<a href=\"{}\" target=\"_blank\">{}</a>", lib.url, lib.name))/>
-                    <DataGridColumn<Library> header="许可证" fmt=box_fmt(|lib: &Library| {
-                        if let Some(url) = &lib.license_url {
-                            format!("<a href=\"{}\" target=\"_blank\">{}</a>", url, lib.license)
-                        } else {
-                            lib.license.clone()
-                        }
-                    })/>
-                </DataGrid<Library>>
-            }
-        } else {
-            html! {}
-        };
+        let libraries = self
+            .libs
+            .get()
+            .map(|libs| {
+                html! {
+                    <DataGrid<Library> data=libs>
+                        <DataGridColumn<Library> header="名称" fmt=box_fmt(|lib: &Library| format!("<a href=\"{}\" target=\"_blank\">{}</a>", lib.url, lib.name))/>
+                        <DataGridColumn<Library> header="许可证" fmt=box_fmt(|lib: &Library| {
+                            if let Some(url) = &lib.license_url {
+                                format!("<a href=\"{}\" target=\"_blank\">{}</a>", url, lib.license)
+                            } else {
+                                lib.license.clone()
+                            }
+                        })/>
+                    </DataGrid<Library>>
+                }
+            })
+            .unwrap_or_default();
         html! {
             <>
                 <Header index=2/>

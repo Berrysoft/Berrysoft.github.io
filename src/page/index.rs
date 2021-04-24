@@ -61,39 +61,45 @@ impl Component for IndexPage {
     }
 
     fn view(&self) -> Html {
-        let projects = if let Some(projects) = self.projects.get() {
-            html! {
-                <DataGrid<PersonalProject> data=projects>
-                    <DataGridColumn<PersonalProject> header="名称" fmt=box_fmt(|p: &PersonalProject| format!("<a href=\"{}\" target=\"_blank\">{}</a>", p.url, p.name))/>
-                    <DataGridColumn<PersonalProject> header="主要语言" fmt=box_fmt(|p: &PersonalProject| p.language.clone())/>
-                    <DataGridColumn<PersonalProject> header="简介" fmt=box_fmt(|p: &PersonalProject| p.description.clone())/>
-                </DataGrid<PersonalProject>>
-            }
-        } else {
-            html! {}
-        };
-        let github_events_node = if let Some(events) = self.github_events.get() {
-            html! {
-                <DataGrid<GitHubEvent> data=events>
-                    <DataGridColumn<GitHubEvent> header="消息" fmt=box_fmt(|e: &GitHubEvent| {
-                        let msg = e.payload.commits.last().map(|c| c.message.replace("\r\n", "<br/>").replace("\n", "<br/>")).unwrap_or_default();
-                        let link = format!("//github.com/{}/commit/{}", e.repo.name, e.payload.commits.last().map(|c| c.sha.clone()).unwrap_or_default());
-                        format!("<a href=\"{}\" target=\"_blank\">{}</a>", link, msg)
-                    })/>
-                    <DataGridColumn<GitHubEvent> header="时间" fmt=box_fmt(|e: &GitHubEvent| e.created_at.with_timezone(&FixedOffset::east(8 * 3600)).naive_local().to_string())/>
-                    <DataGridColumn<GitHubEvent> header="存储库" fmt=box_fmt(|e: &GitHubEvent| e.repo.name.clone())/>
-                </DataGrid<GitHubEvent>>
-            }
-        } else {
-            html! {}
-        };
-        let friend_links = if let Some(links) = self.links.get() {
-            links.iter().map(|link| html! {
-                <a class="list-group-item list-group-item-action" href=link.url.clone() target="_blank">{&format!("{} - {}", link.name, link.title)}</a>
-            }).collect()
-        } else {
-            vec![]
-        };
+        let projects = self
+            .projects
+            .get()
+            .map(|projects| {
+                html! {
+                    <DataGrid<PersonalProject> data=projects>
+                        <DataGridColumn<PersonalProject> header="名称" fmt=box_fmt(|p: &PersonalProject| format!("<a href=\"{}\" target=\"_blank\">{}</a>", p.url, p.name))/>
+                        <DataGridColumn<PersonalProject> header="主要语言" fmt=box_fmt(|p: &PersonalProject| p.language.clone())/>
+                        <DataGridColumn<PersonalProject> header="简介" fmt=box_fmt(|p: &PersonalProject| p.description.clone())/>
+                    </DataGrid<PersonalProject>>
+                }
+            })
+            .unwrap_or_default();
+        let github_events_node = self
+            .github_events
+            .get()
+            .map(|events| {
+                html! {
+                    <DataGrid<GitHubEvent> data=events>
+                        <DataGridColumn<GitHubEvent> header="消息" fmt=box_fmt(|e: &GitHubEvent| {
+                            let msg = e.payload.commits.last().map(|c| c.message.replace("\r\n", "<br/>").replace("\n", "<br/>")).unwrap_or_default();
+                            let link = format!("//github.com/{}/commit/{}", e.repo.name, e.payload.commits.last().map(|c| c.sha.clone()).unwrap_or_default());
+                            format!("<a href=\"{}\" target=\"_blank\">{}</a>", link, msg)
+                        })/>
+                        <DataGridColumn<GitHubEvent> header="时间" fmt=box_fmt(|e: &GitHubEvent| e.created_at.with_timezone(&FixedOffset::east(8 * 3600)).naive_local().to_string())/>
+                        <DataGridColumn<GitHubEvent> header="存储库" fmt=box_fmt(|e: &GitHubEvent| e.repo.name.clone())/>
+                    </DataGrid<GitHubEvent>>
+                }
+            })
+            .unwrap_or_default();
+        let friend_links = self
+            .links
+            .get()
+            .map(|links| {
+                links.iter().map(|link| html! {
+                    <a class="list-group-item list-group-item-action" href=link.url.clone() target="_blank">{&format!("{} - {}", link.name, link.title)}</a>
+                }).collect::<Vec<Html>>()
+            })
+            .unwrap_or_default();
         html! {
             <>
                 <Header index=0/>

@@ -1,14 +1,14 @@
-use crate::{data::*, datagrid::*, fetch::*, footer::*, header::*, *};
+use crate::{data::*, layout::*, *};
 
 pub struct IndexPage {
     projects: JsonFetcher<PersonalProject>,
-    github_events: JsonFetcher<github::Event>,
+    github_events: JsonFetcher<GitHubEvent>,
     links: JsonFetcher<FriendLink>,
 }
 
 pub enum IndexPageMessage {
     GetProjects(JsonFetcherMessage<PersonalProject>),
-    GetGitHubEvents(JsonFetcherMessage<github::Event>),
+    GetGitHubEvents(JsonFetcherMessage<GitHubEvent>),
     GetFriendLinks(JsonFetcherMessage<FriendLink>),
 }
 
@@ -74,15 +74,15 @@ impl Component for IndexPage {
         };
         let github_events_node = if let Some(events) = self.github_events.get() {
             html! {
-                <DataGrid<github::Event> data=events>
-                    <DataGridColumn<github::Event> header="消息" fmt=box_fmt(|e: &github::Event| {
+                <DataGrid<GitHubEvent> data=events>
+                    <DataGridColumn<GitHubEvent> header="消息" fmt=box_fmt(|e: &GitHubEvent| {
                         let msg = e.payload.commits.last().map(|c| c.message.replace("\r\n", "<br/>").replace("\n", "<br/>")).unwrap_or_default();
                         let link = format!("//github.com/{}/commit/{}", e.repo.name, e.payload.commits.last().map(|c| c.sha.clone()).unwrap_or_default());
                         format!("<a href=\"{}\" target=\"_blank\">{}</a>", link, msg)
                     })/>
-                    <DataGridColumn<github::Event> header="时间" fmt=box_fmt(|e: &github::Event| e.created_at.with_timezone(&FixedOffset::east(8 * 3600)).naive_local().to_string())/>
-                    <DataGridColumn<github::Event> header="存储库" fmt=box_fmt(|e: &github::Event| e.repo.name.clone())/>
-                </DataGrid<github::Event>>
+                    <DataGridColumn<GitHubEvent> header="时间" fmt=box_fmt(|e: &GitHubEvent| e.created_at.with_timezone(&FixedOffset::east(8 * 3600)).naive_local().to_string())/>
+                    <DataGridColumn<GitHubEvent> header="存储库" fmt=box_fmt(|e: &GitHubEvent| e.repo.name.clone())/>
+                </DataGrid<GitHubEvent>>
             }
         } else {
             html! {}

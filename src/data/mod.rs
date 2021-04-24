@@ -1,6 +1,12 @@
 use serde::*;
 
-pub mod github;
+mod blog;
+mod fetch;
+mod github;
+
+pub use blog::*;
+pub use fetch::*;
+pub use github::Event as GitHubEvent;
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct PersonalProject {

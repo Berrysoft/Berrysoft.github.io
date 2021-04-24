@@ -8,14 +8,8 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 
 pub mod data;
-pub mod datagrid;
-pub mod fetch;
-pub mod footer;
-pub mod header;
-
-pub mod about;
-pub mod blog;
-pub mod index;
+mod layout;
+mod page;
 
 #[derive(Debug, Clone, Switch)]
 enum AppRoute {
@@ -50,10 +44,10 @@ impl Component for AppRoot {
 
     fn view(&self) -> Html {
         let render = Router::render(|switch: AppRoute| match switch {
-            AppRoute::Index => html! {<index::IndexPage />},
-            AppRoute::BlogDetail(name) => html! {<blog::detail::BlogDetailPage name=name />},
-            AppRoute::Blog => html! {<blog::BlogPage />},
-            AppRoute::About => html! {<about::AboutPage />},
+            AppRoute::Index => html! {<page::IndexPage />},
+            AppRoute::BlogDetail(name) => html! {<page::BlogDetailPage name=name />},
+            AppRoute::Blog => html! {<page::BlogPage />},
+            AppRoute::About => html! {<page::AboutPage />},
         });
         html! {
             <Router<AppRoute, ()> render=render/>

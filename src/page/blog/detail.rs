@@ -1,4 +1,4 @@
-use crate::{blog::BlogItem, fetch::*, footer::*, header::*, *};
+use crate::{data::*, layout::*, *};
 use pulldown_cmark::{html, Parser};
 
 pub struct BlogDetailPage {

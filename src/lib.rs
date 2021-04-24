@@ -57,16 +57,12 @@ impl Component for AppRoot {
 
 #[wasm_bindgen(start)]
 pub fn run_app() {
-    set_panic_hook();
+    console_error_panic_hook::set_once();
     let element = yew::utils::document()
         .query_selector("app")
         .unwrap()
         .unwrap();
     App::<AppRoot>::new().mount(element);
-}
-
-pub fn set_panic_hook() {
-    console_error_panic_hook::set_once();
 }
 
 #[global_allocator]

@@ -12,10 +12,6 @@
     <link href="css/site.css" rel="stylesheet" />
     <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.0-alpha0/styles/atom-one-dark.min.css"
         rel="stylesheet" />
-    <script type="module">
-        import init from "/wasm.js";
-        init();
-    </script>
 </head>
 
 <body>
@@ -60,18 +56,15 @@
     </script>
     <!-- End Single Page Apps for GitHub Pages -->
 
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.0-alpha0/highlight.min.js"></script>
-    <script>
-        MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']]
-            }
-        };
+    <script defer src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script defer src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.0-alpha0/highlight.min.js"></script>
+    <script defer src="/js/site.js"></script>
+    <script defer src="https://cdn.bootcdn.net/ajax/libs/mathjax/3.1.2/es5/tex-mml-chtml.min.js"></script>
+    <script defer type="module">
+        import init from "/wasm.js";
+        init();
     </script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/mathjax/3.1.2/es5/tex-mml-chtml.min.js"></script>
-    <script src="js/site.js"></script>
 </body>
 
 </html>

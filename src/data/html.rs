@@ -1,13 +1,14 @@
 use crate::*;
+use std::iter::FromIterator;
+use web_sys::*;
+use yew::virtual_dom::VNode;
 
 pub fn parse_html(s: &str) -> Html {
-    let dom = web_sys::DomParser::new()
+    let dom = DomParser::new()
         .unwrap()
-        .parse_from_string(
-            &format!("<parse>{}</parse>", s),
-            web_sys::SupportedType::TextHtml,
-        )
+        .parse_from_string(s, SupportedType::TextHtml)
         .unwrap();
     let body = dom.body().unwrap();
-    yew::virtual_dom::VNode::VRef(body.children().get_with_index(0).unwrap().into())
+    let nodes = body.child_nodes();
+    VNode::from_iter((0..nodes.length()).map(|i| VNode::VRef(nodes.get(i).unwrap())))
 }

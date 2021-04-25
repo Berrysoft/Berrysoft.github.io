@@ -10,11 +10,6 @@
         "license": "MIT"
     },
     {
-        "name": "lazy_static",
-        "url": "https://crates.io/crates/lazy_static",
-        "license": "Apache-2.0"
-    },
-    {
         "name": "log",
         "url": "https://crates.io/crates/log",
         "license": "Apache-2.0"

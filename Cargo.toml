@@ -20,7 +20,6 @@ anyhow = "1.0"
 wee_alloc = "0.4"
 chrono = { version = "0.4", features = ["serde"] }
 serde = "1.0"
-lazy_static = "1.4"
 rss = "1.10"
 pulldown-cmark = { version = "0.8", default-features = false }
 

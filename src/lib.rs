@@ -2,7 +2,6 @@
 #![feature(iter_intersperse)]
 
 use chrono::{DateTime, FixedOffset, Utc};
-use lazy_static::lazy_static;
 use std::sync::Arc;
 use wasm_bindgen::prelude::*;
 use yew::prelude::*;

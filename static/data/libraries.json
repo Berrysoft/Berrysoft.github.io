@@ -5,11 +5,6 @@
         "license": "MIT"
     },
     {
-        "name": "console_error_panic_hook",
-        "url": "https://crates.io/crates/console_error_panic_hook",
-        "license": "Apache-2.0"
-    },
-    {
         "name": "jQuery",
         "url": "https://github.com/jquery/jquery",
         "license": "MIT"
@@ -17,6 +12,11 @@
     {
         "name": "lazy_static",
         "url": "https://crates.io/crates/lazy_static",
+        "license": "Apache-2.0"
+    },
+    {
+        "name": "log",
+        "url": "https://crates.io/crates/log",
         "license": "Apache-2.0"
     },
     {
@@ -38,6 +38,16 @@
         "name": "wasm-bindgen",
         "url": "https://crates.io/crates/wasm-bindgen",
         "license": "Apache-2.0"
+    },
+    {
+        "name": "wasm-logger",
+        "url": "https://crates.io/crates/wasm-logger",
+        "license": "MIT"
+    },
+    {
+        "name": "wee_alloc",
+        "url": "https://crates.io/crates/wee_alloc",
+        "license": "MPL-2.0"
     },
     {
         "name": "yew",

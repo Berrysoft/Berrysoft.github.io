@@ -140,7 +140,11 @@ impl Component for IndexPage {
                 <div class="container">
                     <div class="fade-in fade-in-1">
                         <h1>{"Berrysoft 的 HTML 实验室"}</h1>
-                        <p>{"本网站使用 "}<a href="https://www.rust-lang.org/zh-CN/" target="_blank">{"Rust"}</a>{" 开发，有各种各样的实验项目。"}</p>
+                        <p>
+                            {"本网站使用 "}
+                            <a href="https://www.rust-lang.org/zh-CN/" target="_blank">{"Rust"}</a>
+                            {" 开发，有各种各样的实验项目。"}
+                        </p>
                     </div>
                     <div class="fade-in fade-in-2">
                         <h2>{"其它个人开源项目"}</h2>

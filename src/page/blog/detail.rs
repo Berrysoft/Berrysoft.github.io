@@ -29,7 +29,7 @@ impl Component for BlogDetailPage {
             blogs: TextFetcher::new("/blogdata/feed.xml", link.clone(), |msg| {
                 BlogDetailMessage::GetBlogs(msg)
             }),
-            text: TextFetcher::new(uri, link.clone(), |msg| BlogDetailMessage::GetText(msg)),
+            text: TextFetcher::new(&uri, link.clone(), |msg| BlogDetailMessage::GetText(msg)),
         }
     }
 
@@ -51,6 +51,7 @@ impl Component for BlogDetailPage {
     }
 
     fn rendered(&mut self, _first_render: bool) {
+        log::debug!("Blog defail rendered");
         // Make analyzer happy
         #[allow(unused_unsafe)]
         unsafe {

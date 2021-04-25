@@ -9,7 +9,7 @@ pub struct BlogItem {
 }
 
 impl BlogItem {
-    pub fn parse_rss(blogs: String) -> Vec<Self> {
+    pub fn parse_rss(blogs: &str) -> Vec<Self> {
         let ch = rss::Channel::read_from(blogs.as_bytes()).unwrap();
         let mut items = ch.items;
         items.reverse();

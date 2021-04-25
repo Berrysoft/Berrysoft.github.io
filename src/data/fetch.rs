@@ -1,7 +1,5 @@
 use crate::*;
-use http::Uri;
 use serde::de::DeserializeOwned;
-use std::convert::TryFrom;
 use yew::format::{Json, Nothing, Text};
 use yew::services::fetch::{FetchService, FetchTask, Request, Response};
 
@@ -21,15 +19,11 @@ enum FetcherData<T> {
 pub type JsonFetcherMessage<T> = anyhow::Result<Vec<T>>;
 
 impl<T: DeserializeOwned + 'static> JsonFetcher<T> {
-    pub fn new<C: Component, U>(
-        uri: U,
+    pub fn new<C: Component>(
+        uri: &str,
         link: ComponentLink<C>,
         cvt: impl Fn(JsonFetcherMessage<T>) -> C::Message + 'static,
-    ) -> Self
-    where
-        Uri: TryFrom<U>,
-        http::Error: From<<Uri as TryFrom<U>>::Error>,
-    {
+    ) -> Self {
         let handler = link.callback(move |res: Response<Json<JsonFetcherMessage<T>>>| {
             let (_, Json(data)) = res.into_parts();
             cvt(data)
@@ -52,6 +46,10 @@ impl<T: DeserializeOwned + 'static> JsonFetcher<T> {
     pub fn get(&self) -> Option<Arc<Vec<T>>> {
         match &self.data {
             FetcherData::Some(data) => Some(data.clone()),
+            FetcherData::Err(err) => {
+                log::error!("{}", err);
+                None
+            }
             _ => None,
         }
     }
@@ -66,15 +64,11 @@ pub struct TextFetcher {
 pub type TextFetcherMessage = Text;
 
 impl TextFetcher {
-    pub fn new<C: Component, U>(
-        uri: U,
+    pub fn new<C: Component>(
+        uri: &str,
         link: ComponentLink<C>,
         cvt: impl Fn(TextFetcherMessage) -> C::Message + 'static,
-    ) -> Self
-    where
-        Uri: TryFrom<U>,
-        http::Error: From<<Uri as TryFrom<U>>::Error>,
-    {
+    ) -> Self {
         let handler = link.callback(move |res: Response<Text>| {
             let (_, data) = res.into_parts();
             cvt(data)
@@ -94,9 +88,13 @@ impl TextFetcher {
         }
     }
 
-    pub fn get(&self) -> Option<String> {
+    pub fn get(&self) -> Option<&str> {
         match &self.data {
-            FetcherData::Some(data) => Some(data.clone()),
+            FetcherData::Some(data) => Some(data),
+            FetcherData::Err(err) => {
+                log::error!("{}", err);
+                None
+            }
             _ => None,
         }
     }

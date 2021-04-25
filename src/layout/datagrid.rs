@@ -31,7 +31,7 @@ impl<T: Clone + 'static> Component for DataGrid<T> {
     }
 
     fn view(&self) -> Html {
-        console_log!("DataGrid view: {}", self.props.data.len());
+        log::debug!("DataGrid view: {}", self.props.data.len());
         let rows = self
             .props
             .data

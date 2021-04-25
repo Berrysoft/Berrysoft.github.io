@@ -58,21 +58,20 @@ impl Component for AppRoot {
 
 #[wasm_bindgen(start)]
 pub fn run_app() {
-    console_error_panic_hook::set_once();
+    yew::initialize();
+    wasm_logger::init(wasm_logger::Config::new(
+        #[cfg(debug_assertions)]
+        log::Level::Debug,
+        #[cfg(not(debug_assertions))]
+        log::Level::Info,
+    ));
     let element = yew::utils::document()
         .query_selector("app")
         .unwrap()
         .unwrap();
     App::<AppRoot>::new().mount(element);
+    yew::run_loop();
 }
 
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
-
-#[macro_export]
-macro_rules! console_log {
-    ($($t:tt)*) => {
-        #[allow(unused_unsafe)]
-        unsafe { web_sys::console::log_1(&format_args!($($t)*).to_string().into()) }
-    }
-}

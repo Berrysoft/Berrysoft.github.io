@@ -67,9 +67,15 @@ impl Component for IndexPage {
             .map(|projects| {
                 html! {
                     <DataGrid<PersonalProject> data=projects>
-                        <DataGridColumn<PersonalProject> header="名称" fmt=box_fmt(|p: &PersonalProject| format!("<a href=\"{}\" target=\"_blank\">{}</a>", p.url, p.name))/>
-                        <DataGridColumn<PersonalProject> header="主要语言" fmt=box_fmt(|p: &PersonalProject| p.language.clone())/>
-                        <DataGridColumn<PersonalProject> header="简介" fmt=box_fmt(|p: &PersonalProject| p.description.clone())/>
+                        <DataGridColumn<PersonalProject> header="名称" fmt=box_fmt(|p: &PersonalProject| {
+                            html! {<a href=p.url.as_str() target="_blank">{&p.name}</a>}
+                        })/>
+                        <DataGridColumn<PersonalProject> header="主要语言" fmt=box_fmt(|p: &PersonalProject| {
+                            html! {{&p.language}}
+                        })/>
+                        <DataGridColumn<PersonalProject> header="简介" fmt=box_fmt(|p: &PersonalProject| {
+                            html! {{&p.description}}
+                        })/>
                     </DataGrid<PersonalProject>>
                 }
             })
@@ -82,11 +88,16 @@ impl Component for IndexPage {
                     <DataGrid<GitHubEvent> data=events>
                         <DataGridColumn<GitHubEvent> header="消息" fmt=box_fmt(|e: &GitHubEvent| {
                             let msg = e.payload.commits.last().map(|c| c.message.replace("\r\n", "<br/>").replace("\n", "<br/>")).unwrap_or_default();
-                            let link = format!("//github.com/{}/commit/{}", e.repo.name, e.payload.commits.last().map(|c| c.sha.clone()).unwrap_or_default());
-                            format!("<a href=\"{}\" target=\"_blank\">{}</a>", link, msg)
+                            let link = format!("//github.com/{}/commit/{}", e.repo.name, e.payload.commits.last().map(|c| c.sha.as_str()).unwrap_or(""));
+                            html! {<a href=link target="_blank">{parse_html(&msg)}</a>}
                         })/>
-                        <DataGridColumn<GitHubEvent> header="时间" fmt=box_fmt(|e: &GitHubEvent| e.created_at.with_timezone(&FixedOffset::east(8 * 3600)).naive_local().to_string())/>
-                        <DataGridColumn<GitHubEvent> header="存储库" fmt=box_fmt(|e: &GitHubEvent| e.repo.name.clone())/>
+                        <DataGridColumn<GitHubEvent> header="时间" fmt=box_fmt(|e: &GitHubEvent| {
+                            let time = e.created_at.with_timezone(&FixedOffset::east(8 * 3600)).naive_local().to_string();
+                            html! {{time}}
+                        })/>
+                        <DataGridColumn<GitHubEvent> header="存储库" fmt=box_fmt(|e: &GitHubEvent| {
+                            html! {{&e.repo.name}}
+                        })/>
                     </DataGrid<GitHubEvent>>
                 }
             })
@@ -96,7 +107,9 @@ impl Component for IndexPage {
             .get()
             .map(|links| {
                 links.iter().map(|link| html! {
-                    <a class="list-group-item list-group-item-action" href=link.url.clone() target="_blank">{&format!("{} - {}", link.name, link.title)}</a>
+                    <a class="list-group-item list-group-item-action" href=link.url.as_str() target="_blank">
+                        {&format!("{} - {}", link.name, link.title)}
+                    </a>
                 }).collect::<Vec<Html>>()
             })
             .unwrap_or_default();

@@ -41,12 +41,14 @@ impl Component for AboutPage {
             .map(|libs| {
                 html! {
                     <DataGrid<Library> data=libs>
-                        <DataGridColumn<Library> header="名称" fmt=box_fmt(|lib: &Library| format!("<a href=\"{}\" target=\"_blank\">{}</a>", lib.url, lib.name))/>
+                        <DataGridColumn<Library> header="名称" fmt=box_fmt(|lib: &Library| html! {
+                            <a href=lib.url.as_str() target="_blank">{&lib.name}</a>
+                        })/>
                         <DataGridColumn<Library> header="许可证" fmt=box_fmt(|lib: &Library| {
                             if let Some(url) = &lib.license_url {
-                                format!("<a href=\"{}\" target=\"_blank\">{}</a>", url, lib.license)
+                                html! {<a href=url.as_str() target="_blank">{&lib.license}</a>}
                             } else {
-                                lib.license.clone()
+                                html! {{&lib.license}}
                             }
                         })/>
                     </DataGrid<Library>>

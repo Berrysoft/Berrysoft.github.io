@@ -1,4 +1,4 @@
-use crate::{data::*, *};
+use crate::*;
 use std::fmt::Debug;
 
 #[derive(Debug)]
@@ -42,7 +42,7 @@ impl<T: Clone + 'static> Component for DataGrid<T> {
                     .children
                     .iter()
                     .map(|c| {
-                        let child = parse_html(&c.props.fmt.fmt(d));
+                        let child = c.props.fmt.fmt(d);
                         html! {<td>{child}</td>}
                     })
                     .collect::<Vec<Html>>();
@@ -76,7 +76,7 @@ pub struct DataGridColumnProperties<T: Clone + 'static> {
 }
 
 pub trait DataGridColumnFormatter<T: Clone + 'static> {
-    fn fmt(&self, item: &T) -> String;
+    fn fmt(&self, item: &T) -> Html;
 }
 
 impl<T: Clone + 'static> Debug for DataGridColumnProperties<T> {
@@ -110,17 +110,17 @@ impl<T: Clone + 'static> Component for DataGridColumn<T> {
 }
 
 struct FuncFormatter<T: Clone + 'static> {
-    func: Box<dyn Fn(&T) -> String>,
+    func: Box<dyn Fn(&T) -> Html>,
 }
 
 impl<T: Clone + 'static> DataGridColumnFormatter<T> for FuncFormatter<T> {
-    fn fmt(&self, item: &T) -> String {
+    fn fmt(&self, item: &T) -> Html {
         (self.func)(item)
     }
 }
 
 pub fn box_fmt<T: Clone + 'static>(
-    func: impl Fn(&T) -> String + 'static,
+    func: impl Fn(&T) -> Html + 'static,
 ) -> Arc<dyn DataGridColumnFormatter<T>> {
     Arc::new(FuncFormatter::<T> {
         func: Box::new(func),

@@ -87,12 +87,33 @@ impl Component for IndexPage {
                 html! {
                     <DataGrid<GitHubEvent> data=events>
                         <DataGridColumn<GitHubEvent> header="消息" fmt=box_fmt(|e: &GitHubEvent| {
-                            let msg = e.payload.commits.last().map(|c| c.message.replace("\r\n", "<br/>").replace("\n", "<br/>")).unwrap_or_default();
-                            let link = format!("//github.com/{}/commit/{}", e.repo.name, e.payload.commits.last().map(|c| c.sha.as_str()).unwrap_or(""));
-                            html! {<a href=link target="_blank">{parse_html(&msg)}</a>}
+                            let msg = e
+                                .payload
+                                .commits
+                                .last()
+                                .map(|c| c.message.as_str())
+                                .unwrap_or("")
+                                .split(&['\n', '\r'][..])
+                                .map(|s| html! {{s}})
+                                .intersperse(html! {<br />})
+                                .collect::<Vec<Html>>();
+                            let link = format!(
+                                "//github.com/{}/commit/{}",
+                                e.repo.name,
+                                e.payload
+                                    .commits
+                                    .last()
+                                    .map(|c| c.sha.as_str())
+                                    .unwrap_or("")
+                            );
+                            html! {<a href=link target="_blank">{msg}</a>}
                         })/>
                         <DataGridColumn<GitHubEvent> header="时间" fmt=box_fmt(|e: &GitHubEvent| {
-                            let time = e.created_at.with_timezone(&FixedOffset::east(8 * 3600)).naive_local().to_string();
+                            let time = e
+                                .created_at
+                                .with_timezone(&FixedOffset::east(8 * 3600))
+                                .naive_local()
+                                .to_string();
                             html! {{time}}
                         })/>
                         <DataGridColumn<GitHubEvent> header="存储库" fmt=box_fmt(|e: &GitHubEvent| {

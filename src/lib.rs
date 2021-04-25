@@ -1,4 +1,5 @@
-#![recursion_limit = "256"]
+#![recursion_limit = "512"]
+#![feature(iter_intersperse)]
 
 use chrono::{DateTime, FixedOffset, Utc};
 use lazy_static::lazy_static;

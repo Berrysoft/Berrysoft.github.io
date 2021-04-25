@@ -71,11 +71,12 @@ impl Component for BlogDetailPage {
                     .next()
             })
             .map(|item| {
+                let time_str = item.time.naive_local().to_string();
                 html! {
                     <>
                         <h1>{item.title}</h1>
                         <p class="text-secondary">
-                            <time datetime=item.time.naive_local().to_string()>{item.time.naive_local().to_string()}</time>
+                            <time datetime=time_str.as_str()>{&time_str}</time>
                         </p>
                     </>
                 }

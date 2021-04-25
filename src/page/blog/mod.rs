@@ -45,11 +45,12 @@ impl Component for BlogPage {
                 BlogItem::parse_rss(blogs)
                     .into_iter()
                     .map(|item| {
+                        let time_str = item.time.naive_local().to_string();
                         html!{
                             <a class="list-group-item list-group-item-action" href=format!("/blog/{}", item.filename)>
                                 <h2>{item.title}</h2>
                                 <p class="text-secondary">
-                                    <time datetime=item.time.naive_local().to_string()>{item.time.naive_local().to_string()}</time>
+                                    <time datetime=time_str.as_str()>{&time_str}</time>
                                 </p>
                                 <p>{item.description}</p>
                             </a>

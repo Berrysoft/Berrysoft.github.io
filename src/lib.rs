@@ -5,7 +5,7 @@ use chrono::{DateTime, FixedOffset, Utc};
 use std::sync::Arc;
 use wasm_bindgen::prelude::*;
 use yew::prelude::*;
-use yew_router::prelude::*;
+use yew_router::{prelude::*, switch::Permissive};
 
 pub mod data;
 mod layout;
@@ -19,7 +19,9 @@ enum AppRoute {
     BlogDetail(String),
     #[to = "/blog"]
     Blog,
-    #[to = "/"]
+    #[to = "/notfound"]
+    NotFound(Permissive<String>),
+    #[to = "/!"]
     Index,
 }
 
@@ -47,10 +49,13 @@ impl Component for AppRoot {
             AppRoute::Index => html! {<page::IndexPage />},
             AppRoute::BlogDetail(name) => html! {<page::BlogDetailPage name=name />},
             AppRoute::Blog => html! {<page::BlogPage />},
+            AppRoute::NotFound(Permissive(route)) => html! {<page::NotFoundPage route=route />},
             AppRoute::About => html! {<page::AboutPage />},
         });
+        let redirect =
+            Router::redirect(|route: Route| AppRoute::NotFound(Permissive(Some(route.route))));
         html! {
-            <Router<AppRoute, ()> render=render/>
+            <Router<AppRoute, ()> render=render redirect=redirect/>
         }
     }
 }

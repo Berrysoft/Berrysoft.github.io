@@ -2,3 +2,4 @@ wasm.js
 package.json
 *.wasm
 README.md
+LICENSE

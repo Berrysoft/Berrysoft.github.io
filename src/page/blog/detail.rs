@@ -29,7 +29,7 @@ impl Component for BlogDetailPage {
             blogs: TextFetcher::new("/blogdata/feed.xml", link.clone(), |msg| {
                 BlogDetailMessage::GetBlogs(msg)
             }),
-            text: TextFetcher::new(&uri, link.clone(), |msg| BlogDetailMessage::GetText(msg)),
+            text: TextFetcher::new(&uri, link, BlogDetailMessage::GetText),
         }
     }
 
@@ -67,8 +67,7 @@ impl Component for BlogDetailPage {
             .and_then(|blogs| {
                 BlogItem::parse_rss(blogs)
                     .into_iter()
-                    .filter(|item| item.filename == self.props.name)
-                    .next()
+                    .find(|item| item.filename == self.props.name)
             })
             .map(|item| {
                 let time_str = item.time.naive_local().to_string();

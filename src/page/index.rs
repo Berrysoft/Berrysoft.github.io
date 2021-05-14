@@ -19,17 +19,17 @@ impl Component for IndexPage {
 
     fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
         Self {
-            projects: JsonFetcher::new("/data/projects.json", link.clone(), |msg| {
-                IndexPageMessage::GetProjects(msg)
-            }),
+            projects: JsonFetcher::new(
+                "/data/projects.json",
+                link.clone(),
+                IndexPageMessage::GetProjects,
+            ),
             github_events: JsonFetcher::new(
                 "//api.github.com/users/berrysoft/events",
                 link.clone(),
-                |msg| IndexPageMessage::GetGitHubEvents(msg),
+                IndexPageMessage::GetGitHubEvents,
             ),
-            links: JsonFetcher::new("/data/links.json", link.clone(), |msg| {
-                IndexPageMessage::GetFriendLinks(msg)
-            }),
+            links: JsonFetcher::new("/data/links.json", link, IndexPageMessage::GetFriendLinks),
         }
     }
 

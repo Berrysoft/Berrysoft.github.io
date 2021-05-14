@@ -61,8 +61,7 @@ impl Component for Header {
     }
 }
 
-static HEADER_ITEMS: [(&'static str, &'static str); 3] =
-    [("主页", ""), ("博客", "blog"), ("关于", "about")];
+static HEADER_ITEMS: [(&str, &str); 3] = [("主页", ""), ("博客", "blog"), ("关于", "about")];
 
 #[wasm_bindgen]
 extern "C" {

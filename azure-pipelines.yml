@@ -6,8 +6,6 @@ pool:
 
 variables:
 - group: GitHubPATGroup
-- name: buildConfiguration
-  value: 'Release'
 
 steps:
 - script: |
@@ -24,13 +22,6 @@ steps:
     contents: |
       static/**
     targetFolder: $(Build.ArtifactStagingDirectory)
-
-- task: CopyFiles@2
-  displayName: Copy license
-  inputs:
-    contents: |
-      LICENSE
-    targetFolder: $(Build.ArtifactStagingDirectory)/static
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'

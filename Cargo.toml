@@ -2,6 +2,9 @@
 name = "pages"
 version = "0.1.0"
 edition = "2018"
+description = "Berrysoft's personal site."
+repository = "https://github.com/Berrysoft/Berrysoft.github.io.git"
+license = "MIT"
 
 [lib]
 crate-type = ["cdylib", "rlib"]

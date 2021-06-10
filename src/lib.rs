@@ -2,7 +2,7 @@
 #![feature(iter_intersperse)]
 
 use chrono::{DateTime, FixedOffset, Utc};
-use std::sync::Arc;
+use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 use yew::prelude::*;
 use yew_router::{prelude::*, switch::Permissive};

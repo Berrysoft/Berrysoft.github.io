@@ -42,11 +42,11 @@ impl Component for AboutPage {
                 html! {
                     <DataGrid<Library> data=libs>
                         <DataGridColumn<Library> header="名称" fmt=box_fmt(|lib: &Library| html! {
-                            <a href=lib.url.as_str() target="_blank">{&lib.name}</a>
+                            <a href=lib.url.clone() target="_blank">{&lib.name}</a>
                         })/>
                         <DataGridColumn<Library> header="许可证" fmt=box_fmt(|lib: &Library| {
                             if let Some(url) = &lib.license_url {
-                                html! {<a href=url.as_str() target="_blank">{&lib.license}</a>}
+                                html! {<a href=url.clone() target="_blank">{&lib.license}</a>}
                             } else {
                                 html! {{&lib.license}}
                             }

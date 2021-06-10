@@ -10,7 +10,7 @@ pub struct DataGrid<T: Clone + 'static> {
 #[derive(Debug, Clone, Properties)]
 pub struct DataGridProperties<T: Clone + 'static> {
     pub children: ChildrenWithProps<DataGridColumn<T>>,
-    pub data: Arc<Vec<T>>,
+    pub data: Rc<Vec<T>>,
 }
 
 impl<T: Clone + 'static> Component for DataGrid<T> {
@@ -72,7 +72,7 @@ pub struct DataGridColumn<T: Clone + 'static> {
 #[derive(Clone, Properties)]
 pub struct DataGridColumnProperties<T: Clone + 'static> {
     pub header: String,
-    pub fmt: Arc<dyn DataGridColumnFormatter<T>>,
+    pub fmt: Rc<dyn DataGridColumnFormatter<T>>,
 }
 
 pub trait DataGridColumnFormatter<T: Clone + 'static> {
@@ -121,8 +121,8 @@ impl<T: Clone + 'static> DataGridColumnFormatter<T> for FuncFormatter<T> {
 
 pub fn box_fmt<T: Clone + 'static>(
     func: impl Fn(&T) -> Html + 'static,
-) -> Arc<dyn DataGridColumnFormatter<T>> {
-    Arc::new(FuncFormatter::<T> {
+) -> Rc<dyn DataGridColumnFormatter<T>> {
+    Rc::new(FuncFormatter::<T> {
         func: Box::new(func),
     })
 }

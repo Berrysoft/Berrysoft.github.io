@@ -75,7 +75,7 @@ impl Component for BlogDetailPage {
                     <>
                         <h1>{item.title}</h1>
                         <p class="text-secondary">
-                            <time datetime=time_str.as_str()>{&time_str}</time>
+                            <time datetime=time_str.clone()>{&time_str}</time>
                         </p>
                     </>
                 }

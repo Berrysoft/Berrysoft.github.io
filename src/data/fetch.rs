@@ -80,7 +80,7 @@ impl<T: DeserializeOwned + 'static> FetcherTypes for JsonFetcherTypes<T> {
 
     type TransferType = Vec<T>;
 
-    type StoreType = Arc<Vec<T>>;
+    type StoreType = Rc<Vec<T>>;
 
     fn format_to_transfer(data: Self::FormatType) -> FetcherMessage<Self::TransferType> {
         let Json(data) = data;
@@ -88,7 +88,7 @@ impl<T: DeserializeOwned + 'static> FetcherTypes for JsonFetcherTypes<T> {
     }
 
     fn transfer_to_store(data: Self::TransferType) -> Self::StoreType {
-        Arc::new(data)
+        Rc::new(data)
     }
 }
 

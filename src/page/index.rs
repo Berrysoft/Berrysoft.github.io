@@ -68,7 +68,7 @@ impl Component for IndexPage {
                 html! {
                     <DataGrid<PersonalProject> data=projects>
                         <DataGridColumn<PersonalProject> header="名称" fmt=box_fmt(|p: &PersonalProject| {
-                            html! {<a href=p.url.as_str() target="_blank">{&p.name}</a>}
+                            html! {<a href=p.url.clone() target="_blank">{&p.name}</a>}
                         })/>
                         <DataGridColumn<PersonalProject> header="主要语言" fmt=box_fmt(|p: &PersonalProject| {
                             html! {{&p.language}}
@@ -128,7 +128,7 @@ impl Component for IndexPage {
             .get()
             .map(|links| {
                 links.iter().map(|link| html! {
-                    <a class="list-group-item list-group-item-action" href=link.url.as_str() target="_blank">
+                    <a class="list-group-item list-group-item-action" href=link.url.clone() target="_blank">
                         {&format!("{} - {}", link.name, link.title)}
                     </a>
                 }).collect::<Vec<Html>>()

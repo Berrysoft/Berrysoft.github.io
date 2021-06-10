@@ -50,7 +50,7 @@ impl Component for BlogPage {
                             <a class="list-group-item list-group-item-action" href=format!("/blog/{}", item.filename)>
                                 <h2>{item.title}</h2>
                                 <p class="text-secondary">
-                                    <time datetime=time_str.as_str()>{&time_str}</time>
+                                    <time datetime=time_str.clone()>{&time_str}</time>
                                 </p>
                                 <p>{item.description}</p>
                             </a>

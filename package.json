@@ -1,0 +1,16 @@
+{
+  "name": "pages",
+  "description": "Berrysoft's personal site.",
+  "version": "0.1.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Berrysoft/Berrysoft.github.io.git"
+  },
+  "files": [
+    "wasm_bg.wasm",
+    "wasm.js"
+  ],
+  "module": "wasm.js",
+  "sideEffects": false
+}

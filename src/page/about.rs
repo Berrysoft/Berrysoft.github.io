@@ -1,11 +1,11 @@
 use crate::{data::*, layout::*, *};
 
 pub struct AboutPage {
-    libs: JsonFetcher<Library>,
+    libs: JsonFetcher<Library, LibraryWrapper>,
 }
 
 pub enum AboutPageMessage {
-    GetLibraries(JsonFetcherMessage<Library>),
+    GetLibraries(JsonFetcherMessage<Library, LibraryWrapper>),
 }
 
 impl Component for AboutPage {
@@ -40,18 +40,10 @@ impl Component for AboutPage {
             .get()
             .map(|libs| {
                 html! {
-                    <DataGrid<Library> data=libs>
-                        <DataGridColumn<Library> header="名称" fmt=box_fmt(|lib: &Library| html! {
-                            <a href=lib.url.clone() target="_blank">{&lib.name}</a>
-                        })/>
-                        <DataGridColumn<Library> header="许可证" fmt=box_fmt(|lib: &Library| {
-                            if let Some(url) = &lib.license_url {
-                                html! {<a href=url.clone() target="_blank">{&lib.license}</a>}
-                            } else {
-                                html! {{&lib.license}}
-                            }
-                        })/>
-                    </DataGrid<Library>>
+                    <DataGrid<LibraryWrapper> data=libs>
+                        <DataGridColumn header="名称" prop="name"/>
+                        <DataGridColumn header="许可证" prop="license"/>
+                    </DataGrid<LibraryWrapper>>
                 }
             })
             .unwrap_or_default();
@@ -74,6 +66,69 @@ impl Component for AboutPage {
                 </div>
                 <Footer/>
             </>
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct LibraryWrapper {
+    name: LibraryName,
+    license: LibraryLicense,
+}
+
+impl From<Library> for LibraryWrapper {
+    fn from(lib: Library) -> Self {
+        Self {
+            name: LibraryName {
+                name: lib.name,
+                url: lib.url,
+            },
+            license: LibraryLicense {
+                license: lib.license,
+                license_url: lib.license_url,
+            },
+        }
+    }
+}
+
+impl DataGridItem for LibraryWrapper {
+    fn prop(&self, name: &str) -> Box<dyn DataGridItemProperty> {
+        match name {
+            "name" => Box::new(self.name.clone()),
+            "license" => Box::new(self.license.clone()),
+            _ => unreachable!(),
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+struct LibraryName {
+    name: String,
+    url: String,
+}
+
+impl DataGridItemProperty for LibraryName {
+    fn fmt_html(&self) -> Html {
+        html! {
+            <a href=self.url.clone() target="_blank">{&self.name}</a>
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+struct LibraryLicense {
+    license: String,
+    license_url: Option<String>,
+}
+
+impl DataGridItemProperty for LibraryLicense {
+    fn fmt_html(&self) -> Html {
+        html! {
+            if let Some(url) = &self.license_url {
+                html! {<a href=url.clone() target="_blank">{&self.license}</a>}
+            } else {
+                html! {{&self.license}}
+            }
         }
     }
 }

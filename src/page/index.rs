@@ -1,15 +1,15 @@
 use crate::{data::*, layout::*, *};
 
 pub struct IndexPage {
-    projects: JsonFetcher<PersonalProject>,
-    github_events: JsonFetcher<GitHubEvent>,
-    links: JsonFetcher<FriendLink>,
+    projects: JsonFetcher<PersonalProject, PersonalProjectWrapper>,
+    github_events: JsonFetcher<GitHubEvent, GitHubEventWrapper>,
+    links: JsonFetcher<FriendLink, FriendLink>,
 }
 
 pub enum IndexPageMessage {
-    GetProjects(JsonFetcherMessage<PersonalProject>),
-    GetGitHubEvents(JsonFetcherMessage<GitHubEvent>),
-    GetFriendLinks(JsonFetcherMessage<FriendLink>),
+    GetProjects(JsonFetcherMessage<PersonalProject, PersonalProjectWrapper>),
+    GetGitHubEvents(JsonFetcherMessage<GitHubEvent, GitHubEventWrapper>),
+    GetFriendLinks(JsonFetcherMessage<FriendLink, FriendLink>),
 }
 
 impl Component for IndexPage {
@@ -66,17 +66,11 @@ impl Component for IndexPage {
             .get()
             .map(|projects| {
                 html! {
-                    <DataGrid<PersonalProject> data=projects>
-                        <DataGridColumn<PersonalProject> header="名称" fmt=box_fmt(|p: &PersonalProject| {
-                            html! {<a href=p.url.clone() target="_blank">{&p.name}</a>}
-                        })/>
-                        <DataGridColumn<PersonalProject> header="主要语言" fmt=box_fmt(|p: &PersonalProject| {
-                            html! {{&p.language}}
-                        })/>
-                        <DataGridColumn<PersonalProject> header="简介" fmt=box_fmt(|p: &PersonalProject| {
-                            html! {{&p.description}}
-                        })/>
-                    </DataGrid<PersonalProject>>
+                    <DataGrid<PersonalProjectWrapper> data=projects>
+                        <DataGridColumn header="名称" prop="name"/>
+                        <DataGridColumn header="主要语言" prop="language"/>
+                        <DataGridColumn header="简介" prop="description"/>
+                    </DataGrid<PersonalProjectWrapper>>
                 }
             })
             .unwrap_or_default();
@@ -85,41 +79,11 @@ impl Component for IndexPage {
             .get()
             .map(|events| {
                 html! {
-                    <DataGrid<GitHubEvent> data=events>
-                        <DataGridColumn<GitHubEvent> header="消息" fmt=box_fmt(|e: &GitHubEvent| {
-                            let msg = e
-                                .payload
-                                .commits
-                                .last()
-                                .map(|c| c.message.as_str())
-                                .unwrap_or("")
-                                .split(&['\n', '\r'][..])
-                                .map(|s| html! {{s}})
-                                .intersperse(html! {<br />})
-                                .collect::<Vec<Html>>();
-                            let link = format!(
-                                "//github.com/{}/commit/{}",
-                                e.repo.name,
-                                e.payload
-                                    .commits
-                                    .last()
-                                    .map(|c| c.sha.as_str())
-                                    .unwrap_or("")
-                            );
-                            html! {<a href=link target="_blank">{msg}</a>}
-                        })/>
-                        <DataGridColumn<GitHubEvent> header="时间" fmt=box_fmt(|e: &GitHubEvent| {
-                            let time = e
-                                .created_at
-                                .with_timezone(&FixedOffset::east(8 * 3600))
-                                .naive_local()
-                                .to_string();
-                            html! {{time}}
-                        })/>
-                        <DataGridColumn<GitHubEvent> header="存储库" fmt=box_fmt(|e: &GitHubEvent| {
-                            html! {{&e.repo.name}}
-                        })/>
-                    </DataGrid<GitHubEvent>>
+                    <DataGrid<GitHubEventWrapper> data=events>
+                        <DataGridColumn header="消息" prop="msg"/>
+                        <DataGridColumn header="时间" prop="time"/>
+                        <DataGridColumn header="存储库" prop="repo"/>
+                    </DataGrid<GitHubEventWrapper>>
                 }
             })
             .unwrap_or_default();
@@ -161,6 +125,117 @@ impl Component for IndexPage {
                 </div>
                 <Footer/>
             </>
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct PersonalProjectWrapper {
+    name: PersonalProjectName,
+    language: String,
+    description: String,
+}
+
+impl From<PersonalProject> for PersonalProjectWrapper {
+    fn from(proj: PersonalProject) -> Self {
+        Self {
+            name: PersonalProjectName {
+                name: proj.name,
+                url: proj.url,
+            },
+            language: proj.language,
+            description: proj.description,
+        }
+    }
+}
+
+impl DataGridItem for PersonalProjectWrapper {
+    fn prop(&self, name: &str) -> Box<dyn DataGridItemProperty> {
+        match name {
+            "name" => Box::new(self.name.clone()),
+            "language" => Box::new(self.language.clone()),
+            "description" => Box::new(self.description.clone()),
+            _ => unreachable!(),
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+struct PersonalProjectName {
+    name: String,
+    url: String,
+}
+
+impl DataGridItemProperty for PersonalProjectName {
+    fn fmt_html(&self) -> Html {
+        html! {
+            <a href=self.url.clone() target="_blank">{&self.name}</a>
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct GitHubEventWrapper {
+    msg: GitHubEventMessage,
+    time: String,
+    repo: String,
+}
+
+impl From<GitHubEvent> for GitHubEventWrapper {
+    fn from(e: GitHubEvent) -> Self {
+        let msg = e
+            .payload
+            .commits
+            .last()
+            .map(|c| c.message.as_str())
+            .unwrap_or("")
+            .split(&['\n', '\r'][..])
+            .map(|s| html! {{s}})
+            .intersperse(html! {<br />})
+            .collect::<Vec<Html>>();
+        let link = format!(
+            "//github.com/{}/commit/{}",
+            e.repo.name,
+            e.payload
+                .commits
+                .last()
+                .map(|c| c.sha.as_str())
+                .unwrap_or("")
+        );
+        let time = e
+            .created_at
+            .with_timezone(&FixedOffset::east(8 * 3600))
+            .naive_local()
+            .to_string();
+        Self {
+            msg: GitHubEventMessage { msg, link },
+            time,
+            repo: e.repo.name,
+        }
+    }
+}
+
+impl DataGridItem for GitHubEventWrapper {
+    fn prop(&self, name: &str) -> Box<dyn DataGridItemProperty> {
+        match name {
+            "msg" => Box::new(self.msg.clone()),
+            "time" => Box::new(self.time.clone()),
+            "repo" => Box::new(self.repo.clone()),
+            _ => unreachable!(),
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+struct GitHubEventMessage {
+    msg: Vec<Html>,
+    link: String,
+}
+
+impl DataGridItemProperty for GitHubEventMessage {
+    fn fmt_html(&self) -> Html {
+        html! {
+            <a href=self.link.clone() target="_blank">{self.msg.clone()}</a>
         }
     }
 }

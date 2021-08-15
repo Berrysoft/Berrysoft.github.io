@@ -1,19 +1,33 @@
 use crate::*;
 use std::fmt::Debug;
 
+pub trait DataGridItem {
+    fn prop(&self, name: &str) -> Box<dyn DataGridItemProperty>;
+}
+
+pub trait DataGridItemProperty {
+    fn fmt_html(&self) -> Html;
+}
+
+impl DataGridItemProperty for String {
+    fn fmt_html(&self) -> Html {
+        html! {{self}}
+    }
+}
+
 #[derive(Debug)]
-pub struct DataGrid<T: Clone + 'static> {
+pub struct DataGrid<T: DataGridItem + Clone + 'static> {
     props: DataGridProperties<T>,
     link: ComponentLink<Self>,
 }
 
 #[derive(Debug, Clone, Properties)]
-pub struct DataGridProperties<T: Clone + 'static> {
-    pub children: ChildrenWithProps<DataGridColumn<T>>,
+pub struct DataGridProperties<T: DataGridItem + Clone + 'static> {
+    pub children: ChildrenWithProps<DataGridColumn>,
     pub data: Rc<Vec<T>>,
 }
 
-impl<T: Clone + 'static> Component for DataGrid<T> {
+impl<T: DataGridItem + Clone + 'static> Component for DataGrid<T> {
     type Message = ();
 
     type Properties = DataGridProperties<T>;
@@ -42,8 +56,8 @@ impl<T: Clone + 'static> Component for DataGrid<T> {
                     .children
                     .iter()
                     .map(|c| {
-                        let child = c.props.fmt.fmt(d);
-                        html! {<td>{child}</td>}
+                        let prop = d.prop(&c.props.prop);
+                        html! {<td>{prop.fmt_html()}</td>}
                     })
                     .collect::<Vec<Html>>();
                 html! {
@@ -65,30 +79,20 @@ impl<T: Clone + 'static> Component for DataGrid<T> {
 }
 
 #[derive(Debug)]
-pub struct DataGridColumn<T: Clone + 'static> {
-    props: DataGridColumnProperties<T>,
+pub struct DataGridColumn {
+    props: DataGridColumnProperties,
 }
 
-#[derive(Clone, Properties)]
-pub struct DataGridColumnProperties<T: Clone + 'static> {
+#[derive(Debug, Clone, Properties)]
+pub struct DataGridColumnProperties {
     pub header: String,
-    pub fmt: Rc<dyn DataGridColumnFormatter<T>>,
+    pub prop: String,
 }
 
-pub trait DataGridColumnFormatter<T: Clone + 'static> {
-    fn fmt(&self, item: &T) -> Html;
-}
-
-impl<T: Clone + 'static> Debug for DataGridColumnProperties<T> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.pad("DataGridColumnProperties")
-    }
-}
-
-impl<T: Clone + 'static> Component for DataGridColumn<T> {
+impl Component for DataGridColumn {
     type Message = ();
 
-    type Properties = DataGridColumnProperties<T>;
+    type Properties = DataGridColumnProperties;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Self { props }
@@ -107,22 +111,4 @@ impl<T: Clone + 'static> Component for DataGridColumn<T> {
             <th scope="col">{&self.props.header}</th>
         }
     }
-}
-
-struct FuncFormatter<T: Clone + 'static> {
-    func: Box<dyn Fn(&T) -> Html>,
-}
-
-impl<T: Clone + 'static> DataGridColumnFormatter<T> for FuncFormatter<T> {
-    fn fmt(&self, item: &T) -> Html {
-        (self.func)(item)
-    }
-}
-
-pub fn box_fmt<T: Clone + 'static>(
-    func: impl Fn(&T) -> Html + 'static,
-) -> Rc<dyn DataGridColumnFormatter<T>> {
-    Rc::new(FuncFormatter::<T> {
-        func: Box::new(func),
-    })
 }

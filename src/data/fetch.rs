@@ -66,21 +66,22 @@ impl<T: FetcherTypes> FetcherBase<T> {
     }
 }
 
-pub type JsonFetcher<T> = FetcherBase<JsonFetcherTypes<T>>;
+pub type JsonFetcher<T, W> = FetcherBase<JsonFetcherTypes<T, W>>;
 
-pub type JsonFetcherMessage<T> =
-    FetcherMessage<<JsonFetcherTypes<T> as FetcherTypes>::TransferType>;
+pub type JsonFetcherMessage<T, W> =
+    FetcherMessage<<JsonFetcherTypes<T, W> as FetcherTypes>::TransferType>;
 
-pub struct JsonFetcherTypes<T: DeserializeOwned + 'static> {
+pub struct JsonFetcherTypes<T: DeserializeOwned + 'static, W: From<T>> {
     _p: PhantomData<T>,
+    _pw: PhantomData<W>,
 }
 
-impl<T: DeserializeOwned + 'static> FetcherTypes for JsonFetcherTypes<T> {
+impl<T: DeserializeOwned + 'static, W: From<T>> FetcherTypes for JsonFetcherTypes<T, W> {
     type FormatType = Json<anyhow::Result<Vec<T>>>;
 
     type TransferType = Vec<T>;
 
-    type StoreType = Rc<Vec<T>>;
+    type StoreType = Rc<Vec<W>>;
 
     fn format_to_transfer(data: Self::FormatType) -> FetcherMessage<Self::TransferType> {
         let Json(data) = data;
@@ -88,7 +89,7 @@ impl<T: DeserializeOwned + 'static> FetcherTypes for JsonFetcherTypes<T> {
     }
 
     fn transfer_to_store(data: Self::TransferType) -> Self::StoreType {
-        Rc::new(data)
+        Rc::new(data.into_iter().map(W::from).collect())
     }
 }
 

@@ -2,7 +2,7 @@ use crate::*;
 use std::fmt::Debug;
 
 pub trait DataGridItem {
-    fn prop(&self, name: &str) -> Box<dyn DataGridItemProperty>;
+    fn prop(&self, name: &str) -> &dyn DataGridItemProperty;
 }
 
 pub trait DataGridItemProperty {

@@ -92,10 +92,10 @@ impl From<Library> for LibraryWrapper {
 }
 
 impl DataGridItem for LibraryWrapper {
-    fn prop(&self, name: &str) -> Box<dyn DataGridItemProperty> {
+    fn prop(&self, name: &str) -> &dyn DataGridItemProperty {
         match name {
-            "name" => Box::new(self.name.clone()),
-            "license" => Box::new(self.license.clone()),
+            "name" => &self.name,
+            "license" => &self.license,
             _ => unreachable!(),
         }
     }

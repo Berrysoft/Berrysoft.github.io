@@ -150,11 +150,11 @@ impl From<PersonalProject> for PersonalProjectWrapper {
 }
 
 impl DataGridItem for PersonalProjectWrapper {
-    fn prop(&self, name: &str) -> Box<dyn DataGridItemProperty> {
+    fn prop(&self, name: &str) -> &dyn DataGridItemProperty {
         match name {
-            "name" => Box::new(self.name.clone()),
-            "language" => Box::new(self.language.clone()),
-            "description" => Box::new(self.description.clone()),
+            "name" => &self.name,
+            "language" => &self.language,
+            "description" => &self.description,
             _ => unreachable!(),
         }
     }
@@ -216,11 +216,11 @@ impl From<GitHubEvent> for GitHubEventWrapper {
 }
 
 impl DataGridItem for GitHubEventWrapper {
-    fn prop(&self, name: &str) -> Box<dyn DataGridItemProperty> {
+    fn prop(&self, name: &str) -> &dyn DataGridItemProperty {
         match name {
-            "msg" => Box::new(self.msg.clone()),
-            "time" => Box::new(self.time.clone()),
-            "repo" => Box::new(self.repo.clone()),
+            "msg" => &self.msg,
+            "time" => &self.time,
+            "repo" => &self.repo,
             _ => unreachable!(),
         }
     }

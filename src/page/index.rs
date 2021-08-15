@@ -67,8 +67,8 @@ impl Component for IndexPage {
             .map(|projects| {
                 html! {
                     <DataGrid<PersonalProjectWrapper> data=projects>
-                        <DataGridColumn header="名称" prop="name"/>
-                        <DataGridColumn header="主要语言" prop="language"/>
+                        <DataGridColumn header="名称" prop="name" sortable=true/>
+                        <DataGridColumn header="主要语言" prop="language" sortable=true/>
                         <DataGridColumn header="简介" prop="description"/>
                     </DataGrid<PersonalProjectWrapper>>
                 }
@@ -167,6 +167,10 @@ struct PersonalProjectName {
 }
 
 impl DataGridItemProperty for PersonalProjectName {
+    fn cmp_key(&self) -> Option<String> {
+        Some(self.name.clone())
+    }
+
     fn fmt_html(&self) -> Html {
         html! {
             <a href=self.url.clone() target="_blank">{&self.name}</a>
@@ -233,6 +237,10 @@ struct GitHubEventMessage {
 }
 
 impl DataGridItemProperty for GitHubEventMessage {
+    fn cmp_key(&self) -> Option<String> {
+        None
+    }
+
     fn fmt_html(&self) -> Html {
         html! {
             <a href=self.link.clone() target="_blank">{self.msg.clone()}</a>

@@ -41,8 +41,8 @@ impl Component for AboutPage {
             .map(|libs| {
                 html! {
                     <DataGrid<LibraryWrapper> data=libs>
-                        <DataGridColumn header="名称" prop="name"/>
-                        <DataGridColumn header="许可证" prop="license"/>
+                        <DataGridColumn header="名称" prop="name" sortable=true/>
+                        <DataGridColumn header="许可证" prop="license" sortable=true/>
                     </DataGrid<LibraryWrapper>>
                 }
             })
@@ -101,13 +101,17 @@ impl DataGridItem for LibraryWrapper {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, PartialOrd)]
 struct LibraryName {
     name: String,
     url: String,
 }
 
 impl DataGridItemProperty for LibraryName {
+    fn cmp_key(&self) -> Option<String> {
+        Some(self.name.clone())
+    }
+
     fn fmt_html(&self) -> Html {
         html! {
             <a href=self.url.clone() target="_blank">{&self.name}</a>
@@ -122,6 +126,10 @@ struct LibraryLicense {
 }
 
 impl DataGridItemProperty for LibraryLicense {
+    fn cmp_key(&self) -> Option<String> {
+        Some(self.license.clone())
+    }
+
     fn fmt_html(&self) -> Html {
         html! {
             if let Some(url) = &self.license_url {

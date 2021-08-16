@@ -67,9 +67,9 @@ impl Component for IndexPage {
             .map(|projects| {
                 html! {
                     <DataGrid<PersonalProjectWrapper> data=projects>
-                        <DataGridColumn header="名称" prop="name" sortable=true/>
-                        <DataGridColumn header="主要语言" prop="language" sortable=true/>
-                        <DataGridColumn header="简介" prop="description"/>
+                        <DataGridColumn<PersonalProjectWrapper> header="名称" prop=PersonalProjectProperties::Name sortable=true/>
+                        <DataGridColumn<PersonalProjectWrapper> header="主要语言" prop=PersonalProjectProperties::Language sortable=true/>
+                        <DataGridColumn<PersonalProjectWrapper> header="简介" prop=PersonalProjectProperties::Description/>
                     </DataGrid<PersonalProjectWrapper>>
                 }
             })
@@ -80,9 +80,9 @@ impl Component for IndexPage {
             .map(|events| {
                 html! {
                     <DataGrid<GitHubEventWrapper> data=events>
-                        <DataGridColumn header="消息" prop="msg"/>
-                        <DataGridColumn header="时间" prop="time"/>
-                        <DataGridColumn header="存储库" prop="repo"/>
+                        <DataGridColumn<GitHubEventWrapper> header="消息" prop=GitHubEventProperties::Message/>
+                        <DataGridColumn<GitHubEventWrapper> header="时间" prop=GitHubEventProperties::Time/>
+                        <DataGridColumn<GitHubEventWrapper> header="存储库" prop=GitHubEventProperties::Repo/>
                     </DataGrid<GitHubEventWrapper>>
                 }
             })
@@ -136,6 +136,13 @@ pub struct PersonalProjectWrapper {
     description: String,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum PersonalProjectProperties {
+    Name,
+    Language,
+    Description,
+}
+
 impl From<PersonalProject> for PersonalProjectWrapper {
     fn from(proj: PersonalProject) -> Self {
         Self {
@@ -150,12 +157,13 @@ impl From<PersonalProject> for PersonalProjectWrapper {
 }
 
 impl DataGridItem for PersonalProjectWrapper {
-    fn prop(&self, name: &str) -> &dyn DataGridItemProperty {
-        match name {
-            "name" => &self.name,
-            "language" => &self.language,
-            "description" => &self.description,
-            _ => unreachable!(),
+    type Prop = PersonalProjectProperties;
+
+    fn prop(&self, p: &Self::Prop) -> &dyn DataGridItemProperty {
+        match p {
+            PersonalProjectProperties::Name => &self.name,
+            PersonalProjectProperties::Language => &self.language,
+            PersonalProjectProperties::Description => &self.description,
         }
     }
 }
@@ -183,6 +191,13 @@ pub struct GitHubEventWrapper {
     msg: GitHubEventMessage,
     time: String,
     repo: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum GitHubEventProperties {
+    Message,
+    Time,
+    Repo,
 }
 
 impl From<GitHubEvent> for GitHubEventWrapper {
@@ -220,12 +235,13 @@ impl From<GitHubEvent> for GitHubEventWrapper {
 }
 
 impl DataGridItem for GitHubEventWrapper {
-    fn prop(&self, name: &str) -> &dyn DataGridItemProperty {
-        match name {
-            "msg" => &self.msg,
-            "time" => &self.time,
-            "repo" => &self.repo,
-            _ => unreachable!(),
+    type Prop = GitHubEventProperties;
+
+    fn prop(&self, p: &Self::Prop) -> &dyn DataGridItemProperty {
+        match p {
+            GitHubEventProperties::Message => &self.msg,
+            GitHubEventProperties::Time => &self.time,
+            GitHubEventProperties::Repo => &self.repo,
         }
     }
 }

@@ -41,8 +41,8 @@ impl Component for AboutPage {
             .map(|libs| {
                 html! {
                     <DataGrid<LibraryWrapper> data=libs>
-                        <DataGridColumn header="名称" prop="name" sortable=true/>
-                        <DataGridColumn header="许可证" prop="license" sortable=true/>
+                        <DataGridColumn<LibraryWrapper> header="名称" prop=LibraryPerperties::Name sortable=true/>
+                        <DataGridColumn<LibraryWrapper> header="许可证" prop=LibraryPerperties::License sortable=true/>
                     </DataGrid<LibraryWrapper>>
                 }
             })
@@ -76,6 +76,12 @@ pub struct LibraryWrapper {
     license: LibraryLicense,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum LibraryPerperties {
+    Name,
+    License,
+}
+
 impl From<Library> for LibraryWrapper {
     fn from(lib: Library) -> Self {
         Self {
@@ -92,11 +98,12 @@ impl From<Library> for LibraryWrapper {
 }
 
 impl DataGridItem for LibraryWrapper {
-    fn prop(&self, name: &str) -> &dyn DataGridItemProperty {
-        match name {
-            "name" => &self.name,
-            "license" => &self.license,
-            _ => unreachable!(),
+    type Prop = LibraryPerperties;
+
+    fn prop(&self, p: &Self::Prop) -> &dyn DataGridItemProperty {
+        match p {
+            LibraryPerperties::Name => &self.name,
+            LibraryPerperties::License => &self.license,
         }
     }
 }

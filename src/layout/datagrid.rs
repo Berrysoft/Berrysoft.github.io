@@ -2,7 +2,9 @@ use crate::*;
 use std::fmt::Debug;
 
 pub trait DataGridItem {
-    fn prop(&self, name: &str) -> &dyn DataGridItemProperty;
+    type Prop: Debug + Clone + Eq;
+
+    fn prop(&self, p: &Self::Prop) -> &dyn DataGridItemProperty;
 }
 
 pub trait DataGridItemProperty {
@@ -32,23 +34,23 @@ enum SortOrdering {
 pub struct DataGrid<T: DataGridItem + Clone + 'static> {
     props: DataGridProperties<T>,
     link: ComponentLink<Self>,
-    sort_prop: Option<String>,
+    sort_prop: Option<T::Prop>,
     sort_order: SortOrdering,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub enum DataGridMessage {
-    ColumnClick(bool, String),
+pub enum DataGridMessage<T: DataGridItem + Clone + 'static> {
+    ColumnClick(bool, T::Prop),
 }
 
 #[derive(Debug, Clone, Properties)]
 pub struct DataGridProperties<T: DataGridItem + Clone + 'static> {
-    pub children: ChildrenWithProps<DataGridColumn>,
+    pub children: ChildrenWithProps<DataGridColumn<T>>,
     pub data: Rc<Vec<T>>,
 }
 
 impl<T: DataGridItem + Clone + 'static> Component for DataGrid<T> {
-    type Message = DataGridMessage;
+    type Message = DataGridMessage<T>;
 
     type Properties = DataGridProperties<T>;
 
@@ -177,22 +179,22 @@ impl<T: DataGridItem + Clone + 'static> Component for DataGrid<T> {
 }
 
 #[derive(Debug)]
-pub struct DataGridColumn {
-    props: DataGridColumnProperties,
+pub struct DataGridColumn<T: DataGridItem + Clone + 'static> {
+    props: DataGridColumnProperties<T>,
 }
 
 #[derive(Debug, Clone, Properties)]
-pub struct DataGridColumnProperties {
+pub struct DataGridColumnProperties<T: DataGridItem + Clone + 'static> {
     pub header: String,
-    pub prop: String,
+    pub prop: T::Prop,
     #[prop_or_default]
     pub sortable: bool,
 }
 
-impl Component for DataGridColumn {
+impl<T: DataGridItem + Clone + 'static> Component for DataGridColumn<T> {
     type Message = ();
 
-    type Properties = DataGridColumnProperties;
+    type Properties = DataGridColumnProperties<T>;
 
     fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
         Self { props }

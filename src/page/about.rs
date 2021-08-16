@@ -108,8 +108,8 @@ struct LibraryName {
 }
 
 impl DataGridItemProperty for LibraryName {
-    fn cmp_key(&self) -> Option<String> {
-        Some(self.name.clone())
+    fn cmp_key(&self) -> Option<&str> {
+        Some(&self.name)
     }
 
     fn fmt_html(&self) -> Html {
@@ -126,8 +126,8 @@ struct LibraryLicense {
 }
 
 impl DataGridItemProperty for LibraryLicense {
-    fn cmp_key(&self) -> Option<String> {
-        Some(self.license.clone())
+    fn cmp_key(&self) -> Option<&str> {
+        Some(&self.license)
     }
 
     fn fmt_html(&self) -> Html {

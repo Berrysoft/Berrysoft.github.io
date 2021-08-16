@@ -6,14 +6,14 @@ pub trait DataGridItem {
 }
 
 pub trait DataGridItemProperty {
-    fn cmp_key(&self) -> Option<String>;
+    fn cmp_key(&self) -> Option<&str>;
 
     fn fmt_html(&self) -> Html;
 }
 
 impl DataGridItemProperty for String {
-    fn cmp_key(&self) -> Option<String> {
-        Some(self.clone())
+    fn cmp_key(&self) -> Option<&str> {
+        Some(self)
     }
 
     fn fmt_html(&self) -> Html {
@@ -134,13 +134,15 @@ impl<T: DataGridItem + Clone + 'static> Component for DataGrid<T> {
         if let Some(prop) = &self.sort_prop {
             match self.sort_order {
                 SortOrdering::None => {}
-                SortOrdering::Ascending => row_data.sort_unstable_by_key(|d| {
-                    let prop = d.prop(prop);
-                    prop.cmp_key().unwrap()
+                SortOrdering::Ascending => row_data.sort_unstable_by(|lhs, rhs| {
+                    let lprop = lhs.prop(prop).cmp_key().unwrap();
+                    let rprop = rhs.prop(prop).cmp_key().unwrap();
+                    lprop.cmp(rprop)
                 }),
-                SortOrdering::Descending => row_data.sort_unstable_by_key(|d| {
-                    let prop = d.prop(prop);
-                    std::cmp::Reverse(prop.cmp_key().unwrap())
+                SortOrdering::Descending => row_data.sort_unstable_by(|lhs, rhs| {
+                    let lprop = lhs.prop(prop).cmp_key().unwrap();
+                    let rprop = rhs.prop(prop).cmp_key().unwrap();
+                    rprop.cmp(lprop)
                 }),
             }
         }

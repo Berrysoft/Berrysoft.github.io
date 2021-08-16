@@ -167,8 +167,8 @@ struct PersonalProjectName {
 }
 
 impl DataGridItemProperty for PersonalProjectName {
-    fn cmp_key(&self) -> Option<String> {
-        Some(self.name.clone())
+    fn cmp_key(&self) -> Option<&str> {
+        Some(&self.name)
     }
 
     fn fmt_html(&self) -> Html {
@@ -237,7 +237,7 @@ struct GitHubEventMessage {
 }
 
 impl DataGridItemProperty for GitHubEventMessage {
-    fn cmp_key(&self) -> Option<String> {
+    fn cmp_key(&self) -> Option<&str> {
         None
     }
 

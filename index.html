@@ -9,9 +9,17 @@
     <link rel="alternate" type="application/rss+xml" href="blogdata/feed.xml" />
     <link href="https://cdn.bootcdn.net/ajax/libs/bootswatch/4.5.1/darkly/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.14.0/css/all.min.css" rel="stylesheet" />
-    <link href="css/site.css" rel="stylesheet" />
+    <link href="/css/site.css" rel="stylesheet" />
     <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.0-alpha0/styles/atom-one-dark.min.css"
         rel="stylesheet" />
+    <link data-trunk rel="copy-file" href="favicon.ico" />
+    <link data-trunk rel="copy-file" href=".nojekyll" />
+    <link data-trunk rel="copy-file" href="404.html" />
+    <link data-trunk rel="copy-file" href="README.md" />
+    <link data-trunk rel="copy-dir" href="blogdata" />
+    <link data-trunk rel="copy-dir" href="css" />
+    <link data-trunk rel="copy-dir" href="data" />
+    <link data-trunk rel="copy-dir" href="js" />
 </head>
 
 <body>
@@ -56,15 +64,13 @@
     </script>
     <!-- End Single Page Apps for GitHub Pages -->
 
-    <script defer src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script defer src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script defer src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.0-alpha0/highlight.min.js"></script>
-    <script defer src="/js/site.js"></script>
-    <script defer src="https://cdn.bootcdn.net/ajax/libs/mathjax/3.1.2/es5/tex-mml-chtml.min.js"></script>
-    <script defer type="module">
-        import init from "/wasm.js";
-        init();
-    </script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.0-alpha0/highlight.min.js"></script>
+    <script src="/js/site.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/mathjax/3.1.2/es5/tex-mml-chtml.min.js"></script>
+
+    <link data-trunk rel="rust" data-wasm-opt="z" />
 </body>
 
 </html>

@@ -9,30 +9,30 @@ variables:
 
 steps:
 - script: |
-    cargo install wasm-pack
-    cargo install cargo-make
+    cargo install trunk wasm-bindgen-cli
+    rustup target add wasm32-unknown-unknown
   displayName: Install tools
 
-- script: cargo make fixrel
+- script: trunk build --release
   displayName: Build app
 
 - task: CopyFiles@2
   displayName: Copy files
   inputs:
     contents: |
-      static/**
+      dist/**
     targetFolder: $(Build.ArtifactStagingDirectory)
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
   inputs:
-    pathtoPublish: $(Build.ArtifactStagingDirectory)/static
+    pathtoPublish: $(Build.ArtifactStagingDirectory)/dist
     artifactName: 'Dist'
 
 - script: |
     git config --global user.name "$NAME"
     git config --global user.email "$EMAIL"
-    cd $(Build.ArtifactStagingDirectory)/static
+    cd $(Build.ArtifactStagingDirectory)/dist
     git init
     git checkout -b master
     git add -A

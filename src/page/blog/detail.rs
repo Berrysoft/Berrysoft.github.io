@@ -1,5 +1,5 @@
 use crate::{data::*, layout::*, *};
-use pulldown_cmark::{html, Event, Parser, Tag};
+use pulldown_cmark::{html, Event, Options, Parser, Tag};
 use url::Url;
 
 pub struct BlogDetailPage {
@@ -86,9 +86,10 @@ impl Component for BlogDetailPage {
             .text
             .get()
             .map(|text| {
-                let parser = Parser::new(text);
+                let parser = Parser::new_ext(text, Options::ENABLE_TABLES);
                 let parser = parser.map(|event| match event {
                     Event::Start(tag) => {
+                        log::debug!("{:?}", tag);
                         let tag = match tag {
                             Tag::Image(t, link, title) => {
                                 let link = match Url::parse(&link) {

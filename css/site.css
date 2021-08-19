@@ -137,3 +137,7 @@
         opacity: 1;
     }
 }
+
+table img {
+    width: 100%
+}

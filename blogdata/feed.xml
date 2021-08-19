@@ -7,9 +7,9 @@
     <language>zh-cn</language>
     <copyright>Copyright (c) 2019-2021</copyright>
     <managingEditor>Strawberry_Str@hotmail.com</managingEditor>
-    <lastBuildDate>Fri, 23 Apr 2021 21:39:57 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 19 Aug 2021 14:04:12 +0800</lastBuildDate>
     <generator>pages::blog</generator>
-    <a10:link href="https://berrysoft.github.io/blogdata/rss.xml" type="application/rss+xml" rel="self">
+    <a10:link href="https://berrysoft.github.io/blogdata/rss.xml" rel="self" type="application/rss+xml">
     </a10:link>
     <item>
       <title>测试页面</title>
@@ -109,6 +109,15 @@
       </description>
       <guid isPermaLink="false">Rust_2021_4_23</guid>
       <pubDate>Fri, 23 Apr 2021 21:39:57 +0800</pubDate>
+    </item>
+    <item>
+      <title>测试图片</title>
+      <link>https://berrysoft.github.io/blog/Image_2021_8_19</link>
+      <description>
+        <![CDATA[测试图片链接。]]>
+      </description>
+      <guid isPermaLink="false">Image_2021_8_19</guid>
+      <pubDate>Thu, 19 Aug 2021 14:04:12 +0800</pubDate>
     </item>
   </channel>
 </rss>

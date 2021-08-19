@@ -85,7 +85,7 @@ impl Component for BlogDetailPage {
             .text
             .get()
             .map(|text| {
-                let parser = Parser::new(&text);
+                let parser = Parser::new(text);
                 let mut out = String::new();
                 html::push_html(&mut out, parser);
                 parse_html(&out)

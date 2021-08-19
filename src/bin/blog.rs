@@ -19,10 +19,10 @@ struct Opt {
 
 fn main() -> Result<(), Box<dyn Error>> {
     let opt = Opt::from_args();
-    let mut input = PathBuf::from("static/blogdata");
+    let mut input = PathBuf::from("blogdata");
     input.push(opt.input);
     let mut ch = {
-        let rss_file = File::open("static/blogdata/feed.xml")?;
+        let rss_file = File::open("blogdata/feed.xml")?;
         let rss_file = BufReader::new(rss_file);
         rss::Channel::read_from(rss_file)?
     };
@@ -81,9 +81,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         item
     });
     {
-        let rss_file = File::with_options()
-            .write(true)
-            .open("static/blogdata/feed.xml")?;
+        let rss_file = File::with_options().write(true).open("blogdata/feed.xml")?;
         let rss_file = BufWriter::new(rss_file);
         ch.pretty_write_to(rss_file, b' ', 2)?;
     }

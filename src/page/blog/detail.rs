@@ -1,5 +1,6 @@
 use crate::{data::*, layout::*, *};
-use pulldown_cmark::{html, Parser};
+use pulldown_cmark::{html, Event, Parser, Tag};
+use url::Url;
 
 pub struct BlogDetailPage {
     props: BlogDetailProperties,
@@ -51,7 +52,7 @@ impl Component for BlogDetailPage {
     }
 
     fn rendered(&mut self, _first_render: bool) {
-        log::debug!("Blog defail rendered");
+        log::debug!("Blog detail rendered");
         // Make analyzer happy
         #[allow(unused_unsafe)]
         unsafe {
@@ -86,6 +87,34 @@ impl Component for BlogDetailPage {
             .get()
             .map(|text| {
                 let parser = Parser::new(text);
+                let parser = parser.map(|event| match event {
+                    Event::Start(tag) => {
+                        let tag = match tag {
+                            Tag::Image(t, link, title) => {
+                                let link = match Url::parse(&link) {
+                                    Ok(_) => link,
+                                    Err(e) => match e {
+                                        url::ParseError::RelativeUrlWithoutBase => {
+                                            Url::parse(&yew::utils::origin().unwrap())
+                                                .unwrap()
+                                                .join("/blogdata/")
+                                                .unwrap()
+                                                .join(&link)
+                                                .unwrap()
+                                                .to_string()
+                                                .into()
+                                        }
+                                        _ => link,
+                                    },
+                                };
+                                Tag::Image(t, link, title)
+                            }
+                            _ => tag,
+                        };
+                        Event::Start(tag)
+                    }
+                    _ => event,
+                });
                 let mut out = String::new();
                 html::push_html(&mut out, parser);
                 parse_html(&out)

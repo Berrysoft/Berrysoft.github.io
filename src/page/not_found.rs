@@ -1,12 +1,10 @@
 use crate::{layout::*, *};
 
-pub struct NotFoundPage {
-    props: NotFoundProperties,
-}
+pub struct NotFoundPage;
 
-#[derive(Debug, Clone, Properties)]
+#[derive(Clone, PartialEq, Properties)]
 pub struct NotFoundProperties {
-    pub route: Option<String>,
+    pub route: Option<AnyLocation>,
 }
 
 impl Component for NotFoundPage {
@@ -14,27 +12,19 @@ impl Component for NotFoundPage {
 
     type Properties = NotFoundProperties;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        true
-    }
-
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        false
-    }
-
-    fn view(&self) -> Html {
-        let issue = self
-            .props
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let issue = ctx
+            .props()
             .route
             .as_ref()
             .map(|route| html! {
                 <p>
                     {"想要让我增加 "}
-                    <code>{route.as_str()}</code>
+                    <code>{route.pathname()}</code>
                     {" 页面？快去提 "}
                     <a href="https://github.com/Berrysoft/Berrysoft.github.io/issues" target="_blank">{"issue"}</a>
                     {" 吧！"}
@@ -43,7 +33,7 @@ impl Component for NotFoundPage {
             .unwrap_or_default();
         html! {
             <>
-                <Header index=std::usize::MAX/>
+                <Header index={std::usize::MAX}/>
                 <div class="container">
                     <h1>{"404"}</h1>
                     <p>{"对不起，这里什么也没有。"}</p>

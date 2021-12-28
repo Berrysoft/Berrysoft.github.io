@@ -3,12 +3,11 @@ use pulldown_cmark::{html, Event, Options, Parser, Tag};
 use url::Url;
 
 pub struct BlogDetailPage {
-    props: BlogDetailProperties,
     blogs: TextFetcher,
     text: TextFetcher,
 }
 
-#[derive(Debug, Clone, Properties)]
+#[derive(Debug, Clone, PartialEq, Properties)]
 pub struct BlogDetailProperties {
     pub name: String,
 }
@@ -23,18 +22,17 @@ impl Component for BlogDetailPage {
 
     type Properties = BlogDetailProperties;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let uri = format!("/blogdata/{}.md", props.name);
+    fn create(ctx: &Context<Self>) -> Self {
+        let uri = format!("/blogdata/{}.md", ctx.props().name);
         Self {
-            props,
-            blogs: TextFetcher::new("/blogdata/feed.xml", link.clone(), |msg| {
+            blogs: TextFetcher::new("/blogdata/feed.xml", ctx, |msg| {
                 BlogDetailMessage::GetBlogs(msg)
             }),
-            text: TextFetcher::new(&uri, link, BlogDetailMessage::GetText),
+            text: TextFetcher::new(&uri, ctx, BlogDetailMessage::GetText),
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             BlogDetailMessage::GetBlogs(msg) => {
                 self.blogs.update(msg);
@@ -47,11 +45,7 @@ impl Component for BlogDetailPage {
         }
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        false
-    }
-
-    fn rendered(&mut self, _first_render: bool) {
+    fn rendered(&mut self, _ctx: &Context<Self>, _first_render: bool) {
         log::debug!("Blog detail rendered");
         // Make analyzer happy
         #[allow(unused_unsafe)]
@@ -61,14 +55,14 @@ impl Component for BlogDetailPage {
         }
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let title = self
             .blogs
             .get()
             .and_then(|blogs| {
                 BlogItem::parse_rss(blogs)
                     .into_iter()
-                    .find(|item| item.filename == self.props.name)
+                    .find(|item| item.filename == ctx.props().name)
             })
             .map(|item| {
                 let time_str = item.time.naive_local().to_string();
@@ -76,7 +70,7 @@ impl Component for BlogDetailPage {
                     <>
                         <h1>{item.title}</h1>
                         <p class="text-secondary">
-                            <time datetime=time_str.clone()>{&time_str}</time>
+                            <time datetime={time_str.clone()}>{&time_str}</time>
                         </p>
                     </>
                 }
@@ -95,16 +89,16 @@ impl Component for BlogDetailPage {
                                 let link = match Url::parse(&link) {
                                     Ok(_) => link,
                                     Err(e) => match e {
-                                        url::ParseError::RelativeUrlWithoutBase => {
-                                            Url::parse(&yew::utils::origin().unwrap())
-                                                .unwrap()
-                                                .join("/blogdata/")
-                                                .unwrap()
-                                                .join(&link)
-                                                .unwrap()
-                                                .to_string()
-                                                .into()
-                                        }
+                                        url::ParseError::RelativeUrlWithoutBase => Url::parse(
+                                            &gloo_utils::window().location().origin().unwrap(),
+                                        )
+                                        .unwrap()
+                                        .join("/blogdata/")
+                                        .unwrap()
+                                        .join(&link)
+                                        .unwrap()
+                                        .to_string()
+                                        .into(),
                                         _ => link,
                                     },
                                 };

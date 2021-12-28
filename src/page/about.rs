@@ -13,15 +13,15 @@ impl Component for AboutPage {
 
     type Properties = ();
 
-    fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Self {
-            libs: JsonFetcher::new("/data/libraries.json", link, |msg| {
+            libs: JsonFetcher::new("/data/libraries.json", ctx, |msg| {
                 AboutPageMessage::GetLibraries(msg)
             }),
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             AboutPageMessage::GetLibraries(msg) => {
                 self.libs.update(msg);
@@ -30,19 +30,15 @@ impl Component for AboutPage {
         }
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        false
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let libraries = self
             .libs
             .get()
             .map(|libs| {
                 html! {
-                    <DataGrid<LibraryWrapper> data=libs>
-                        <DataGridColumn<LibraryWrapper> header="名称" prop=LibraryPerperties::Name sortable=true/>
-                        <DataGridColumn<LibraryWrapper> header="许可证" prop=LibraryPerperties::License sortable=true/>
+                    <DataGrid<LibraryWrapper> data={libs}>
+                        <DataGridColumn<LibraryWrapper> header="名称" prop={LibraryPerperties::Name} sortable=true/>
+                        <DataGridColumn<LibraryWrapper> header="许可证" prop={LibraryPerperties::License} sortable=true/>
                     </DataGrid<LibraryWrapper>>
                 }
             })
@@ -70,7 +66,7 @@ impl Component for AboutPage {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct LibraryWrapper {
     name: LibraryName,
     license: LibraryLicense,
@@ -121,12 +117,12 @@ impl DataGridItemProperty for LibraryName {
 
     fn fmt_html(&self) -> Html {
         html! {
-            <a href=self.url.clone() target="_blank">{&self.name}</a>
+            <a href={self.url.clone()} target="_blank">{&self.name}</a>
         }
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 struct LibraryLicense {
     license: String,
     license_url: Option<String>,
@@ -138,12 +134,10 @@ impl DataGridItemProperty for LibraryLicense {
     }
 
     fn fmt_html(&self) -> Html {
-        html! {
-            if let Some(url) = &self.license_url {
-                html! {<a href=url.clone() target="_blank">{&self.license}</a>}
-            } else {
-                html! {{&self.license}}
-            }
+        if let Some(url) = &self.license_url {
+            html! {<a href={url.clone()} target="_blank">{&self.license}</a>}
+        } else {
+            html! {{&self.license}}
         }
     }
 }

@@ -45,9 +45,29 @@
         "license": "MPL-2.0"
     },
     {
+        "name": "gloo-utils",
+        "url": "https://crates.io/crates/gloo-utils",
+        "license": "Apache-2.0"
+    },
+    {
         "name": "yew",
         "url": "https://crates.io/crates/yew",
         "license": "Apache-2.0"
+    },
+    {
+        "name": "lazy_static",
+        "url": "https://crates.io/crates/lazy_static",
+        "license": "MIT"
+    },
+    {
+        "name": "reqwest",
+        "url": "https://crates.io/crates/reqwest",
+        "license": "MIT"
+    },
+    {
+        "name": "url",
+        "url": "https://crates.io/crates/url",
+        "license": "MIT"
     },
     {
         "name": "Bootstrap",

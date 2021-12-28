@@ -17,23 +17,19 @@ impl Component for IndexPage {
 
     type Properties = ();
 
-    fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
         Self {
-            projects: JsonFetcher::new(
-                "/data/projects.json",
-                link.clone(),
-                IndexPageMessage::GetProjects,
-            ),
+            projects: JsonFetcher::new("/data/projects.json", ctx, IndexPageMessage::GetProjects),
             github_events: JsonFetcher::new(
                 "//api.github.com/users/berrysoft/events",
-                link.clone(),
+                ctx,
                 IndexPageMessage::GetGitHubEvents,
             ),
-            links: JsonFetcher::new("/data/links.json", link, IndexPageMessage::GetFriendLinks),
+            links: JsonFetcher::new("/data/links.json", ctx, IndexPageMessage::GetFriendLinks),
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             IndexPageMessage::GetProjects(msg) => {
                 self.projects.update(msg);
@@ -56,20 +52,16 @@ impl Component for IndexPage {
         }
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        false
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, _ctx: &Context<Self>) -> Html {
         let projects = self
             .projects
             .get()
             .map(|projects| {
                 html! {
-                    <DataGrid<PersonalProjectWrapper> data=projects>
-                        <DataGridColumn<PersonalProjectWrapper> header="名称" prop=PersonalProjectProperties::Name sortable=true/>
-                        <DataGridColumn<PersonalProjectWrapper> header="主要语言" prop=PersonalProjectProperties::Language sortable=true/>
-                        <DataGridColumn<PersonalProjectWrapper> header="简介" prop=PersonalProjectProperties::Description/>
+                    <DataGrid<PersonalProjectWrapper> data={projects}>
+                        <DataGridColumn<PersonalProjectWrapper> header="名称" prop={PersonalProjectProperties::Name} sortable=true/>
+                        <DataGridColumn<PersonalProjectWrapper> header="主要语言" prop={PersonalProjectProperties::Language} sortable=true/>
+                        <DataGridColumn<PersonalProjectWrapper> header="简介" prop={PersonalProjectProperties::Description}/>
                     </DataGrid<PersonalProjectWrapper>>
                 }
             })
@@ -79,10 +71,10 @@ impl Component for IndexPage {
             .get()
             .map(|events| {
                 html! {
-                    <DataGrid<GitHubEventWrapper> data=events>
-                        <DataGridColumn<GitHubEventWrapper> header="消息" prop=GitHubEventProperties::Message/>
-                        <DataGridColumn<GitHubEventWrapper> header="时间" prop=GitHubEventProperties::Time/>
-                        <DataGridColumn<GitHubEventWrapper> header="存储库" prop=GitHubEventProperties::Repo/>
+                    <DataGrid<GitHubEventWrapper> data={events}>
+                        <DataGridColumn<GitHubEventWrapper> header="消息" prop={GitHubEventProperties::Message}/>
+                        <DataGridColumn<GitHubEventWrapper> header="时间" prop={GitHubEventProperties::Time}/>
+                        <DataGridColumn<GitHubEventWrapper> header="存储库" prop={GitHubEventProperties::Repo}/>
                     </DataGrid<GitHubEventWrapper>>
                 }
             })
@@ -92,7 +84,7 @@ impl Component for IndexPage {
             .get()
             .map(|links| {
                 links.iter().map(|link| html! {
-                    <a class="list-group-item list-group-item-action" href=link.url.clone() target="_blank">
+                    <a class="list-group-item list-group-item-action" href={link.url.clone()} target="_blank">
                         {&format!("{} - {}", link.name, link.title)}
                     </a>
                 }).collect::<Vec<Html>>()
@@ -129,7 +121,7 @@ impl Component for IndexPage {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct PersonalProjectWrapper {
     name: PersonalProjectName,
     language: String,
@@ -168,7 +160,7 @@ impl DataGridItem for PersonalProjectWrapper {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 struct PersonalProjectName {
     name: String,
     url: String,
@@ -181,12 +173,12 @@ impl DataGridItemProperty for PersonalProjectName {
 
     fn fmt_html(&self) -> Html {
         html! {
-            <a href=self.url.clone() target="_blank">{&self.name}</a>
+            <a href={self.url.clone()} target="_blank">{&self.name}</a>
         }
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct GitHubEventWrapper {
     msg: GitHubEventMessage,
     time: String,
@@ -246,7 +238,7 @@ impl DataGridItem for GitHubEventWrapper {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 struct GitHubEventMessage {
     msg: Vec<Html>,
     link: String,
@@ -259,7 +251,7 @@ impl DataGridItemProperty for GitHubEventMessage {
 
     fn fmt_html(&self) -> Html {
         html! {
-            <a href=self.link.clone() target="_blank">{self.msg.clone()}</a>
+            <a href={self.link.clone()} target="_blank">{self.msg.clone()}</a>
         }
     }
 }

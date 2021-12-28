@@ -1,5 +1,5 @@
 use crate::*;
-use std::fmt::Debug;
+use std::{fmt::Debug, marker::PhantomData};
 
 pub trait DataGridItem {
     type Prop: Debug + Clone + Eq;
@@ -31,39 +31,35 @@ enum SortOrdering {
 }
 
 #[derive(Debug)]
-pub struct DataGrid<T: DataGridItem + Clone + 'static> {
-    props: DataGridProperties<T>,
-    link: ComponentLink<Self>,
+pub struct DataGrid<T: DataGridItem + PartialEq + Clone + 'static> {
     sort_prop: Option<T::Prop>,
     sort_order: SortOrdering,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub enum DataGridMessage<T: DataGridItem + Clone + 'static> {
+pub enum DataGridMessage<T: DataGridItem + PartialEq + Clone + 'static> {
     ColumnClick(bool, T::Prop),
 }
 
-#[derive(Debug, Clone, Properties)]
-pub struct DataGridProperties<T: DataGridItem + Clone + 'static> {
+#[derive(Debug, Clone, PartialEq, Properties)]
+pub struct DataGridProperties<T: DataGridItem + PartialEq + Clone + 'static> {
     pub children: ChildrenWithProps<DataGridColumn<T>>,
     pub data: Rc<Vec<T>>,
 }
 
-impl<T: DataGridItem + Clone + 'static> Component for DataGrid<T> {
+impl<T: DataGridItem + PartialEq + Clone + 'static> Component for DataGrid<T> {
     type Message = DataGridMessage<T>;
 
     type Properties = DataGridProperties<T>;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Self {
-            props,
-            link,
             sort_prop: None,
             sort_order: SortOrdering::None,
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             DataGridMessage::ColumnClick(allow, prop) => {
                 if allow {
@@ -90,19 +86,15 @@ impl<T: DataGridItem + Clone + 'static> Component for DataGrid<T> {
         }
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
-    }
-
-    fn view(&self) -> Html {
-        log::debug!("DataGrid view: {}", self.props.data.len());
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        log::debug!("DataGrid view: {}", ctx.props().data.len());
         let icon_class = match self.sort_order {
             SortOrdering::None => "fas",
             SortOrdering::Ascending => "fas fa-chevron-up",
             SortOrdering::Descending => "fas fa-chevron-down",
         };
-        let cols = self
-            .props
+        let cols = ctx
+            .props()
             .children
             .iter()
             .map(|c| {
@@ -115,24 +107,24 @@ impl<T: DataGridItem + Clone + 'static> Component for DataGrid<T> {
                     || self.sort_order == SortOrdering::None
                     || self.sort_prop.as_ref() != Some(&c.props.prop);
                 let c_clone = c.clone();
-                let callback = self.link.callback(move |_| {
+                let callback = ctx.link().callback(move |_| {
                     DataGridMessage::ColumnClick(c_clone.props.sortable, c_clone.props.prop.clone())
                 });
                 html! {
-                    <th scope="col" style=style onclick=callback>
+                    <th scope="col" style={style} onclick={callback}>
                         <div class="row">
                             <div class="col">
                                 {c.clone()}
                             </div>
-                            <div class="col-auto" hidden=icon_hidden>
-                                <span class=icon_class></span>
+                            <div class="col-auto" hidden={icon_hidden}>
+                                <span class={icon_class}></span>
                             </div>
                         </div>
                     </th>
                 }
             })
             .collect::<Vec<Html>>();
-        let mut row_data = (*self.props.data).clone();
+        let mut row_data = (*ctx.props().data).clone();
         if let Some(prop) = &self.sort_prop {
             match self.sort_order {
                 SortOrdering::None => {}
@@ -151,8 +143,8 @@ impl<T: DataGridItem + Clone + 'static> Component for DataGrid<T> {
         let rows = row_data
             .into_iter()
             .map(|d| {
-                let cols = self
-                    .props
+                let cols = ctx
+                    .props()
                     .children
                     .iter()
                     .map(|c| {
@@ -179,36 +171,30 @@ impl<T: DataGridItem + Clone + 'static> Component for DataGrid<T> {
 }
 
 #[derive(Debug)]
-pub struct DataGridColumn<T: DataGridItem + Clone + 'static> {
-    props: DataGridColumnProperties<T>,
+pub struct DataGridColumn<T: DataGridItem + PartialEq + Clone + 'static> {
+    _p: PhantomData<T>,
 }
 
-#[derive(Debug, Clone, Properties)]
-pub struct DataGridColumnProperties<T: DataGridItem + Clone + 'static> {
+#[derive(Debug, Clone, PartialEq, Properties)]
+pub struct DataGridColumnProperties<T: DataGridItem + PartialEq + Clone + 'static> {
     pub header: String,
     pub prop: T::Prop,
     #[prop_or_default]
     pub sortable: bool,
 }
 
-impl<T: DataGridItem + Clone + 'static> Component for DataGridColumn<T> {
+impl<T: DataGridItem + PartialEq + Clone + 'static> Component for DataGridColumn<T> {
     type Message = ();
 
     type Properties = DataGridColumnProperties<T>;
 
-    fn create(props: Self::Properties, _link: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self {
+            _p: PhantomData::default(),
+        }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        false
-    }
-
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
-    }
-
-    fn view(&self) -> Html {
-        html! {&self.props.header}
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        html! {&ctx.props().header}
     }
 }

@@ -1,11 +1,8 @@
 use crate::*;
 
-pub struct Header {
-    props: HeaderProperties,
-    link: ComponentLink<Self>,
-}
+pub struct Header;
 
-#[derive(Debug, Clone, Properties)]
+#[derive(Debug, Clone, PartialEq, Properties)]
 pub struct HeaderProperties {
     pub index: usize,
 }
@@ -15,31 +12,23 @@ impl Component for Header {
 
     type Properties = HeaderProperties;
 
-    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Self { props, link }
+    fn create(_ctx: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        true
-    }
-
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        true
-    }
-
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let items = HEADER_ITEMS
             .iter()
             .enumerate()
             .map(|(i, (title, link))| {
-                let class = if i == self.props.index {
+                let class = if i == ctx.props().index {
                     "nav-item active"
                 } else {
                     "nav-item"
                 };
                 html! {
-                    <li class=class>
-                        <a class="nav-link" href=*link>{title}</a>
+                    <li class={class}>
+                        <a class="nav-link" href={*link}>{title}</a>
                     </li>
                 }
             })
@@ -52,7 +41,7 @@ impl Component for Header {
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
-                    <div id="navbarSupportedContent" class="navbar-collapse collapse" onclick=self.link.callback(|_| collapse_nav())>
+                    <div id="navbarSupportedContent" class="navbar-collapse collapse" onclick={ctx.link().callback(|_| collapse_nav())}>
                         <ul class="navbar-nav mr-auto">{items}</ul>
                     </div>
                 </div>

@@ -5,24 +5,25 @@ use chrono::{DateTime, FixedOffset, Utc};
 use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 use yew::prelude::*;
-use yew_router::{prelude::*, switch::Permissive};
+use yew_router::prelude::*;
 
 pub mod data;
 mod layout;
 mod page;
 
-#[derive(Debug, Clone, Switch)]
+#[derive(Debug, Clone, PartialEq, Routable)]
 enum AppRoute {
-    #[to = "/about"]
-    About,
-    #[to = "/blog/{*}"]
-    BlogDetail(String),
-    #[to = "/blog"]
-    Blog,
-    #[to = "/notfound"]
-    NotFound(Permissive<String>),
-    #[to = "/!"]
+    #[at("/")]
     Index,
+    #[at("/about")]
+    About,
+    #[at("/blog/:name")]
+    BlogDetail { name: String },
+    #[at("/blog")]
+    Blog,
+    #[not_found]
+    #[at("/notfound")]
+    NotFound,
 }
 
 struct AppRoot;
@@ -32,49 +33,40 @@ impl Component for AppRoot {
 
     type Properties = ();
 
-    fn create(_props: Self::Properties, _link: ComponentLink<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Self
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-        true
-    }
-
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
-        false
-    }
-
-    fn view(&self) -> Html {
-        let render = Router::render(|switch: AppRoute| match switch {
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let location = ctx.link().location();
+        let render = Switch::render(move |switch: &AppRoute| match switch {
             AppRoute::Index => html! {<page::IndexPage />},
-            AppRoute::BlogDetail(name) => html! {<page::BlogDetailPage name=name />},
+            AppRoute::BlogDetail { name } => html! {<page::BlogDetailPage name={name.clone()} />},
             AppRoute::Blog => html! {<page::BlogPage />},
-            AppRoute::NotFound(Permissive(route)) => html! {<page::NotFoundPage route=route />},
+            AppRoute::NotFound => html! {<page::NotFoundPage route={location.clone()} />},
             AppRoute::About => html! {<page::AboutPage />},
         });
-        let redirect =
-            Router::redirect(|route: Route| AppRoute::NotFound(Permissive(Some(route.route))));
         html! {
-            <Router<AppRoute, ()> render=render redirect=redirect/>
+            <BrowserRouter>
+                <Switch<AppRoute> render={render}/>
+            </BrowserRouter>
         }
     }
 }
 
 #[wasm_bindgen(start)]
 pub fn run_app() {
-    yew::initialize();
     wasm_logger::init(wasm_logger::Config::new(
         #[cfg(debug_assertions)]
         log::Level::Debug,
         #[cfg(not(debug_assertions))]
         log::Level::Info,
     ));
-    let element = yew::utils::document()
+    let element = gloo_utils::document()
         .query_selector("app")
         .unwrap()
         .unwrap();
-    App::<AppRoot>::new().mount(element);
-    yew::run_loop();
+    yew::start_app_in_element::<AppRoot>(element);
 }
 
 #[global_allocator]

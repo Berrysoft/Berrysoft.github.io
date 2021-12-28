@@ -4,7 +4,7 @@ pub struct NotFoundPage;
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct NotFoundProperties {
-    pub route: Option<AnyLocation>,
+    pub route: Option<url::Url>,
 }
 
 impl Component for NotFoundPage {
@@ -24,7 +24,7 @@ impl Component for NotFoundPage {
             .map(|route| html! {
                 <p>
                     {"想要让我增加 "}
-                    <code>{route.pathname()}</code>
+                    <code>{route.path()}</code>
                     {" 页面？快去提 "}
                     <a href="https://github.com/Berrysoft/Berrysoft.github.io/issues" target="_blank">{"issue"}</a>
                     {" 吧！"}

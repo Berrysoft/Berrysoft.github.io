@@ -36,14 +36,19 @@ impl Component for AppRoot {
         Self
     }
 
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let location = ctx.link().location();
-        let render = Switch::render(move |switch: &AppRoute| match switch {
-            AppRoute::Index => html! {<page::IndexPage />},
-            AppRoute::BlogDetail { name } => html! {<page::BlogDetailPage name={name.clone()} />},
-            AppRoute::Blog => html! {<page::BlogPage />},
-            AppRoute::NotFound => html! {<page::NotFoundPage route={location.clone()} />},
-            AppRoute::About => html! {<page::AboutPage />},
+    fn view(&self, _ctx: &Context<Self>) -> Html {
+        let render = Switch::render(move |switch: &AppRoute| {
+            let location = gloo_utils::window().location().to_string().as_string();
+            let location = location.and_then(|s| url::Url::parse(&s).ok());
+            match switch {
+                AppRoute::Index => html! {<page::IndexPage />},
+                AppRoute::BlogDetail { name } => {
+                    html! {<page::BlogDetailPage name={name.clone()} />}
+                }
+                AppRoute::Blog => html! {<page::BlogPage />},
+                AppRoute::NotFound => html! {<page::NotFoundPage route={location} />},
+                AppRoute::About => html! {<page::AboutPage />},
+            }
         });
         html! {
             <BrowserRouter>

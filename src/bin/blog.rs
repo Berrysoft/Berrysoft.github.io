@@ -1,5 +1,3 @@
-#![feature(with_options)]
-
 use chrono::{Datelike, FixedOffset, Local};
 use pulldown_cmark::{Event, Parser};
 use std::error::Error;
@@ -74,14 +72,13 @@ fn main() -> Result<(), Box<dyn Error>> {
             rss::GuidBuilder::default()
                 .permalink(false)
                 .value(new_filename)
-                .build()
-                .ok(),
+                .build(),
         );
         item.set_pub_date(ch.last_build_date.clone());
         item
     });
     {
-        let rss_file = File::with_options().write(true).open("blogdata/feed.xml")?;
+        let rss_file = File::options().write(true).open("blogdata/feed.xml")?;
         let rss_file = BufWriter::new(rss_file);
         ch.pretty_write_to(rss_file, b' ', 2)?;
     }

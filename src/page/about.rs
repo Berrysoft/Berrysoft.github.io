@@ -5,7 +5,7 @@ pub struct AboutPage {
 }
 
 pub enum AboutPageMessage {
-    GetLibraries(JsonFetcherMessage<Library, LibraryWrapper>),
+    Libraries(JsonFetcherMessage<Library, LibraryWrapper>),
 }
 
 impl Component for AboutPage {
@@ -15,15 +15,13 @@ impl Component for AboutPage {
 
     fn create(ctx: &Context<Self>) -> Self {
         Self {
-            libs: JsonFetcher::new("/data/libraries.json", ctx, |msg| {
-                AboutPageMessage::GetLibraries(msg)
-            }),
+            libs: JsonFetcher::new("/data/libraries.json", ctx, AboutPageMessage::Libraries),
         }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            AboutPageMessage::GetLibraries(msg) => {
+            AboutPageMessage::Libraries(msg) => {
                 self.libs.update(msg);
                 true
             }

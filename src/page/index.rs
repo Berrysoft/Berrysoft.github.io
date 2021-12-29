@@ -7,9 +7,9 @@ pub struct IndexPage {
 }
 
 pub enum IndexPageMessage {
-    GetProjects(JsonFetcherMessage<PersonalProject, PersonalProjectWrapper>),
-    GetGitHubEvents(JsonFetcherMessage<GitHubEvent, GitHubEventWrapper>),
-    GetFriendLinks(JsonFetcherMessage<FriendLink, FriendLink>),
+    Projects(JsonFetcherMessage<PersonalProject, PersonalProjectWrapper>),
+    GitHubEvents(JsonFetcherMessage<GitHubEvent, GitHubEventWrapper>),
+    FriendLinks(JsonFetcherMessage<FriendLink, FriendLink>),
 }
 
 impl Component for IndexPage {
@@ -19,23 +19,23 @@ impl Component for IndexPage {
 
     fn create(ctx: &Context<Self>) -> Self {
         Self {
-            projects: JsonFetcher::new("/data/projects.json", ctx, IndexPageMessage::GetProjects),
+            projects: JsonFetcher::new("/data/projects.json", ctx, IndexPageMessage::Projects),
             github_events: JsonFetcher::new(
                 "//api.github.com/users/berrysoft/events",
                 ctx,
-                IndexPageMessage::GetGitHubEvents,
+                IndexPageMessage::GitHubEvents,
             ),
-            links: JsonFetcher::new("/data/links.json", ctx, IndexPageMessage::GetFriendLinks),
+            links: JsonFetcher::new("/data/links.json", ctx, IndexPageMessage::FriendLinks),
         }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            IndexPageMessage::GetProjects(msg) => {
+            IndexPageMessage::Projects(msg) => {
                 self.projects.update(msg);
                 true
             }
-            IndexPageMessage::GetGitHubEvents(mut msg) => {
+            IndexPageMessage::GitHubEvents(mut msg) => {
                 if let Ok(events) = msg {
                     msg = Ok(events
                         .into_iter()
@@ -45,7 +45,7 @@ impl Component for IndexPage {
                 self.github_events.update(msg);
                 true
             }
-            IndexPageMessage::GetFriendLinks(msg) => {
+            IndexPageMessage::FriendLinks(msg) => {
                 self.links.update(msg);
                 true
             }

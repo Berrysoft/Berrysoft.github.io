@@ -13,8 +13,8 @@ pub struct BlogDetailProperties {
 }
 
 pub enum BlogDetailMessage {
-    GetBlogs(TextFetcherMessage),
-    GetText(TextFetcherMessage),
+    Blogs(TextFetcherMessage),
+    Text(TextFetcherMessage),
 }
 
 impl Component for BlogDetailPage {
@@ -25,20 +25,18 @@ impl Component for BlogDetailPage {
     fn create(ctx: &Context<Self>) -> Self {
         let uri = format!("/blogdata/{}.md", ctx.props().name);
         Self {
-            blogs: TextFetcher::new("/blogdata/feed.xml", ctx, |msg| {
-                BlogDetailMessage::GetBlogs(msg)
-            }),
-            text: TextFetcher::new(&uri, ctx, BlogDetailMessage::GetText),
+            blogs: TextFetcher::new("/blogdata/feed.xml", ctx, BlogDetailMessage::Blogs),
+            text: TextFetcher::new(&uri, ctx, BlogDetailMessage::Text),
         }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            BlogDetailMessage::GetBlogs(msg) => {
+            BlogDetailMessage::Blogs(msg) => {
                 self.blogs.update(msg);
                 true
             }
-            BlogDetailMessage::GetText(msg) => {
+            BlogDetailMessage::Text(msg) => {
                 self.text.update(msg);
                 true
             }

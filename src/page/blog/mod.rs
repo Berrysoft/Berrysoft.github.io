@@ -8,7 +8,7 @@ pub struct BlogPage {
 }
 
 pub enum BlogPageMessage {
-    GetBlogs(TextFetcherMessage),
+    Blogs(TextFetcherMessage),
 }
 
 impl Component for BlogPage {
@@ -18,15 +18,13 @@ impl Component for BlogPage {
 
     fn create(ctx: &Context<Self>) -> Self {
         Self {
-            blogs: TextFetcher::new("/blogdata/feed.xml", ctx, |msg| {
-                BlogPageMessage::GetBlogs(msg)
-            }),
+            blogs: TextFetcher::new("/blogdata/feed.xml", ctx, BlogPageMessage::Blogs),
         }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            BlogPageMessage::GetBlogs(msg) => {
+            BlogPageMessage::Blogs(msg) => {
                 self.blogs.update(msg);
                 true
             }

@@ -1,0 +1,13 @@
+[package]
+name = "blog"
+version = "0.1.1"
+edition = "2021"
+description = "Berrysoft's blog tool."
+repository = "https://github.com/Berrysoft/Berrysoft.github.io.git"
+license = "MIT"
+
+[dependencies]
+chrono = "0.4"
+rss = "2.0"
+pulldown-cmark = { version = "0.9", default-features = false }
+structopt = "0.3"

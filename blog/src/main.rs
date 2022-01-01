@@ -1,22 +1,22 @@
 use chrono::{Datelike, FixedOffset, Local};
+use clap::Parser as ClapParser;
 use pulldown_cmark::{Event, Parser};
 use std::error::Error;
 use std::fs::File;
 use std::io::{BufReader, BufWriter, Read};
 use std::path::PathBuf;
-use structopt::StructOpt;
 
-#[derive(Debug, StructOpt)]
-#[structopt(name = "add", about = "Add a piece of blog.")]
+#[derive(Debug, ClapParser)]
+#[clap(about, version, author)]
 struct Opt {
-    #[structopt()]
+    #[clap()]
     input: String,
-    #[structopt(long)]
+    #[clap(long)]
     title: String,
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let opt = Opt::from_args();
+    let opt = Opt::parse();
     let mut input = PathBuf::from("blogdata");
     input.push(opt.input);
     let mut ch = {

@@ -1,11 +1,8 @@
 use crate::*;
+use reqwasm::http::Request;
 use serde::de::DeserializeOwned;
 use std::marker::PhantomData;
 use url::Url;
-
-lazy_static::lazy_static! {
-    static ref CLIENT : reqwest::Client = reqwest::Client::builder().build().unwrap();
-}
 
 pub struct FetcherBase<T: FetcherTypes> {
     data: FetcherData<T::StoreType>,
@@ -19,12 +16,12 @@ pub trait FetcherTypes {
     fn transfer_to_store(data: Self::TransferType) -> Self::StoreType;
 }
 
-pub type FetcherMessage<T> = anyhow::Result<T>;
+pub type FetcherMessage<T> = std::result::Result<T, reqwasm::Error>;
 pub type FetcherData<T> = Option<FetcherMessage<T>>;
 
 impl<T: FetcherTypes> FetcherBase<T> {
     async fn fetch(uri: &str) -> FetcherMessage<T::TransferType> {
-        let res = CLIENT.get(uri).send().await?;
+        let res = Request::get(uri).send().await?;
         T::format_to_transfer(res.text().await?)
     }
 

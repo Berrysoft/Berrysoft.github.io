@@ -75,6 +75,7 @@ impl Component for IndexPage {
                         <DataGridColumn<GitHubEventWrapper> header="消息" prop={GitHubEventProperties::Message}/>
                         <DataGridColumn<GitHubEventWrapper> header="时间" prop={GitHubEventProperties::Time}/>
                         <DataGridColumn<GitHubEventWrapper> header="存储库" prop={GitHubEventProperties::Repo}/>
+                        <DataGridColumn<GitHubEventWrapper> header="引用" prop={GitHubEventProperties::Ref}/>
                     </DataGrid<GitHubEventWrapper>>
                 }
             })
@@ -183,6 +184,7 @@ pub struct GitHubEventWrapper {
     msg: GitHubEventMessage,
     time: String,
     repo: String,
+    r#ref: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -190,6 +192,7 @@ pub enum GitHubEventProperties {
     Message,
     Time,
     Repo,
+    Ref,
 }
 
 impl From<GitHubEvent> for GitHubEventWrapper {
@@ -222,6 +225,7 @@ impl From<GitHubEvent> for GitHubEventWrapper {
             msg: GitHubEventMessage { msg, link },
             time,
             repo: e.repo.name,
+            r#ref: e.payload.r#ref,
         }
     }
 }
@@ -234,6 +238,7 @@ impl DataGridItem for GitHubEventWrapper {
             GitHubEventProperties::Message => &self.msg,
             GitHubEventProperties::Time => &self.time,
             GitHubEventProperties::Repo => &self.repo,
+            GitHubEventProperties::Ref => &self.r#ref,
         }
     }
 }

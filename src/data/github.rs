@@ -19,6 +19,8 @@ pub struct Commit {
 #[derive(Debug, Default, Clone, Deserialize)]
 pub struct Payload {
     #[serde(default)]
+    pub r#ref: String,
+    #[serde(default)]
     pub commits: Vec<Commit>,
 }
 

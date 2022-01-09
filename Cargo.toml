@@ -1,7 +1,7 @@
 [package]
 name = "pages"
 version = "0.1.1"
-edition = "2021"
+edition = "2018"
 description = "Berrysoft's personal site."
 repository = "https://github.com/Berrysoft/Berrysoft.github.io.git"
 license = "MIT"

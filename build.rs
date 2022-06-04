@@ -47,20 +47,7 @@ fn main() -> Result<()> {
         let rss_file = BufReader::new(rss_file);
         rss::Channel::read_from(rss_file)?
     };
-    if let Ok(rss_file) = File::open("dist/blogdata/feed.xml") {
-        let rss_file = BufReader::new(rss_file);
-        if let Ok(output_ch) = rss::Channel::read_from(rss_file) {
-            if ch
-                .items
-                .iter()
-                .zip(output_ch.items.iter())
-                .find(|(lhs, rhs)| lhs.title != rhs.title || lhs.description != rhs.description)
-                .is_none()
-            {
-                return Ok(());
-            }
-        }
-    }
+    let old_ch = ch.clone();
     let now = Local::now();
     ch.last_build_date = Some(now.with_timezone(&FixedOffset::east(8 * 3600)).to_rfc2822());
     ch.items.clear();
@@ -115,6 +102,15 @@ fn main() -> Result<()> {
                 .pub_date(pub_date.to_rfc2822())
                 .build(),
         );
+    }
+    if ch
+        .items
+        .iter()
+        .zip(old_ch.items.iter())
+        .find(|(lhs, rhs)| lhs.title != rhs.title || lhs.description != rhs.description)
+        .is_none()
+    {
+        return Ok(());
     }
     {
         let rss_file = File::options()

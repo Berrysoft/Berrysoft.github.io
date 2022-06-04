@@ -9,7 +9,7 @@ variables:
 
 steps:
 - script: |
-    cargo install trunk wasm-bindgen-cli
+    cargo install trunk
     rustup target add wasm32-unknown-unknown
   displayName: Install tools
 

@@ -1,6 +1,7 @@
 use anyhow::Result;
 use chrono::{DateTime, FixedOffset, Local, TimeZone};
 use pulldown_cmark::{Event, Parser};
+use std::collections::HashMap;
 use std::fs::{read_dir, File};
 use std::io::{BufReader, BufWriter, Read};
 use std::path::Path;
@@ -18,6 +19,25 @@ fn find_first_commit<'a>(p: &Path) -> Result<DateTime<Local>> {
     Ok(Local.timestamp(last_line.parse()?, 0))
 }
 
+fn open_titles() -> Result<HashMap<String, String>> {
+    let mut titles = File::open("blogdata/titles.txt")?;
+    let titles = {
+        let mut str = String::new();
+        titles.read_to_string(&mut str)?;
+        str
+    };
+    Ok(titles
+        .split('\n')
+        .filter(|s| !s.is_empty())
+        .map(|s| {
+            let mut pair = s.split('\t').take(2);
+            let key = pair.next().unwrap();
+            let value = pair.next().unwrap();
+            (key.to_owned(), value.to_owned())
+        })
+        .collect())
+}
+
 fn main() -> Result<()> {
     println!("cargo:rerun-if-changed=build.rs");
     println!("cargo:rerun-if-changed=blogdata/*");
@@ -30,7 +50,13 @@ fn main() -> Result<()> {
     if let Ok(rss_file) = File::open("dist/blogdata/feed.xml") {
         let rss_file = BufReader::new(rss_file);
         if let Ok(output_ch) = rss::Channel::read_from(rss_file) {
-            if ch.items.len() == output_ch.items.len() {
+            if ch
+                .items
+                .iter()
+                .zip(output_ch.items.iter())
+                .find(|(lhs, rhs)| lhs.title != rhs.title || lhs.description != rhs.description)
+                .is_none()
+            {
                 return Ok(());
             }
         }
@@ -51,6 +77,7 @@ fn main() -> Result<()> {
         }
     }
     files.sort_by_key(|(_, t)| *t);
+    let titles = open_titles()?;
     for (p, pub_date) in files {
         let description = {
             let mut blog_file = File::open(&p)?;
@@ -76,7 +103,7 @@ fn main() -> Result<()> {
             .into_owned();
         ch.items.push(
             rss::ItemBuilder::default()
-                .title(filename.clone())
+                .title(titles[&filename].clone())
                 .link(format!("{}{}", ch.link, filename))
                 .description(description)
                 .guid(

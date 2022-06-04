@@ -1,13 +1,11 @@
 [package]
 name = "pages"
 version = "0.1.1"
-edition = "2018"
+authors = ["Berrysoft <Strawberry_Str@hotmail.com>"]
+edition = "2021"
 description = "Berrysoft's personal site."
 repository = "https://github.com/Berrysoft/Berrysoft.github.io.git"
 license = "MIT"
-
-[workspace]
-members = ["blog"]
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -27,6 +25,12 @@ serde_json = "1.0"
 rss = "2.0"
 pulldown-cmark = { version = "0.9", default-features = false }
 url = "2.2"
+
+[build-dependencies]
+anyhow = "1.0"
+chrono = "0.4"
+rss = "2.0"
+pulldown-cmark = { version = "0.9", default-features = false }
 
 [profile.release]
 lto = true

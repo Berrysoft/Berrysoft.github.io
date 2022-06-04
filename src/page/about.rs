@@ -42,24 +42,20 @@ impl Component for AboutPage {
             })
             .unwrap_or_default();
         html! {
-            <>
-                <Header index=2/>
-                <div class="container">
-                    <div class="fade-in fade-in-1">
-                        <h1>{"关于本网站"}</h1>
-                        <p class="text-secondary">
-                            {"Copyright (c) 2019-2021 Berrysoft"}
-                            <br />
-                            <a href="//github.com/Berrysoft/Berrysoft.github.io" target="_blank">{"项目源代码"}</a>
-                        </p>
-                    </div>
-                    <div class="fade-in fade-in-2">
-                        <h2>{"包含的开源库"}</h2>
-                        <div class="table-responsive-xl">{libraries}</div>
-                    </div>
+            <div class="container">
+                <div class="fade-in fade-in-1">
+                    <h1>{"关于本网站"}</h1>
+                    <p class="text-secondary">
+                        {"Copyright (c) 2019-2021 Berrysoft"}
+                        <br />
+                        <a href="//github.com/Berrysoft/Berrysoft.github.io" target="_blank">{"项目源代码"}</a>
+                    </p>
                 </div>
-                <Footer/>
-            </>
+                <div class="fade-in fade-in-2">
+                    <h2>{"包含的开源库"}</h2>
+                    <div class="table-responsive-xl">{libraries}</div>
+                </div>
+            </div>
         }
     }
 }

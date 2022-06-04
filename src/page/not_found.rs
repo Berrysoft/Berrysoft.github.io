@@ -1,4 +1,4 @@
-use crate::{layout::*, *};
+use crate::*;
 
 pub struct NotFoundPage;
 
@@ -32,15 +32,11 @@ impl Component for NotFoundPage {
             })
             .unwrap_or_default();
         html! {
-            <>
-                <Header index={std::usize::MAX}/>
-                <div class="container">
-                    <h1>{"404"}</h1>
-                    <p>{"对不起，这里什么也没有。"}</p>
-                    {issue}
-                </div>
-                <Footer />
-            </>
+            <div class="container">
+                <h1>{"404"}</h1>
+                <p>{"对不起，这里什么也没有。"}</p>
+                {issue}
+            </div>
         }
     }
 }

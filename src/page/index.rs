@@ -92,32 +92,28 @@ impl Component for IndexPage {
             })
             .unwrap_or_default();
         html! {
-            <>
-                <Header index=0/>
-                <div class="container">
-                    <div class="fade-in fade-in-1">
-                        <h1>{"Berrysoft 的 HTML 实验室"}</h1>
-                        <p>
-                            {"本网站使用 "}
-                            <a href="https://www.rust-lang.org/zh-CN/" target="_blank">{"Rust"}</a>
-                            {" 开发，有各种各样的实验项目。"}
-                        </p>
-                    </div>
-                    <div class="fade-in fade-in-2">
-                        <h2>{"其它个人开源项目"}</h2>
-                        <div class="table-responsive-xl">{projects}</div>
-                    </div>
-                    <div class="fade-in fade-in-3">
-                        <h2>{"GitHub 事件"}</h2>
-                        <div class="table-responsive-xl">{github_events_node}</div>
-                    </div>
-                    <div class="fade-in fade-in-4">
-                        <h2>{"友情链接"}</h2>
-                        <div class="list-group list-group-flush">{friend_links}</div>
-                    </div>
+            <div class="container">
+                <div class="fade-in fade-in-1">
+                    <h1>{"Berrysoft 的 HTML 实验室"}</h1>
+                    <p>
+                        {"本网站使用 "}
+                        <a href="https://www.rust-lang.org/zh-CN/" target="_blank">{"Rust"}</a>
+                        {" 开发，有各种各样的实验项目。"}
+                    </p>
                 </div>
-                <Footer/>
-            </>
+                <div class="fade-in fade-in-2">
+                    <h2>{"其它个人开源项目"}</h2>
+                    <div class="table-responsive-xl">{projects}</div>
+                </div>
+                <div class="fade-in fade-in-3">
+                    <h2>{"GitHub 事件"}</h2>
+                    <div class="table-responsive-xl">{github_events_node}</div>
+                </div>
+                <div class="fade-in fade-in-4">
+                    <h2>{"友情链接"}</h2>
+                    <div class="list-group list-group-flush">{friend_links}</div>
+                </div>
+            </div>
         }
     }
 }

@@ -1,4 +1,4 @@
-use crate::{data::*, layout::*, *};
+use crate::{data::*, *};
 use pulldown_cmark::{html, Event, Options, Parser, Tag};
 use url::Url;
 
@@ -114,16 +114,12 @@ impl Component for BlogDetailPage {
             })
             .unwrap_or_default();
         html! {
-            <>
-                <Header index=1/>
-                <div class="container">
-                    <article>
-                        <div class="fade-in fade-in-1">{title}</div>
-                        <div class="fade-in fade-in-2">{text}</div>
-                    </article>
-                </div>
-                <Footer />
-            </>
+            <div class="container">
+                <article>
+                    <div class="fade-in fade-in-1">{title}</div>
+                    <div class="fade-in fade-in-2">{text}</div>
+                </article>
+            </div>
         }
     }
 }

@@ -1,4 +1,4 @@
-use crate::{data::*, layout::*, *};
+use crate::{data::*, *};
 
 mod detail;
 pub use detail::*;
@@ -58,18 +58,14 @@ impl Component for BlogPage {
             })
             .unwrap_or_default();
         html! {
-            <>
-                <Header index=1/>
-                <div class="container">
-                    <div class="fade-in fade-in-1">
-                        <h1>{"博客"}</h1>
-                    </div>
-                    <div class="fade-in fade-in-2">
-                        <div class="list-group list-group-flush">{blogs}</div>
-                    </div>
+            <div class="container">
+                <div class="fade-in fade-in-1">
+                    <h1>{"博客"}</h1>
                 </div>
-                <Footer />
-            </>
+                <div class="fade-in fade-in-2">
+                    <div class="list-group list-group-flush">{blogs}</div>
+                </div>
+            </div>
         }
     }
 }

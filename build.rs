@@ -11,12 +11,11 @@ fn find_first_commit(p: &Path) -> Result<DateTime<Local>> {
         .args(["log", "--format=%at", "--follow", &p.to_string_lossy()])
         .output()?;
     let history = unsafe { String::from_utf8_unchecked(history.stdout) };
-    let last_line = history
-        .split('\n')
-        .filter(|s| !s.is_empty())
-        .last()
-        .unwrap();
-    Ok(Local.timestamp(last_line.parse()?, 0))
+    if let Some(last_line) = history.split('\n').filter(|s| !s.is_empty()).last() {
+        Ok(Local.timestamp(last_line.parse()?, 0))
+    } else {
+        Ok(Local::now())
+    }
 }
 
 fn open_titles() -> Result<HashMap<String, String>> {

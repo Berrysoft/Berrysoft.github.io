@@ -103,12 +103,7 @@ fn main() -> Result<()> {
                 .build(),
         );
     }
-    if ch
-        .items
-        .iter()
-        .zip(old_ch.items.iter())
-        .any(|(lhs, rhs)| lhs != rhs)
-    {
+    if ch.items == old_ch.items {
         return Ok(());
     }
     {

@@ -6,7 +6,7 @@ use std::fs::{read_dir, File};
 use std::io::{BufReader, BufWriter, Read};
 use std::path::Path;
 
-fn find_first_commit<'a>(p: &Path) -> Result<DateTime<Local>> {
+fn find_first_commit(p: &Path) -> Result<DateTime<Local>> {
     let history = std::process::Command::new("git")
         .args(["log", "--format=%at", "--follow", &p.to_string_lossy()])
         .output()?;
@@ -107,8 +107,7 @@ fn main() -> Result<()> {
         .items
         .iter()
         .zip(old_ch.items.iter())
-        .find(|(lhs, rhs)| lhs.title != rhs.title || lhs.description != rhs.description)
-        .is_none()
+        .any(|(lhs, rhs)| lhs != rhs)
     {
         return Ok(());
     }

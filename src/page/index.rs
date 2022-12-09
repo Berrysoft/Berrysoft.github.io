@@ -214,7 +214,7 @@ impl From<GitHubEvent> for GitHubEventWrapper {
         );
         let time = e
             .created_at
-            .with_timezone(&FixedOffset::east(8 * 3600))
+            .with_timezone(&FixedOffset::east_opt(8 * 3600).unwrap())
             .naive_local()
             .to_string();
         Self {

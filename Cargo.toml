@@ -1,21 +1,18 @@
 [package]
 name = "pages"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Berrysoft <Strawberry_Str@hotmail.com>"]
 edition = "2021"
 description = "Berrysoft's personal site."
 repository = "https://github.com/Berrysoft/Berrysoft.github.io.git"
 license = "MIT"
 
-[lib]
-crate-type = ["cdylib", "rlib"]
-
 [dependencies]
 wasm-bindgen = "0.2"
 log = "0.4"
 wasm-logger = "0.2"
-yew = "0.19"
-yew-router = "0.16"
+yew = { version = "0.20", features = ["csr"] }
+yew-router = "0.17"
 gloo-utils = "0.1"
 reqwasm = "0.5"
 wee_alloc = "0.4"

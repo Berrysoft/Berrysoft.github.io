@@ -12,7 +12,7 @@ fn find_first_commit(p: &Path) -> Result<DateTime<Local>> {
         .output()?;
     let history = unsafe { String::from_utf8_unchecked(history.stdout) };
     if let Some(last_line) = history.split('\n').filter(|s| !s.is_empty()).last() {
-        Ok(Local.timestamp(last_line.parse()?, 0))
+        Ok(Local.timestamp_opt(last_line.parse()?, 0).unwrap())
     } else {
         Ok(Local::now())
     }
@@ -48,7 +48,10 @@ fn main() -> Result<()> {
     };
     let old_ch = ch.clone();
     let now = Local::now();
-    ch.last_build_date = Some(now.with_timezone(&FixedOffset::east(8 * 3600)).to_rfc2822());
+    ch.last_build_date = Some(
+        now.with_timezone(&FixedOffset::east_opt(8 * 3600).unwrap())
+            .to_rfc2822(),
+    );
     ch.items.clear();
 
     let mut files = vec![];
@@ -89,16 +92,16 @@ fn main() -> Result<()> {
             .into_owned();
         ch.items.push(
             rss::ItemBuilder::default()
-                .title(titles[&filename].clone())
-                .link(format!("{}{}", ch.link, filename))
-                .description(description)
-                .guid(
+                .title(Some(titles[&filename].clone()))
+                .link(Some(format!("{}{}", ch.link, filename)))
+                .description(Some(description))
+                .guid(Some(
                     rss::GuidBuilder::default()
                         .permalink(false)
                         .value(filename)
                         .build(),
-                )
-                .pub_date(pub_date.to_rfc2822())
+                ))
+                .pub_date(Some(pub_date.to_rfc2822()))
                 .build(),
         );
     }

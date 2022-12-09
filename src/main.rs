@@ -37,19 +37,19 @@ impl Component for AppRoot {
     }
 
     fn view(&self, _ctx: &Context<Self>) -> Html {
-        let render = Switch::render(move |switch: &AppRoute| {
+        let render = move |switch: AppRoute| {
             let location = gloo_utils::window().location().to_string().as_string();
             let location = location.and_then(|s| url::Url::parse(&s).ok());
             match switch {
                 AppRoute::Index => html! {<page::IndexPage />},
                 AppRoute::BlogDetail { name } => {
-                    html! {<page::BlogDetailPage name={name.clone()} />}
+                    html! {<page::BlogDetailPage name={name} />}
                 }
                 AppRoute::Blog => html! {<page::BlogPage />},
                 AppRoute::NotFound => html! {<page::NotFoundPage route={location} />},
                 AppRoute::About => html! {<page::AboutPage />},
             }
-        });
+        };
         html! {
             <BrowserRouter>
                 <Switch<AppRoute> render={render}/>
@@ -58,8 +58,7 @@ impl Component for AppRoot {
     }
 }
 
-#[wasm_bindgen(start)]
-pub fn run_app() {
+fn main() {
     wasm_logger::init(wasm_logger::Config::new(
         #[cfg(debug_assertions)]
         log::Level::Debug,
@@ -70,7 +69,7 @@ pub fn run_app() {
         .query_selector("app")
         .unwrap()
         .unwrap();
-    yew::start_app_in_element::<AppRoot>(element);
+    yew::Renderer::<AppRoot>::with_root(element).render();
 }
 
 #[global_allocator]

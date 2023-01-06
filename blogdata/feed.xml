@@ -7,7 +7,7 @@
     <language>zh-cn</language>
     <copyright>Copyright (c) 2019-2021</copyright>
     <managingEditor>Strawberry_Str@hotmail.com</managingEditor>
-    <lastBuildDate>Fri, 09 Dec 2022 19:42:13 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 06 Jan 2023 11:39:58 +0800</lastBuildDate>
     <generator>pages::blog</generator>
     <a10:link href="https://berrysoft.github.io/blogdata/rss.xml" rel="self" type="application/rss+xml">
     </a10:link>
@@ -108,6 +108,13 @@
       <description><![CDATA[当我们在说到“国产”的时候，到底在担心什么？]]></description>
       <guid isPermaLink="false">20220609_National</guid>
       <pubDate>Thu, 09 Jun 2022 19:54:58 +0800</pubDate>
+    </item>
+    <item>
+      <title>我的 2022</title>
+      <link>https://berrysoft.github.io/blog/20230106_Summary</link>
+      <description><![CDATA[总结一下2022年。]]></description>
+      <guid isPermaLink="false">20230106_Summary</guid>
+      <pubDate>Fri, 06 Jan 2023 11:40:00 +0800</pubDate>
     </item>
   </channel>
 </rss>

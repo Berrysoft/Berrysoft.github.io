@@ -72,16 +72,15 @@ fn main() -> Result<()> {
             let mut blog_file = File::open(&p)?;
             let mut text = String::new();
             blog_file.read_to_string(&mut text)?;
-            let parser = Parser::new(&text);
+            let mut parser = Parser::new(&text);
             parser
-                .filter_map(|e| {
+                .find_map(|e| {
                     if let Event::Text(text) = e {
                         Some(text.to_string())
                     } else {
                         None
                     }
                 })
-                .next()
                 .unwrap_or_default()
         };
         let filename = p

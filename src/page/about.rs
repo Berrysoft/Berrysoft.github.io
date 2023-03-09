@@ -46,7 +46,7 @@ impl Component for AboutPage {
                 <div class="fade-in fade-in-1">
                     <h1>{"关于本网站"}</h1>
                     <p class="text-secondary">
-                        {"Copyright (c) 2019-2021 Berrysoft"}
+                        {"Copyright (c) 2019-2023 Berrysoft"}
                         <br />
                         <a href="//github.com/Berrysoft/Berrysoft.github.io" target="_blank">{"项目源代码"}</a>
                     </p>

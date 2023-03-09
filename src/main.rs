@@ -1,6 +1,7 @@
 #![feature(iter_intersperse)]
 
 use chrono::{DateTime, FixedOffset, Utc};
+use lol_alloc::{FreeListAllocator, LockedAllocator};
 use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 use yew::prelude::*;
@@ -73,4 +74,4 @@ fn main() {
 }
 
 #[global_allocator]
-static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+static ALLOC: LockedAllocator<FreeListAllocator> = LockedAllocator::new(FreeListAllocator::new());

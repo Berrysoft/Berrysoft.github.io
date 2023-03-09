@@ -40,9 +40,9 @@
         "license": "MIT"
     },
     {
-        "name": "wee_alloc",
-        "url": "https://crates.io/crates/wee_alloc",
-        "license": "MPL-2.0"
+        "name": "lol_alloc",
+        "url": "https://crates.io/crates/lol_alloc",
+        "license": "MIT"
     },
     {
         "name": "gloo-utils",
@@ -55,13 +55,8 @@
         "license": "Apache-2.0"
     },
     {
-        "name": "lazy_static",
-        "url": "https://crates.io/crates/lazy_static",
-        "license": "MIT"
-    },
-    {
-        "name": "reqwest",
-        "url": "https://crates.io/crates/reqwest",
+        "name": "reqwasm",
+        "url": "https://crates.io/crates/reqwasm",
         "license": "MIT"
     },
     {

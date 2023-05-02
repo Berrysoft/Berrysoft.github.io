@@ -1,6 +1,6 @@
 [package]
 name = "pages"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["Berrysoft <Strawberry_Str@hotmail.com>"]
 edition = "2021"
 description = "Berrysoft's personal site."
@@ -15,8 +15,11 @@ yew = { version = "0.20", features = ["csr"] }
 yew-router = "0.17"
 gloo-utils = "0.1"
 reqwasm = "0.5"
-lol_alloc = "0.3"
-chrono = { version = "0.4", default-features = false, features = ["std", "serde"] }
+lol_alloc = "0.4"
+chrono = { version = "0.4", default-features = false, features = [
+    "std",
+    "serde",
+] }
 serde = "1.0"
 serde_json = "1.0"
 rss = { version = "2.0", default-features = false }
@@ -25,7 +28,10 @@ url = "2.3"
 
 [build-dependencies]
 anyhow = "1.0"
-chrono = { version = "0.4", default-features = false, features = ["std", "clock"] }
+chrono = { version = "0.4", default-features = false, features = [
+    "std",
+    "clock",
+] }
 rss = { version = "2.0", default-features = false, features = ["builders"] }
 pulldown-cmark = { version = "0.9", default-features = false }
 

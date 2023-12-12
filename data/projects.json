@@ -1,15 +1,15 @@
 [
     {
-        "name": "tunet-rust",
-        "url": "https://github.com/Berrysoft/tunet-rust",
+        "name": "compio",
+        "url": "https://github.com/compio-rs/compio",
         "language": "Rust",
-        "description": "清华大学校园网 Rust 库与客户端"
+        "description": "A thread-per-core Rust runtime with IOCP/io_uring/polling."
     },
     {
-        "name": "TsinghuaNet",
-        "url": "https://github.com/Berrysoft/TsinghuaNet",
-        "language": "C#",
-        "description": "清华大学校园网客户端与联网库，适用于 UWP、iOS、Android，其余平台见 tunet-rust"
+        "name": "cyper",
+        "url": "https://github.com/compio-rs/cyper",
+        "language": "Rust",
+        "description": "An HTTP library based on compio and hyper."
     },
     {
         "name": "Ayaka",
@@ -18,10 +18,22 @@
         "description": "A visual novel engine written by Rust. Just Ayaka."
     },
     {
-        "name": "tokio-iocp",
-        "url": "https://github.com/Berrysoft/tokio-iocp",
+        "name": "tunet-rust",
+        "url": "https://github.com/Berrysoft/tunet-rust",
         "language": "Rust",
-        "description": "An IOCP backed runtime for Rust."
+        "description": "清华大学校园网 Rust 库与客户端"
+    },
+    {
+        "name": "data.parquet",
+        "url": "https://github.com/Berrysoft/data.parquet",
+        "language": "Rust, Clojure, Java",
+        "description": "Parquet lib for clojure, powered by Rust."
+    },
+    {
+        "name": "XamlCpp",
+        "url": "https://github.com/Berrysoft/XamlCpp",
+        "language": "C, C++, Objective-C",
+        "description": "An implementation of XAML cross-platform framework for C/C++"
     },
     {
         "name": "stream-future",
@@ -46,12 +58,6 @@
         "url": "https://github.com/Berrysoft/CppLinq",
         "language": "C++",
         "description": "A simple linq library for C++"
-    },
-    {
-        "name": "XamlCpp",
-        "url": "https://github.com/Berrysoft/XamlCpp",
-        "language": "C, C++, Objective-C",
-        "description": "An implementation of XAML cross-platform framework for C/C++"
     },
     {
         "name": "WinCThreads",

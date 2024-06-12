@@ -7,7 +7,7 @@
     <language>zh-cn</language>
     <copyright>Copyright (c) 2019-2021</copyright>
     <managingEditor>Strawberry_Str@hotmail.com</managingEditor>
-    <lastBuildDate>Tue, 12 Dec 2023 18:06:13 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 12 Jun 2024 23:34:34 +0800</lastBuildDate>
     <generator>pages::blog</generator>
     <a10:link href="https://berrysoft.github.io/blogdata/rss.xml" rel="self" type="application/rss+xml">
     </a10:link>
@@ -115,6 +115,13 @@
       <description><![CDATA[总结一下2022年。]]></description>
       <guid isPermaLink="false">20230106_Summary</guid>
       <pubDate>Fri, 6 Jan 2023 11:40:23 +0800</pubDate>
+    </item>
+    <item>
+      <title>smoke 踩坑</title>
+      <link>https://berrysoft.github.io/blog/20240612_Server</link>
+      <description><![CDATA[自己搭建服务器的一点坑。]]></description>
+      <guid isPermaLink="false">20240612_Server</guid>
+      <pubDate>Wed, 12 Jun 2024 23:34:35 +0800</pubDate>
     </item>
   </channel>
 </rss>

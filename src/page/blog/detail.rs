@@ -83,9 +83,14 @@ impl Component for BlogDetailPage {
                     Event::Start(tag) => {
                         log::debug!("{:?}", tag);
                         let tag = match tag {
-                            Tag::Image(t, link, title) => {
-                                let link = match Url::parse(&link) {
-                                    Ok(_) => link,
+                            Tag::Image {
+                                link_type,
+                                dest_url,
+                                title,
+                                id,
+                            } => {
+                                let dest_url = match Url::parse(&dest_url) {
+                                    Ok(_) => dest_url,
                                     Err(e) => match e {
                                         url::ParseError::RelativeUrlWithoutBase => Url::parse(
                                             &gloo_utils::window().location().origin().unwrap(),
@@ -93,14 +98,19 @@ impl Component for BlogDetailPage {
                                         .unwrap()
                                         .join("/blogdata/")
                                         .unwrap()
-                                        .join(&link)
+                                        .join(&dest_url)
                                         .unwrap()
                                         .to_string()
                                         .into(),
-                                        _ => link,
+                                        _ => dest_url,
                                     },
                                 };
-                                Tag::Image(t, link, title)
+                                Tag::Image {
+                                    link_type,
+                                    dest_url,
+                                    title,
+                                    id,
+                                }
                             }
                             _ => tag,
                         };

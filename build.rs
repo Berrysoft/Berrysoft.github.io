@@ -111,6 +111,7 @@ fn main() -> Result<()> {
         let rss_file = File::options()
             .write(true)
             .create(true)
+            .truncate(true)
             .open("blogdata/feed.xml")?;
         let rss_file = BufWriter::new(rss_file);
         ch.pretty_write_to(rss_file, b' ', 2)?;

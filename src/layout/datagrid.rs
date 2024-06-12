@@ -189,9 +189,7 @@ impl<T: DataGridItem + PartialEq + Clone + 'static> Component for DataGridColumn
     type Properties = DataGridColumnProperties<T>;
 
     fn create(_ctx: &Context<Self>) -> Self {
-        Self {
-            _p: PhantomData::default(),
-        }
+        Self { _p: PhantomData }
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {

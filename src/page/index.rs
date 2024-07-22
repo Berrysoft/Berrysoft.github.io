@@ -103,11 +103,11 @@ impl Component for IndexPage {
                 </div>
                 <div class="fade-in fade-in-2">
                     <h2>{"其它个人开源项目"}</h2>
-                    <div class="table-responsive-xl">{projects}</div>
+                    <div class="table-responsive">{projects}</div>
                 </div>
                 <div class="fade-in fade-in-3">
                     <h2>{"GitHub 事件"}</h2>
-                    <div class="table-responsive-xl">{github_events_node}</div>
+                    <div class="table-responsive">{github_events_node}</div>
                 </div>
                 <div class="fade-in fade-in-4">
                     <h2>{"友情链接"}</h2>

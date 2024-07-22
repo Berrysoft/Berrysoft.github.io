@@ -53,7 +53,7 @@ impl Component for AboutPage {
                 </div>
                 <div class="fade-in fade-in-2">
                     <h2>{"包含的开源库"}</h2>
-                    <div class="table-responsive-xl">{libraries}</div>
+                    <div class="table-responsive">{libraries}</div>
                 </div>
             </div>
         }

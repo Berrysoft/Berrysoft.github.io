@@ -1,4 +1,5 @@
 use crate::{data::*, *};
+use latex2mathml::{latex_to_mathml, DisplayStyle};
 use pulldown_cmark::{html, Event, Options, Parser, Tag};
 use url::Url;
 
@@ -49,7 +50,6 @@ impl Component for BlogDetailPage {
         #[allow(unused_unsafe)]
         unsafe {
             highlight_all();
-            math_all();
         }
     }
 
@@ -78,7 +78,7 @@ impl Component for BlogDetailPage {
             .text
             .get()
             .map(|text| {
-                let parser = Parser::new_ext(text, Options::ENABLE_TABLES);
+                let parser = Parser::new_ext(text, Options::all());
                 let parser = parser.map(|event| match event {
                     Event::Start(tag) => {
                         log::debug!("{:?}", tag);
@@ -116,6 +116,16 @@ impl Component for BlogDetailPage {
                         };
                         Event::Start(tag)
                     }
+                    Event::InlineMath(text) => Event::InlineHtml(
+                        latex_to_mathml(&text, DisplayStyle::Inline)
+                            .map(|s| s.into())
+                            .unwrap_or(text),
+                    ),
+                    Event::DisplayMath(text) => Event::InlineHtml(
+                        latex_to_mathml(&text, DisplayStyle::Block)
+                            .map(|s| s.into())
+                            .unwrap_or(text),
+                    ),
                     _ => event,
                 });
                 let mut out = String::new();
@@ -136,8 +146,6 @@ impl Component for BlogDetailPage {
 
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(js_namespace = MathJax, js_name = typeset)]
-    fn math_all();
     #[wasm_bindgen(js_namespace = hljs, js_name = highlightAll)]
     fn highlight_all();
 }

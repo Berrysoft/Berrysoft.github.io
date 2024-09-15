@@ -10,6 +10,11 @@
         "license": "MIT"
     },
     {
+        "name": "latex2mathml",
+        "url": "https://crates.io/crates/latex2mathml",
+        "license": "MIT"
+    },
+    {
         "name": "log",
         "url": "https://crates.io/crates/log",
         "license": "Apache-2.0"
@@ -85,11 +90,6 @@
         "url": "https://github.com/highlightjs/highlight.js",
         "license": "Highlight.js License",
         "licenseUrl": "https://github.com/highlightjs/highlight.js/blob/master/LICENSE"
-    },
-    {
-        "name": "MathJax",
-        "url": "https://github.com/mathjax/MathJax",
-        "license": "Apache-2.0"
     },
     {
         "name": "SPA GitHub Pages",

@@ -23,9 +23,10 @@ chrono = { version = "0.4", default-features = false, features = [
 serde = "1.0"
 serde_json = "1.0"
 rss = { version = "2.0", default-features = false }
-pulldown-cmark = { version = "0.11", features = [
+pulldown-cmark = { version = "0.12", features = [
     "html",
 ], default-features = false }
+latex2mathml = "0.2"
 url = "2.3"
 
 [build-dependencies]
@@ -35,7 +36,7 @@ chrono = { version = "0.4", default-features = false, features = [
     "clock",
 ] }
 rss = { version = "2.0", default-features = false, features = ["builders"] }
-pulldown-cmark = { version = "0.11", default-features = false }
+pulldown-cmark = { version = "0.12", default-features = false }
 
 [profile.release]
 lto = true

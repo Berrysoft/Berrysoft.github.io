@@ -1,0 +1,104 @@
+[
+    {
+        "name": "compio",
+        "url": "https://github.com/compio-rs/compio",
+        "language": "Rust",
+        "description": "A thread-per-core Rust runtime with IOCP/io_uring/polling."
+    },
+    {
+        "name": "cyper",
+        "url": "https://github.com/compio-rs/cyper",
+        "language": "Rust",
+        "description": "An HTTP library based on compio and hyper."
+    },
+    {
+        "name": "Ayaka",
+        "url": "https://github.com/Uni-Gal/Ayaka",
+        "language": "Rust, Typescript",
+        "description": "A visual novel engine written by Rust. Just Ayaka."
+    },
+    {
+        "name": "tunet-rust",
+        "url": "https://github.com/Berrysoft/tunet-rust",
+        "language": "Rust",
+        "description": "清华大学校园网 Rust 库与客户端"
+    },
+    {
+        "name": "data.parquet",
+        "url": "https://github.com/Berrysoft/data.parquet",
+        "language": "Rust, Clojure, Java",
+        "description": "Parquet lib for clojure, powered by Rust."
+    },
+    {
+        "name": "XamlCpp",
+        "url": "https://github.com/Berrysoft/XamlCpp",
+        "language": "C, C++, Objective-C",
+        "description": "An implementation of XAML cross-platform framework for C/C++"
+    },
+    {
+        "name": "stream-future",
+        "url": "https://github.com/Berrysoft/stream-future",
+        "language": "Rust",
+        "description": "Implement Future + Stream with generators."
+    },
+    {
+        "name": "msys-git-for-windows",
+        "url": "https://github.com/Berrysoft/msys-git-for-windows",
+        "language": "Shell",
+        "description": "A custom distribution of Git and other Git tools for MSYS2."
+    },
+    {
+        "name": "StreamFormat",
+        "url": "https://github.com/Berrysoft/StreamFormat",
+        "language": "C++",
+        "description": "A C++ format IO library, based on standard streams"
+    },
+    {
+        "name": "CppLinq",
+        "url": "https://github.com/Berrysoft/CppLinq",
+        "language": "C++",
+        "description": "A simple linq library for C++"
+    },
+    {
+        "name": "WinCThreads",
+        "url": "https://github.com/Berrysoft/WinCThreads",
+        "language": "C",
+        "description": "A simple C11 <threads.h> implementation for Windows"
+    },
+    {
+        "name": "ToStringEx",
+        "url": "https://github.com/Berrysoft/ToStringEx",
+        "language": "C#",
+        "description": "An extension for ToString in .NET"
+    },
+    {
+        "name": "Berrysoft.XXTea",
+        "url": "https://github.com/Berrysoft/Berrysoft.XXTea",
+        "language": "C#",
+        "description": "A .NET implementation of TEA, XTEA and XXTEA algorithm"
+    },
+    {
+        "name": "WSLLauncher",
+        "url": "https://github.com/Berrysoft/WSLLauncher",
+        "language": "C#",
+        "description": "Launcher for distributions on WSL"
+    },
+    {
+        "name": "FeedReader",
+        "url": "https://github.com/Berrysoft/FeedReader",
+        "language": "C#",
+        "description": "A Blazor Atom/RSS reader"
+    },
+    {
+        "name": "AnguloRuler",
+        "url": "https://github.com/Berrysoft/AnguloRuler",
+        "language": "Visual Basic",
+        "description": "一个小程序，用来测量角度与长度"
+    },
+    {
+        "name": "Games",
+        "url": "https://github.com/Berrysoft/Games",
+        "language": "Visual Basic",
+        "description": "Remake some games"
+    }
+]

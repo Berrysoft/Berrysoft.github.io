@@ -5,9 +5,9 @@
     <link>https://berrysoft.github.io/blog/</link>
     <description>Berrysoft&apos;s blog</description>
     <language>zh-cn</language>
-    <copyright>Copyright (c) 2019-2021</copyright>
+    <copyright>Copyright (c) 2019-2024</copyright>
     <managingEditor>Strawberry_Str@hotmail.com</managingEditor>
-    <lastBuildDate>Wed, 12 Jun 2024 23:34:34 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 24 Oct 2024 21:01:01 +0800</lastBuildDate>
     <generator>pages::blog</generator>
     <a10:link href="https://berrysoft.github.io/blogdata/rss.xml" rel="self" type="application/rss+xml">
     </a10:link>
@@ -101,13 +101,6 @@
       <description><![CDATA[兜兜转转，也可以说成是返璞归真，我从使用 Linux 到 WSL 再到完全改回 Windows 作为主力机了。写一篇文章主要陈述 Windows 上的 POSIX 环境，以及其它。]]></description>
       <guid isPermaLink="false">20220606_POSIX</guid>
       <pubDate>Mon, 6 Jun 2022 20:41:38 +0800</pubDate>
-    </item>
-    <item>
-      <title>国产是个伪命题</title>
-      <link>https://berrysoft.github.io/blog/20220609_National</link>
-      <description><![CDATA[当我们在说到“国产”的时候，到底在担心什么？]]></description>
-      <guid isPermaLink="false">20220609_National</guid>
-      <pubDate>Thu, 9 Jun 2022 19:54:58 +0800</pubDate>
     </item>
     <item>
       <title>我的 2022</title>

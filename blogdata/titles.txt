@@ -13,3 +13,4 @@
 20220606_POSIX	Windows 上的 POSIX 环境以及其它
 20230106_Summary	我的 2022
 20240612_Server	smoke 踩坑
+20241231_Fish	为 MSYS2 编译新版本 Fish

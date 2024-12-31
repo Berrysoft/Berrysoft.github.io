@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:a10="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Berrysoft</title>
+    <link>https://berrysoft.github.io/blog/</link>
+    <description>Berrysoft&apos;s blog</description>
+    <language>zh-cn</language>
+    <copyright>Copyright (c) 2019-2024</copyright>
+    <managingEditor>Strawberry_Str@hotmail.com</managingEditor>
+    <lastBuildDate>Tue, 31 Dec 2024 23:23:01 +0800</lastBuildDate>
+    <generator>pages::blog</generator>
+    <a10:link href="https://berrysoft.github.io/blogdata/rss.xml" rel="self" type="application/rss+xml">
+    </a10:link>
+    <item>
+      <title>测试页面</title>
+      <link>https://berrysoft.github.io/blog/20190906_First</link>
+      <description><![CDATA[这是第一篇博文，也是测试页面。]]></description>
+      <guid isPermaLink="false">20190906_First</guid>
+      <pubDate>Fri, 6 Sep 2019 10:33:04 +0800</pubDate>
+    </item>
+    <item>
+      <title>一些收获</title>
+      <link>https://berrysoft.github.io/blog/20190908_Gains</link>
+      <description><![CDATA[最近有一些收获。]]></description>
+      <guid isPermaLink="false">20190908_Gains</guid>
+      <pubDate>Sun, 8 Sep 2019 12:20:27 +0800</pubDate>
+    </item>
+    <item>
+      <title>统计力学笔记</title>
+      <link>https://berrysoft.github.io/blog/20190912_Gains</link>
+      <description><![CDATA[复习了一下概率方面的知识，顺便测试一下]]></description>
+      <guid isPermaLink="false">20190912_Gains</guid>
+      <pubDate>Fri, 13 Sep 2019 00:35:43 +0800</pubDate>
+    </item>
+    <item>
+      <title>XXTea 算法</title>
+      <link>https://berrysoft.github.io/blog/20190922_XXTea</link>
+      <description><![CDATA[今天才刚发现原来清华大学校园网的Auth连接方式，使用了XXTea加密算法。]]></description>
+      <guid isPermaLink="false">20190922_XXTea</guid>
+      <pubDate>Sun, 22 Sep 2019 00:52:25 +0800</pubDate>
+    </item>
+    <item>
+      <title>统计力学推导热力学</title>
+      <link>https://berrysoft.github.io/blog/20190925_Gains</link>
+      <description><![CDATA[试图用统计的方法推导热力学定律。]]></description>
+      <guid isPermaLink="false">20190925_Gains</guid>
+      <pubDate>Wed, 25 Sep 2019 00:28:57 +0800</pubDate>
+    </item>
+    <item>
+      <title>Klein-Gordon 场</title>
+      <link>https://berrysoft.github.io/blog/20191012_Gains</link>
+      <description><![CDATA[总结一下Klein-Gordon场的一些相关知识点。]]></description>
+      <guid isPermaLink="false">20191012_Gains</guid>
+      <pubDate>Sat, 12 Oct 2019 11:26:05 +0800</pubDate>
+    </item>
+    <item>
+      <title>在 Windows 上编译支持 C++17 的 ROOT</title>
+      <link>https://berrysoft.github.io/blog/20191202_ROOT</link>
+      <description><![CDATA[终于在Windows上成功编译了支持C++ 17的32位ROOT。]]></description>
+      <guid isPermaLink="false">20191202_ROOT</guid>
+      <pubDate>Mon, 2 Dec 2019 01:16:13 +0800</pubDate>
+    </item>
+    <item>
+      <title>X Server 评测</title>
+      <link>https://berrysoft.github.io/blog/20200724_X11</link>
+      <description><![CDATA[踩了这么多坑，评测一下各个能在 Windows 上用的 X Server，或者类似方案。这些方案几乎没有普适的，不过我更倾向于 XRDP。]]></description>
+      <guid isPermaLink="false">20200724_X11</guid>
+      <pubDate>Fri, 24 Jul 2020 20:25:07 +0800</pubDate>
+    </item>
+    <item>
+      <title>C++ 有向图</title>
+      <link>https://berrysoft.github.io/blog/20200725_Graph</link>
+      <description><![CDATA[用 Boost.MultiIndex 实现了一个简单的有向图。]]></description>
+      <guid isPermaLink="false">20200725_Graph</guid>
+      <pubDate>Sat, 25 Jul 2020 11:25:50 +0800</pubDate>
+    </item>
+    <item>
+      <title>Darling on WSL</title>
+      <link>https://berrysoft.github.io/blog/20201012_Darling</link>
+      <description><![CDATA[记录一下在 WSL 上安装 Darling 并成功运行 macOS X 程序的故事。]]></description>
+      <guid isPermaLink="false">20201012_Darling</guid>
+      <pubDate>Mon, 12 Oct 2020 13:47:46 +0800</pubDate>
+    </item>
+    <item>
+      <title>用 Rust 重写网站</title>
+      <link>https://berrysoft.github.io/blog/20210423_Rust</link>
+      <description><![CDATA[花了两天把网站用 Rust 重写了。]]></description>
+      <guid isPermaLink="false">20210423_Rust</guid>
+      <pubDate>Fri, 23 Apr 2021 22:00:35 +0800</pubDate>
+    </item>
+    <item>
+      <title>测试图片</title>
+      <link>https://berrysoft.github.io/blog/20210819_Image</link>
+      <description><![CDATA[测试图片链接。]]></description>
+      <guid isPermaLink="false">20210819_Image</guid>
+      <pubDate>Thu, 19 Aug 2021 16:12:58 +0900</pubDate>
+    </item>
+    <item>
+      <title>Windows 上的 POSIX 环境以及其它</title>
+      <link>https://berrysoft.github.io/blog/20220606_POSIX</link>
+      <description><![CDATA[兜兜转转，也可以说成是返璞归真，我从使用 Linux 到 WSL 再到完全改回 Windows 作为主力机了。写一篇文章主要陈述 Windows 上的 POSIX 环境，以及其它。]]></description>
+      <guid isPermaLink="false">20220606_POSIX</guid>
+      <pubDate>Mon, 6 Jun 2022 20:41:38 +0800</pubDate>
+    </item>
+    <item>
+      <title>我的 2022</title>
+      <link>https://berrysoft.github.io/blog/20230106_Summary</link>
+      <description><![CDATA[总结一下2022年。]]></description>
+      <guid isPermaLink="false">20230106_Summary</guid>
+      <pubDate>Fri, 6 Jan 2023 11:40:23 +0800</pubDate>
+    </item>
+    <item>
+      <title>smoke 踩坑</title>
+      <link>https://berrysoft.github.io/blog/20240612_Server</link>
+      <description><![CDATA[自己搭建服务器的一点坑。]]></description>
+      <guid isPermaLink="false">20240612_Server</guid>
+      <pubDate>Wed, 12 Jun 2024 23:34:35 +0800</pubDate>
+    </item>
+    <item>
+      <title>为 MSYS2 编译新版本 Fish</title>
+      <link>https://berrysoft.github.io/blog/20241231_Fish</link>
+      <description><![CDATA[折腾了好一番在 MSYS2 编译 Rust 版本的 Fish shell。]]></description>
+      <guid isPermaLink="false">20241231_Fish</guid>
+      <pubDate>Wed, 1 Jan 2025 00:23:02 +0900</pubDate>
+    </item>
+  </channel>
+</rss>

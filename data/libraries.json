@@ -50,6 +50,11 @@
         "license": "MIT"
     },
     {
+        "name": "gloo-net",
+        "url": "https://crates.io/crates/gloo-net",
+        "license": "Apache-2.0"
+    },
+    {
         "name": "gloo-utils",
         "url": "https://crates.io/crates/gloo-utils",
         "license": "Apache-2.0"
@@ -58,11 +63,6 @@
         "name": "yew",
         "url": "https://crates.io/crates/yew",
         "license": "Apache-2.0"
-    },
-    {
-        "name": "reqwasm",
-        "url": "https://crates.io/crates/reqwasm",
-        "license": "MIT"
     },
     {
         "name": "url",

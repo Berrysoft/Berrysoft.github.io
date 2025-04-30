@@ -1,5 +1,5 @@
 use crate::*;
-use reqwasm::http::Request;
+use gloo_net::http::Request;
 use serde::de::DeserializeOwned;
 use std::marker::PhantomData;
 use url::Url;
@@ -16,7 +16,7 @@ pub trait FetcherTypes {
     fn transfer_to_store(data: Self::TransferType) -> Self::StoreType;
 }
 
-pub type FetcherMessage<T> = std::result::Result<T, reqwasm::Error>;
+pub type FetcherMessage<T> = std::result::Result<T, gloo_net::Error>;
 pub type FetcherData<T> = Option<FetcherMessage<T>>;
 
 impl<T: FetcherTypes> FetcherBase<T> {

@@ -7,7 +7,7 @@
     <language>zh-cn</language>
     <copyright>Copyright (c) 2019-2024</copyright>
     <managingEditor>Strawberry_Str@hotmail.com</managingEditor>
-    <lastBuildDate>Tue, 31 Dec 2024 23:23:01 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 30 Apr 2025 23:41:33 +0800</lastBuildDate>
     <generator>pages::blog</generator>
     <a10:link href="https://berrysoft.github.io/blogdata/rss.xml" rel="self" type="application/rss+xml">
     </a10:link>
@@ -93,7 +93,7 @@
       <link>https://berrysoft.github.io/blog/20210819_Image</link>
       <description><![CDATA[测试图片链接。]]></description>
       <guid isPermaLink="false">20210819_Image</guid>
-      <pubDate>Thu, 19 Aug 2021 16:12:58 +0900</pubDate>
+      <pubDate>Thu, 19 Aug 2021 15:12:58 +0800</pubDate>
     </item>
     <item>
       <title>Windows 上的 POSIX 环境以及其它</title>
@@ -114,14 +114,14 @@
       <link>https://berrysoft.github.io/blog/20240612_Server</link>
       <description><![CDATA[自己搭建服务器的一点坑。]]></description>
       <guid isPermaLink="false">20240612_Server</guid>
-      <pubDate>Wed, 12 Jun 2024 23:34:35 +0800</pubDate>
+      <pubDate>Wed, 12 Jun 2024 23:35:16 +0800</pubDate>
     </item>
     <item>
       <title>为 MSYS2 编译新版本 Fish</title>
       <link>https://berrysoft.github.io/blog/20241231_Fish</link>
       <description><![CDATA[折腾了好一番在 MSYS2 编译 Rust 版本的 Fish shell。]]></description>
       <guid isPermaLink="false">20241231_Fish</guid>
-      <pubDate>Wed, 1 Jan 2025 00:23:02 +0900</pubDate>
+      <pubDate>Tue, 31 Dec 2024 23:29:48 +0800</pubDate>
     </item>
   </channel>
 </rss>

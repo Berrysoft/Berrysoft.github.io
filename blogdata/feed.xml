@@ -7,7 +7,7 @@
     <language>zh-cn</language>
     <copyright>Copyright (c) 2019-2024</copyright>
     <managingEditor>Strawberry_Str@hotmail.com</managingEditor>
-    <lastBuildDate>Wed, 30 Apr 2025 23:41:33 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 6 Mar 2026 20:00:54 +0800</lastBuildDate>
     <generator>pages::blog</generator>
     <a10:link href="https://berrysoft.github.io/blogdata/rss.xml" rel="self" type="application/rss+xml">
     </a10:link>
@@ -122,6 +122,13 @@
       <description><![CDATA[折腾了好一番在 MSYS2 编译 Rust 版本的 Fish shell。]]></description>
       <guid isPermaLink="false">20241231_Fish</guid>
       <pubDate>Tue, 31 Dec 2024 23:29:48 +0800</pubDate>
+    </item>
+    <item>
+      <title>为 MSYS2 编译新版本 Fish 其二</title>
+      <link>https://berrysoft.github.io/blog/20260306_Fish</link>
+      <description><![CDATA[MSYS2 上的 Rust 和 Fish 4 纪实。]]></description>
+      <guid isPermaLink="false">20260306_Fish</guid>
+      <pubDate>Fri, 6 Mar 2026 20:00:55 +0800</pubDate>
     </item>
   </channel>
 </rss>

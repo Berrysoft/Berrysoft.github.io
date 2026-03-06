@@ -11,7 +11,7 @@ fn find_first_commit(p: &Path) -> Result<DateTime<Local>> {
         .args(["log", "--format=%at", "--follow", &p.to_string_lossy()])
         .output()?;
     let history = unsafe { String::from_utf8_unchecked(history.stdout) };
-    if let Some(last_line) = history.split('\n').filter(|s| !s.is_empty()).last() {
+    if let Some(last_line) = history.split('\n').rfind(|s| !s.is_empty()) {
         Ok(Local.timestamp_opt(last_line.parse()?, 0).unwrap())
     } else {
         Ok(Local::now())

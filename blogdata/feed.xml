@@ -7,7 +7,7 @@
     <language>zh-cn</language>
     <copyright>Copyright (c) 2019-2024</copyright>
     <managingEditor>Strawberry_Str@hotmail.com</managingEditor>
-    <lastBuildDate>Fri, 6 Mar 2026 20:00:54 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 6 Mar 2026 21:14:32 +0800</lastBuildDate>
     <generator>pages::blog</generator>
     <a10:link href="https://berrysoft.github.io/blogdata/rss.xml" rel="self" type="application/rss+xml">
     </a10:link>
@@ -128,7 +128,14 @@
       <link>https://berrysoft.github.io/blog/20260306_Fish</link>
       <description><![CDATA[MSYS2 上的 Rust 和 Fish 4 纪实。]]></description>
       <guid isPermaLink="false">20260306_Fish</guid>
-      <pubDate>Fri, 6 Mar 2026 20:00:55 +0800</pubDate>
+      <pubDate>Fri, 6 Mar 2026 20:01:19 +0800</pubDate>
+    </item>
+    <item>
+      <title>运营一个开源项目</title>
+      <link>https://berrysoft.github.io/blog/20260306_Compio</link>
+      <description><![CDATA[Compio 是我目前运营的最大规模的开源社区和项目了。]]></description>
+      <guid isPermaLink="false">20260306_Compio</guid>
+      <pubDate>Fri, 6 Mar 2026 21:14:33 +0800</pubDate>
     </item>
   </channel>
 </rss>

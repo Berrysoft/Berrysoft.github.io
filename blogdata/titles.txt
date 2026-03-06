@@ -15,3 +15,4 @@
 20240612_Server	smoke 踩坑
 20241231_Fish	为 MSYS2 编译新版本 Fish
 20260306_Fish	为 MSYS2 编译新版本 Fish 其二
+20260306_Compio	运营一个开源项目

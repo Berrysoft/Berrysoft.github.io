@@ -47,11 +47,6 @@ fn main() -> Result<()> {
         rss::Channel::read_from(rss_file)?
     };
     let old_ch = ch.clone();
-    let now = Local::now();
-    ch.last_build_date = Some(
-        now.with_timezone(&FixedOffset::east_opt(8 * 3600).unwrap())
-            .to_rfc2822(),
-    );
     ch.items.clear();
 
     let mut files = vec![];
@@ -107,6 +102,11 @@ fn main() -> Result<()> {
     if ch.items == old_ch.items {
         return Ok(());
     }
+    let now = Local::now();
+    ch.last_build_date = Some(
+        now.with_timezone(&FixedOffset::east_opt(8 * 3600).unwrap())
+            .to_rfc2822(),
+    );
     {
         let rss_file = File::options()
             .write(true)

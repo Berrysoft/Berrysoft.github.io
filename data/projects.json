@@ -12,6 +12,12 @@
         "description": "An HTTP library based on compio and hyper."
     },
     {
+        "name": "winio",
+        "url": "https://github.com/compio-rs/winio",
+        "language": "Rust",
+        "description": "Single-threaded asynchronous GUI runtime"
+    },
+    {
         "name": "Ayaka",
         "url": "https://github.com/Uni-Gal/Ayaka",
         "language": "Rust, Typescript",

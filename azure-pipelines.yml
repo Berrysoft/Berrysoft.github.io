@@ -9,7 +9,7 @@ variables:
 
 steps:
 - script: |
-    cargo install trunk
+    cargo install trunk --locked
     rustup target add wasm32-unknown-unknown
   displayName: Install tools
 

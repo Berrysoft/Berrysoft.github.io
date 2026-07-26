@@ -9,19 +9,13 @@ pub struct Repo {
 }
 
 #[derive(Debug, Default, Clone, Deserialize)]
-pub struct Commit {
-    #[serde(default)]
-    pub sha: String,
-    #[serde(default)]
-    pub message: String,
-}
-
-#[derive(Debug, Default, Clone, Deserialize)]
 pub struct Payload {
+    #[serde(default)]
+    pub action: String,
     #[serde(default)]
     pub r#ref: String,
     #[serde(default)]
-    pub commits: Vec<Commit>,
+    pub head: String,
 }
 
 #[derive(Debug, Clone, Deserialize)]

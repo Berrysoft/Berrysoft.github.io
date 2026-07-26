@@ -35,13 +35,7 @@ impl Component for IndexPage {
                 self.projects.update(msg);
                 true
             }
-            IndexPageMessage::GitHubEvents(mut msg) => {
-                if let Ok(events) = msg {
-                    msg = Ok(events
-                        .into_iter()
-                        .filter(|e| e.r#type == "PushEvent")
-                        .collect());
-                }
+            IndexPageMessage::GitHubEvents(msg) => {
                 self.github_events.update(msg);
                 true
             }
@@ -72,10 +66,10 @@ impl Component for IndexPage {
             .map(|events| {
                 html! {
                     <DataGrid<GitHubEventWrapper> data={events}>
-                        <DataGridColumn<GitHubEventWrapper> header="消息" prop={GitHubEventProperties::Message}/>
-                        <DataGridColumn<GitHubEventWrapper> header="时间" prop={GitHubEventProperties::Time}/>
+                        <DataGridColumn<GitHubEventWrapper> header="事件" prop={GitHubEventProperties::Event}/>
                         <DataGridColumn<GitHubEventWrapper> header="存储库" prop={GitHubEventProperties::Repo}/>
-                        <DataGridColumn<GitHubEventWrapper> header="引用" prop={GitHubEventProperties::Ref}/>
+                        <DataGridColumn<GitHubEventWrapper> header="时间" prop={GitHubEventProperties::Time}/>
+                        <DataGridColumn<GitHubEventWrapper> header="操作/引用" prop={GitHubEventProperties::Action}/>
                     </DataGrid<GitHubEventWrapper>>
                 }
             })
@@ -177,51 +171,49 @@ impl DataGridItemProperty for PersonalProjectName {
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct GitHubEventWrapper {
-    msg: GitHubEventMessage,
+    event: String,
+    action: GitHubLinkedMessage,
     time: String,
-    repo: String,
-    r#ref: String,
+    repo: GitHubLinkedMessage,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum GitHubEventProperties {
-    Message,
+    Event,
+    Action,
     Time,
     Repo,
-    Ref,
 }
 
 impl From<GitHubEvent> for GitHubEventWrapper {
     fn from(e: GitHubEvent) -> Self {
-        let msg = e
-            .payload
-            .commits
-            .last()
-            .map(|c| c.message.as_str())
-            .unwrap_or("")
-            .split(&['\n', '\r'][..])
-            .map(|s| html! {{s}})
-            .intersperse(html! {<br />})
-            .collect::<Vec<Html>>();
-        let link = format!(
-            "//github.com/{}/commit/{}",
-            e.repo.name,
-            e.payload
-                .commits
-                .last()
-                .map(|c| c.sha.as_str())
-                .unwrap_or("")
-        );
+        let action = if e.payload.action.is_empty() {
+            let link = format!("//github.com/{}/commit/{}", e.repo.name, e.payload.head);
+            GitHubLinkedMessage {
+                msg: e.payload.r#ref,
+                link,
+            }
+        } else {
+            GitHubLinkedMessage {
+                msg: e.payload.action,
+                link: String::new(),
+            }
+        };
         let time = e
             .created_at
             .with_timezone(&FixedOffset::east_opt(8 * 3600).unwrap())
             .naive_local()
             .to_string();
+        let repo_link = format!("//github.com/{}", e.repo.name);
+        let repo = GitHubLinkedMessage {
+            msg: e.repo.name,
+            link: repo_link,
+        };
         Self {
-            msg: GitHubEventMessage { msg, link },
+            event: e.r#type,
+            action,
             time,
-            repo: e.repo.name,
-            r#ref: e.payload.r#ref,
+            repo,
         }
     }
 }
@@ -231,28 +223,32 @@ impl DataGridItem for GitHubEventWrapper {
 
     fn prop(&self, p: &Self::Prop) -> &dyn DataGridItemProperty {
         match p {
-            GitHubEventProperties::Message => &self.msg,
+            GitHubEventProperties::Event => &self.event,
+            GitHubEventProperties::Action => &self.action,
             GitHubEventProperties::Time => &self.time,
             GitHubEventProperties::Repo => &self.repo,
-            GitHubEventProperties::Ref => &self.r#ref,
         }
     }
 }
 
 #[derive(Debug, Clone, PartialEq)]
-struct GitHubEventMessage {
-    msg: Vec<Html>,
+struct GitHubLinkedMessage {
+    msg: String,
     link: String,
 }
 
-impl DataGridItemProperty for GitHubEventMessage {
+impl DataGridItemProperty for GitHubLinkedMessage {
     fn cmp_key(&self) -> Option<&str> {
         None
     }
 
     fn fmt_html(&self) -> Html {
-        html! {
-            <a href={self.link.clone()} target="_blank">{self.msg.clone()}</a>
+        if self.link.is_empty() {
+            self.msg.clone().into()
+        } else {
+            html! {
+                <a href={self.link.clone()} target="_blank">{self.msg.clone()}</a>
+            }
         }
     }
 }

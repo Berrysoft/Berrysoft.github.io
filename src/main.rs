@@ -1,5 +1,3 @@
-#![feature(iter_intersperse)]
-
 use chrono::{DateTime, FixedOffset, Utc};
 use lol_alloc::{FreeListAllocator, LockedAllocator};
 use std::rc::Rc;

@@ -14,7 +14,7 @@ wasm-logger = "0.2"
 yew = { version = "0.23", features = ["csr"] }
 yew-router = "0.20"
 gloo-utils = "0.3"
-gloo-net = "0.7"
+gloo-net = "0.8"
 lol_alloc = "0.4"
 chrono = { version = "0.4", default-features = false, features = [
     "std",
